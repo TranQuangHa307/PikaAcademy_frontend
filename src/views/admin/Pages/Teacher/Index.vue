@@ -8,6 +8,16 @@
       </div>
 
       <table cellspacing="0" style="border-bottom: 1px solid #FEC415;">
+        <colgroup>
+          <col width="5%"/>
+          <col width="15%"/>
+          <col width="15%"/>
+          <col width="15%"/>
+          <col width="10%"/>
+          <col width="10%"/>
+          <col width="10%"/>
+          <col width="20%"/>
+        </colgroup>
         <thead>
           <tr>
             <th>Id</th>
@@ -24,13 +34,14 @@
           <tr v-for="(teacher, index) in table.data" :key="index">
             <td>{{ teacher.id }}</td>
             <td>{{ teacher.full_name }}</td>
-            <td> <b-img v-if="teacher.url_avatar" :src="teacher.url_avatar" /></td>
+            <td> <b-img v-if="teacher.url_avatar" :src="teacher.url_avatar" style="width: 200px; height: 100px;" /></td>
             <td>{{ teacher.email }}</td>
-            <td>{{ convertDateTime(teacher.date_of_birth) }}</td>
+            <td>{{ convertDateOfBirth(teacher.date_of_birth) }}</td>
             <td class="text_upcase">{{ teacher.gender.replace('_', ' ') }}</td>
             <td>{{ teacher.phone_number }}</td>
             <td style="width: 120px;">
               <div>
+                <b-button v-if="!teacher.is_active" variant="outline-success" class="mr-2" @click="onActive(teacher.id)">Active</b-button>
                 <router-link tag="button" :to="{ name: 'teacherDetail', params: { id: teacher.id }}" class="btn btn-info mr-1 size_75"><b-icon icon="pencil-fill" variant="white" /></router-link>
                 <button class="btn btn-danger size_75" @click.prevent="onDeleteData(teacher)"><b-icon icon="trash-fill" variant="white" /></button>
               </div>
@@ -79,11 +90,28 @@
         @ok="onConfirmDeleteData()"
       >Are you sure you want to remove teacher {{ selectedDelete.id }}?</b-modal>
     </div>
+    <div>
+      <b-modal
+        v-if="isModelActiveOpen"
+        id="modal-active"
+        v-model="isModelActiveOpen"
+        title="Please Confirm"
+        size="sm"
+        button-size="sm"
+        ok-variant="danger"
+        ok-title="YES"
+        cancel-title="NO"
+        footer-class="p2"
+        hide-header-close
+        @cancel="onCancelActive()"
+        @ok="onConfirmActive()"
+      >Are you sure you want to active teacher {{ selectedActive }}?</b-modal>
+    </div>
   </div>
 </template>
 
 <script>
-import { getTeacherList, deleteTeacher } from '../../../../api/teacher'
+import { getTeacherList, deleteTeacher, activeTeacher } from '../../../../api/teacher'
 export default {
   data() {
     return {
@@ -94,7 +122,9 @@ export default {
         perPage: 5
       },
       selectedDelete: null,
-      isModelDeleteOpen: null
+      isModelDeleteOpen: null,
+      selectedActive: null,
+      isModelActiveOpen: null
     }
   },
   created() {
@@ -102,6 +132,28 @@ export default {
     this.getDataList(this.table.page)
   },
   methods: {
+    onActive(data) {
+      this.isModelActiveOpen = true
+      this.selectedActive = data
+    },
+    onCancelActive() {
+      this.isModelActiveOpen = false
+      this.selectedActive = null
+    },
+    onConfirmActive: async function() {
+      this.$store.commit('SET_LOADING')
+      try {
+        await activeTeacher(this.selectedActive)
+        this.showResAction('success', 'Teacher successfully active.')
+        this.updateNoti()
+      } catch (error) {
+        this.showRes('danger', error.response?.data?.message || error.message)
+      } finally {
+        this.isModelActiveOpen = false
+        this.getDataList(this.table.page)
+      }
+      this.$store.commit('SET_DONE_LOADING')
+    },
     convertDateTime(time) {
       const date = new Date(time * 1000).toLocaleDateString('en-US')
       return date
@@ -159,6 +211,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>

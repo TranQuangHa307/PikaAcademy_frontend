@@ -12,6 +12,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Image</th>
+            <th>Interests</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -20,6 +21,7 @@
             <td>{{ category.id }}</td>
             <td>{{ category.name }}</td>
             <td> <b-img v-if="category.url_image" :src="category.url_image" /></td>
+            <td>{{ category.interests_name }}</td>
             <td style="width: 120px;">
               <div>
                 <button
@@ -153,6 +155,7 @@ export default {
         'name': isAdd ? null : data.name,
         'description': isAdd ? null : data.description,
         'url_image': isAdd ? null : data.url_image,
+        'interests_id': isAdd ? null : data.interests_id,
         'created_by': this.$store.state.Admin.myInfo.user_name,
         'updated_by': this.$store.state.Admin.myInfo.user_name
       }
@@ -163,6 +166,7 @@ export default {
         const body = {
           'name': data.name.trim(),
           'url_image': data.url_image,
+          'interests_id': data.interests_id,
           'created_by': this.$store.state.Admin.myInfo.user_name,
           'updated_by': this.$store.state.Admin.myInfo.user_name
         }

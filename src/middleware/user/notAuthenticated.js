@@ -4,7 +4,6 @@ import { getUserMe, getCartUser } from '../../api/user'
 import { getToken } from '../../utils/auth'
 export default async function auth({ next, router }) {
   try {
-    console.log(getToken())
     const userInfo = getToken() ? await getUserMe() : null
     if (userInfo) {
       const userCart = await getCartUser(userInfo.id)

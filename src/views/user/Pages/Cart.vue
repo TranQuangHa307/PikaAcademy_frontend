@@ -229,9 +229,8 @@ export default {
             })
           },
           onApprove: async(data, actions) => {
-            const order = await actions.order.capture()
+            await actions.order.capture()
             this.createTransaction('success')
-            console.log(order)
           },
           onError: err => {
             console.log(err)

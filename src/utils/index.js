@@ -2,7 +2,6 @@ export function convertPrice(price, discount = 0, isFormat = true) {
   if (discount) {
     price = price * ((100 - discount) / 100)
   }
-  if (price > 0) price = price - 1000
   if (isFormat) price = new Intl.NumberFormat('de-DE').format(price)
   return price
 }
@@ -73,7 +72,6 @@ export function convertDateTimeInsert(time, type = 'date') {
   //   minute: 'numeric',
   //   second: 'numeric'
   // }
-  // console.log(`res: ${new Intl.DateTimeFormat('it-IT', options).format(time)}`)
   return res
 }
 

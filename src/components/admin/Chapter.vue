@@ -137,6 +137,7 @@ export default {
           'id': isAdd ? 0 : data.id,
           'name': isAdd ? null : data.name,
           'url_video': isAdd ? null : data.url_video,
+          'about': isAdd ? null : data.about,
           'time': isAdd ? null : data.time,
           'chapter_id': isAdd ? data.id : data.chapter_id,
           'created_by': this.$store.state.Admin.myInfo.user_name,
@@ -181,6 +182,7 @@ export default {
           'url_video': data.url_video,
           'chapter_id': data.chapter_id,
           'time': data.time,
+          'about': data.about,
           'created_by': this.$store.state.Admin.myInfo.user_name,
           'updated_by': this.$store.state.Admin.myInfo.user_name
         }

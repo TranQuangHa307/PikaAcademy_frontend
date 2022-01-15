@@ -11,7 +11,6 @@ export default async function auth({ next, router }) {
     const userInfo = await getUserMe()
     if (userInfo) {
       const userCart = await getCartUser(userInfo.id)
-      console.log(userCart)
       store.commit('User/SET_MY_CART', userCart)
     }
     store.commit('User/SET_MY_INFO', userInfo)

@@ -1,5 +1,5 @@
 import { getRole, getToken, setToken, removeToken } from '../../../utils/auth'
-import { login, getUserMe, getCartUser } from '../../../api/user'
+import { login, getUserMe, getCartUser, loginGoogle } from '../../../api/user'
 const state = () => ({
   token: getToken(),
   role: getRole(),
@@ -70,10 +70,34 @@ const actions = {
       return null
     }
   },
+  async loginGoogle({ commit }, loginData) {
+    try {
+      debugger
+      const { idToken, userPictureUrl } = loginData
+      const data = await loginGoogle(idToken, userPictureUrl)
+      await storeAuthentication(commit, data)
+      try {
+        const userInfo = await getUserMe()
+        if (userInfo) {
+          const userCart = await getCartUser(userInfo.id)
+          commit('SET_MY_CART', userCart)
+        }
+        commit('SET_MY_INFO', userInfo)
+      } catch (e) {
+        commit('SET_MY_INFO', {})
+        commit('SET_MY_CART', {})
+      }
+      return true
+    } catch (e) {
+      return null
+    }
+  },
+
   logout({ commit }) {
     commit('SET_TOKEN', '')
     commit('SET_MY_INFO', null)
     commit('SET_MY_CART', null)
+    this.$Tawk.$endChat()
     removeToken()
   }
 }

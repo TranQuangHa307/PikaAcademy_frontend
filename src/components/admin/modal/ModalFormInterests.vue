@@ -117,7 +117,6 @@ export default {
       this.handleSubmit()
     },
     async handleSubmit() {
-      console.log('modal: ' + this.isAdd)
       // return
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
@@ -126,7 +125,6 @@ export default {
       this.$store.commit('SET_LOADING')
       if (this.image) {
         this.interests.url_image = await uploadFile(this.image)
-        console.log('url: ' + this.interests.url_image)
       }
       if (this.isAdd) {
         this.$emit('onadd', this.interests)

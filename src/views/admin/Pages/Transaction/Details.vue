@@ -132,6 +132,13 @@ export default {
       return this.statusTransaction === 'success' ? 'Are you sure you want to confirm the transaction is successful?' : 'Are you sure you want to confirm the transaction abort?'
     }
   },
+  watch: {
+    async $route(to, from) {
+      if (this.$route.params.id) {
+        await this.getTransactionInfo()
+      }
+    }
+  },
   async created() {
     await this.getTransactionInfo()
   },
@@ -169,6 +176,7 @@ export default {
             path: '/admin/transaction'
           })
         })
+        this.updateNoti()
       } catch (error) {
         console.log(error)
       }

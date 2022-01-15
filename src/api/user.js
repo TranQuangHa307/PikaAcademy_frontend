@@ -11,6 +11,30 @@ export function login(data) {
   })
 }
 
+export function loginGoogle(idToken, urlImg) {
+  const bodyFormData = new FormData()
+  bodyFormData.set('googleToken', idToken)
+  bodyFormData.set('userPictureUrl', urlImg)
+  return request({
+    url: '/user/google_auth',
+    method: 'post',
+    data: bodyFormData
+  })
+}
+
+export function changePassword(data) {
+  const bodyFormData = new FormData()
+  bodyFormData.set('id', data.id)
+  bodyFormData.set('current_pw', data.currentPassword)
+  bodyFormData.set('new_pw', data.newPassword)
+  bodyFormData.set('confirm_pw', data.confirmPassword)
+  return request({
+    url: '/user/change-password',
+    method: 'post',
+    data: bodyFormData
+  })
+}
+
 export function signUpCheck(data) {
   const bodyFormData = new FormData()
   bodyFormData.set('email', data)
@@ -97,3 +121,12 @@ export function getCartUser(userId) {
     method: 'get'
   })
 }
+
+export function getUserTransactions(params, userId) {
+  return request({
+    url: `/user/${userId}/transactions`,
+    method: 'get',
+    params
+  })
+}
+

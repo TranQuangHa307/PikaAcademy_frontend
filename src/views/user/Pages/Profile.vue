@@ -20,7 +20,7 @@
         <div class="nav_content mt-4">
           <b-nav tabs fill style="margin-left: 0px; color: white;">
             <b-nav-item class="text-white" active>About</b-nav-item>
-            <b-nav-item class="text-white">My Orders</b-nav-item>
+            <b-nav-item class="text-white" @click="redirectToMyTransactions()">My Orders</b-nav-item>
           </b-nav>
         </div>
         <div style="display: flex;" class="mt-3">
@@ -81,6 +81,9 @@
                     </b-input-group>
                   </div>
                 </div>
+                <div class="mb-3 ml-2 d_flex" style="width: 45%; align-items: center;">
+                  <b-button pill block variant="outline-primary" @click="openFormChangePassword">Change Password</b-button>
+                </div>
               </div>
               <div style="width: 100%; display: flex; align-items: center;">
                 <div class="mb-3 mr-2" style="width: 45%;">
@@ -101,6 +104,16 @@
         </div>
       </div>
     </div>
+    <b-modal
+        id="modal-rating"
+        ref="modal"
+        v-model="isModalFormOpen"
+        title="Change Password"
+        hide-footer
+        hide-header-close
+      >
+        <change-password @cancelForm="cancelForm" />
+      </b-modal>
   </div>
 </template>
 
@@ -109,7 +122,11 @@
 import { uploadFile } from '../../../api/common'
 import { updateUser } from '../../../api/user'
 import { convertTimeStamptoDate, convertDateTimeInsert } from '../../../utils/index'
+import ChangePassword from '../../../components/user/ChangePassword'
 export default {
+  components: {
+    ChangePassword
+  },
   data() {
     return {
       profile: {},
@@ -118,7 +135,8 @@ export default {
         { value: 'male', text: 'Male' },
         { value: 'female', text: 'Female' }
       ],
-      image: null
+      image: null,
+      isModalFormOpen: false
     }
   },
   watch: {
@@ -140,6 +158,12 @@ export default {
     this.profile.date_of_birth = this.convertDateTimeInsert(this.convertTimeStamptoDate(this.profile.date_of_birth))
   },
   methods: {
+    openFormChangePassword() {
+      this.isModalFormOpen = true
+    },
+    cancelForm() {
+      this.isModalFormOpen = false
+    },
     convertTimeStamptoDate,
     convertDateTimeInsert,
     async onUpdateUser() {
@@ -156,6 +180,9 @@ export default {
         timer: 3000,
         timerProgressBar: true
       })
+    },
+    redirectToMyTransactions() {
+      this.$router.push({ name: 'myTransactions' })
     }
   }
 }

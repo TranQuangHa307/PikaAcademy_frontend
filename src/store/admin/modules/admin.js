@@ -39,8 +39,6 @@ const actions = {
   async login({ commit }, loginData) {
     try {
       const { username, password } = loginData
-      console.log(`username: ${username}`)
-      console.log(`password: ${password}`)
       const data = await login({
         username: username.trim(),
         password

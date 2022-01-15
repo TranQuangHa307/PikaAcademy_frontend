@@ -9,7 +9,7 @@
               <b-icon icon="facebook" class="mr-2" />
               <span>Continue with Facebook</span>
             </div>
-            <div class="btn_link mt-2" style="background-color: white; color: black;">
+            <div class="btn_link mt-2" style="background-color: white; color: black;" @click="onLoginGoogle()">
               <b-icon icon="google" variant="success" class="mr-2" />
               <span>Continue with Google</span>
             </div>
@@ -63,10 +63,41 @@ export default {
       response: null
     }
   },
+  created() {
+    if (this.$store.state.User.myInfo) {
+      this.$router.push({
+        path: '/'
+      })
+    }
+  },
   methods: {
     ...mapActions({
-      login: 'User/login'
+      login: 'User/login',
+      loginGoogle: 'User/loginGoogle'
     }),
+    async onLoginGoogle() {
+      const googleUser = await this.$gAuth.signIn()
+      const idToken = googleUser.getAuthResponse().id_token
+      const userPictureUrl = googleUser.getBasicProfile().getImageUrl()
+      const auth = {
+        idToken: idToken,
+        userPictureUrl: userPictureUrl
+      }
+      try {
+        const loginRes = await this.loginGoogle(auth)
+        if (loginRes) {
+          this.$router.push({
+            path: '/'
+          })
+        }
+      } catch (error) {
+        this.$swal({
+          'icon': 'warning',
+          'title': error.response?.data?.message || error.message,
+          background: '#1D1E22'
+        })
+      }
+    },
     async onSubmit() {
       this.$store.commit('SET_LOADING')
       try {

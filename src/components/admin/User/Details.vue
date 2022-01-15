@@ -86,12 +86,18 @@
 
 <script>
 import { _ } from 'vue-underscore'
-import UploadImage from '../../../../components/admin/uploadFile/UploadImg.vue'
-import DatePicker from '../../../../components/datepicker/DatePicker.vue'
-import { uploadFile } from '../../../../api/common'
-import { addUser, updateUser, getUserInfo } from '../../../../api/user'
-import { convertDateTimeInsert, convertTimeStamptoDate } from '../../../../utils/index'
+import UploadImage from '../../../components/admin/uploadFile/UploadImg.vue'
+import DatePicker from '../../../components/datepicker/DatePicker.vue'
+import { uploadFile } from '../../../api/common'
+import { addUser, updateUser, getUserInfo } from '../../../api/user'
+import { convertDateTimeInsert, convertTimeStamptoDate } from '../../../utils/index'
 export default {
+  props: {
+    elmntId: {
+      type: Number,
+      default: 0
+    }
+  },
   components: {
     UploadImage,
     DatePicker
@@ -118,8 +124,8 @@ export default {
     }
   },
   async created() {
-    if (this.$route.params.id) {
-      this.user = await getUserInfo(this.$route.params.id)
+    if (this.elmntId) {
+      this.user = await getUserInfo(this.elmntId)
       if (this.user.date_of_birth) this.user.date_of_birth = convertTimeStamptoDate(this.user.date_of_birth)
     }
   },
@@ -175,7 +181,7 @@ export default {
           'gender': this.user.gender,
           'phone_number': this.user.phone_number
         }
-        if (this.$route.params.id) await updateUser(this.user.id, body)
+        if (this.elmntId) await updateUser(this.user.id, body)
         else await addUser(body)
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)

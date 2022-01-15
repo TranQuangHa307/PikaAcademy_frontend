@@ -1,49 +1,88 @@
 <template>
   <div class="container-fluid">
-    <div class="pt-3 pl-3 flex">
-      <router-link
-        tag="div"
-        :to="{name: 'userInformation', params: { id: $route.params.id }}"
-        class="btn_tags content_center c_pointer"
-        :class="{ btn_tag_active: ($route.name === 'userInformation')}"
-      >Information</router-link>
-      <router-link
-        tag="div"
-        :to="{name: 'userLearning', params: { id: $route.params.id }}"
-        class="btn_tags content_center c_pointer"
-        :class="{ btn_tag_active: ($route.name === 'userLearning')}"
-      >Learning</router-link>
-      <div class="btn_tags content_center c_pointer">Transaction</div>
+    <div class="ad_nav_tabs">
+      <ul>
+        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Profile</li>
+        <li :class="{ is_active: comName === 'Purchased' }" @click="setCom('Purchased')">Purchased</li>
+        <li :class="{ is_active: comName === 'Liked' }" @click="setCom('Liked')">Liked</li>
+        <li :class="{ is_active: comName === 'Transaction' }" @click="setCom('Transaction')">Transaction</li>
+      </ul>
     </div>
-    <router-view />
+    <div>
+      <component :is="comNameComputed" :elmntId="comDataComputed" />
+    </div>
   </div>
 </template>
 
-<style scoped>
-.btn_tags {
-  width: 110px;
-  height: 35px;
-  margin: auto 5px;
-  border-radius: 0px;
-  background-color: white;
-  color: #495060;
-  border: 1px solid #d8dce5;
-  box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+<script>
+import Details from '../../../../components/admin/User/Details'
+import Purchased from '../../../../components/admin/User/Purchased'
+import Liked from '../../../../components/admin/User/Liked'
+import Transaction from '../../../../components/admin/User/Transaction'
+export default {
+  components: {
+    Details,
+    Purchased,
+    Liked,
+    Transaction
+  },
+  data() {
+    return {
+      comName: 'Details',
+      elmntId: this.$route.params.id
+    }
+  },
+  computed: {
+    comNameComputed() {
+      return this.comName
+    },
+    comDataComputed() {
+      if (this.elmntId) return parseInt(this.elmntId)
+      else return 0
+    }
+  },
+  methods: {
+    setCom(comName) {
+      this.comName = comName
+    }
+  }
 }
-.btn_tag_active::before{
-  content: "";
-  background: #fff;
-  display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    position: relative;
-    margin-right: 5px;
-}
+</script>
 
-.btn_tag_active {
-  background-color: #42b983;
-  color: #fff;
-  border-color: #42b983;
+<style lang="scss" scoped>
+.ad_nav_tabs {
+  ul {
+    display: flex;
+    list-style-type: none;
+    padding-inline-start: 0;
+    li {
+      margin: 0.5em 0.5em 0 1em;
+      cursor: pointer;
+      padding: 0 0.5em;
+      background-color: #FFFFFF;
+      min-width: 110px;
+      text-align: center;
+      box-shadow: 3px 3px 0 rgb(0 0 0 / 10%);
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    li:active {
+      transform: translateY(2px);
+    }
+
+    .is_active {
+      background-color: wheat;
+    }
+
+    .is_active::after {
+      content: ' 	●';
+      color: pink;
+    }
+
+  }
+  .ad_nav_tabs_items {
+    margin: 1em;
+  }
 }
 </style>

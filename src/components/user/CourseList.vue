@@ -56,7 +56,6 @@ export default {
     async likeCourse(course) {
       const myInfo = this.$store.state.User.myInfo
       if (myInfo) {
-        console.log('ahihi')
         const params = {
           'course_id': course.id,
           'user_id': myInfo.id
@@ -84,7 +83,6 @@ export default {
       if (discount) {
         price = price * ((100 - discount) / 100)
       }
-      price = price - 1000
       return new Intl.NumberFormat('de-DE').format(price)
     }
   }

@@ -44,3 +44,9 @@ export function getTransactionCourseList(transactionId) {
   })
 }
 
+export function getTransactionListByTeacher(teacherId) {
+  return request({
+    url: `/transaction/teacher/${teacherId}`,
+    method: 'get'
+  })
+}

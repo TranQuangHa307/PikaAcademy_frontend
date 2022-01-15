@@ -64,3 +64,68 @@ export function deleteCourse(courseId) {
     method: 'delete'
   })
 }
+
+export function getUserListBuyCourse(params, course_id) {
+  return request({
+    url: `/course/${course_id}/users`,
+    method: 'get',
+    params
+  })
+}
+
+export function getUsersLikeCourse(params, course_id) {
+  return request({
+    url: `/course/${course_id}/likes`,
+    method: 'get',
+    params
+  })
+}
+
+export function getTopCourseByTeacher(teacherId, status) {
+  return request({
+    url: `/course/teacher/${teacherId}/top/${status}`,
+    method: 'get'
+  })
+}
+
+export function getMaterialByCourse(courseId) {
+  return request({
+    url: `/course/${courseId}/material`,
+    method: 'get'
+  })
+}
+
+export function getListPriceByCourse(courseId) {
+  return request({
+    url: `/course/${courseId}/price`,
+    method: 'get'
+  })
+}
+
+export function getListDiscountPromotion(courseId) {
+  return request({
+    url: `/course/${courseId}/discount-promotion`,
+    method: 'get'
+  })
+}
+
+export function getAllActive() {
+  return request({
+    url: '/course/inactive',
+    method: 'get'
+  })
+}
+
+export function activeCourse(courseId) {
+  return request({
+    url: `/course/${courseId}/active`,
+    method: 'put'
+  })
+}
+
+export function releaseCourse(courseId) {
+  return request({
+    url: `/course/${courseId}/release`,
+    method: 'put'
+  })
+}

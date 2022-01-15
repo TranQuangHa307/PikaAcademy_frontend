@@ -31,7 +31,6 @@ export default {
   methods: {
     onChange(data) {
       this.$emit('setDate', data)
-      console.log(data)
     }
   }
 }

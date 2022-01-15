@@ -62,7 +62,13 @@
                 <h5 style="color: #feda6a;">Step 4: Complete The Payment</h5>
                 <p style="font-size: 14px;">Click proceed and enjoy your course right away!</p>
               </div>
-
+            </div>
+            <div>
+              <h3>Payment to be made in: <span style="color: #feda6a;">{{ hoursTimer }} : {{ minutesTimer }} : {{ secondsTimer }}</span> </h3>
+              <i style="color: #ffc107;">Please complete the payment within 15 minutes or the transaction will be cancelled.</i>
+            </div>
+            <div class="mt-3">
+              <a class="text-warning c_pointer" @click="cancelTransaction"><h5>Cancel transaction</h5></a>
             </div>
           </div>
         </div>
@@ -119,7 +125,9 @@
               </b-list-group>
             </div>
             <div class="mt-3">
-              <b-button block style="color: black;background-color: #feda6a; border-radius: 8px;" @click="completeThePayment">PROCEED</b-button>
+              <b-button block style="color: black;background-color: #feda6a; border-radius: 8px;" @click="completeThePayment">
+Already Paid
+</b-button>
             </div>
           </div>
         </div>
@@ -141,7 +149,13 @@ export default {
         bankAccountHolder: 'Nguyen Hoang Anh'
       },
       transactionCourses: [],
-      originalPrice: 0
+      originalPrice: 0,
+      timer: {
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      },
+      interval: null
     }
   },
   computed: {
@@ -156,13 +170,45 @@ export default {
     },
     totalAmountShow: function() {
       return new Intl.NumberFormat('de-DE').format(this.transaction.total)
+    },
+    hoursTimer: function() {
+      return this.timer.hours
+    },
+    minutesTimer: function() {
+      return this.timer.minutes
+    },
+    secondsTimer: function() {
+      return this.timer.seconds
     }
   },
   async created() {
     await this.getTransactionInfo()
+    if (this.transaction.status !== 'initial') {
+      this.$router.push({ path: '/' })
+      return
+    }
     this.getOriginalPrice()
+    await this.startTimer()
   },
   methods: {
+    async startTimer() {
+      this.interval = await setInterval(() => this.getTimer(), 1000)
+    },
+    async getTimer() {
+      var currentDateTime = (Date.now() / 1000)
+      var datetime = new Date((currentDateTime - this.transaction.time) * 1000)
+      this.timer.hours = this.padTime(datetime.getUTCHours())
+      this.timer.minutes = this.padTime(14 - datetime.getUTCMinutes())
+      this.timer.seconds = (this.padTime(60 - datetime.getUTCSeconds()) === 60) ? `00` : this.padTime(60 - datetime.getUTCSeconds())
+      if ((14 - datetime.getUTCMinutes()) < 1) {
+        this.timer.hours = this.timer.minutes = this.timer.seconds = '00'
+        await this.cancelTransaction()
+        return
+      }
+    },
+    padTime(time) {
+      return (time >= 10) ? time : `0${time}`
+    },
     async getTransactionInfo() {
       this.transaction = await getTransaction(this.$route.params.id)
       this.transactionCourses = await getTransactionCourseList(this.transaction.id)
@@ -186,7 +232,24 @@ export default {
     getOriginalPrice() {
       this.originalPrice = this.transactionCourses.reduce((n, { original_price, discount }) => n + this.convertPrice(original_price, discount, false), 0)
     },
+    async cancelTransaction() {
+      clearInterval(this.interval)
+      try {
+        const params = {
+          'id': this.transaction.id,
+          'user_id': this.$store.state.User.myInfo.id,
+          'cart_id': this.$store.state.User.myCart.id,
+          'status': 'canceled',
+          'transaction_course': this.transactionCourses
+        }
+        await updateTransactionStatus(params)
+        this.showNotification('success', 'Successfully cancel transaction')
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async completeThePayment() {
+      clearInterval(this.interval)
       try {
         const params = {
           'id': this.transaction.id,
@@ -196,21 +259,7 @@ export default {
           'transaction_course': this.transactionCourses
         }
         await updateTransactionStatus(params)
-        this.$swal({
-          title: 'Your request has been received by the system. Please check your email for more information.',
-          width: 600,
-          padding: '3em',
-          background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
-          backdrop: `
-            rgba(0,0,123,0.4)
-            url("https://sweetalert2.github.io/images/nyan-cat.gif")
-            left top
-            no-repeat`
-        }).then((result) => {
-          this.$router.push({
-            path: '/'
-          })
-        })
+        this.showNotification('success', 'Your request has been received by the system. Please check your email for more information.')
       } catch (error) {
         console.log(error)
       }

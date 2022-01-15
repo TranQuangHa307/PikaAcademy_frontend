@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Admin from './admin/modules/admin'
 import User from './user/modules/user'
+import Teacher from './teacher/modules/teacher'
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -18,6 +20,7 @@ export const store = new Vuex.Store({
   },
   modules: {
     Admin,
-    User
+    User,
+    Teacher
   }
 })

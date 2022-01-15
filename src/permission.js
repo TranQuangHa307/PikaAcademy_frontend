@@ -29,7 +29,6 @@
 //         try {
 //           const accountInfo = await getAccountInfo()
 //           store.commit('Admin/SET_MY_INFO', accountInfo)
-//           console.log(store.state.Admin.myInfo)
 //         } catch (e) {
 //           store.commit('Admin/SET_MY_INFO', {})
 //         }

@@ -28,6 +28,9 @@
       <div class="ml-3 mt-3 mr-3 flex main_filter">
         <div class="div_filter">
           <div class="mb-4">
+            <h3>Filters</h3>
+          </div>
+          <div class="mb-4">
             <h5 class="title_filter">INTERESTS</h5>
             <div class="list_group">
               <div v-for="(item, index) in interestsOptions" :key="index">

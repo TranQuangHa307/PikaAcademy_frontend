@@ -15,30 +15,16 @@
         />
       </b-form-group>
       <b-form-group
+        label="About*"
+        label-for="result-textarea"
+      >
+        <ckeditor v-model="data.about" :editor="editor" tag-name="textarea" />
+      </b-form-group>
+      <b-form-group
         label="Video"
         label-for="video-input"
       >
-        <div>
-          <b-form-file
-            v-model="video"
-            :state="state"
-            placeholder="Choose a file or drop it here..."
-            drop-placeholder="Drop file here..."
-            accept="video/*"
-          />
-        </div>
-        <div class="text-center">
-          <video v-if="hasVideo" id="introVideo" :src="videoSrc" width="400" height="250" class="mt-3" controls />
-          <b-embed
-            v-else-if="session.url_video"
-            class="mt-3"
-            type="iframe"
-            aspect="16by9"
-            :src="session.url_video"
-            allowfullscreen
-          />
-          <!-- <video v-else-if="session.url_video" :src="session.url_video" width="300" class="mt-3" controls /> -->
-        </div>
+        <upload-vieo :url-video="data.url_video" @resVideo="setVideo($event)" />
       </b-form-group>
       <hr>
       <div class="text-center">
@@ -50,15 +36,13 @@
 </template>
 
 <script>
-import { uploadFile } from '../../../api/common'
-const base64Encode = data =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(data)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
-  })
+import { uploadFile } from '../../../api/common.js'
+import UploadVieo from '../../../components/admin/uploadFile/UploadVideo.vue'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 export default {
+  components: {
+    UploadVieo
+  },
   props: {
     isAdd: {
       type: Boolean,
@@ -74,7 +58,8 @@ export default {
       session: this.data,
       videoSrc: null,
       video: null,
-      state: null
+      state: null,
+      editor: ClassicEditor
     }
   },
   computed: {
@@ -82,24 +67,15 @@ export default {
       return !!this.video
     }
   },
-  watch: {
-    video(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        if (newValue) {
-          base64Encode(newValue)
-            .then(value => {
-              this.videoSrc = value
-            })
-            .catch(() => {
-              this.videoSrc = null
-            })
-        } else {
-          this.videoSrc = null
-        }
-      }
-    }
-  },
   methods: {
+    setVideo(value) {
+      if (value.videoType === 'file') {
+        this.video = value.video
+      } else {
+        this.video = null
+        this.data.url_video = value.video
+      }
+    },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity()
       this.state = valid
@@ -112,7 +88,6 @@ export default {
       this.handleSubmit()
     },
     async handleSubmit() {
-      console.log('modal: ' + this.isAdd)
       // return
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {

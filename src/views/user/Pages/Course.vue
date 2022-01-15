@@ -26,7 +26,14 @@
             />
           </div>
           <div class="mt-2">
-            <h1>{{ dataView.name }}</h1>
+            <div class="content_center">
+              <div class="w50 txt_left">
+                <h1>{{ dataView.name }}</h1>
+              </div>
+              <div class="w50 txt_right">
+                <b-button variant="danger" v-if="!course.user_purchase_course_is_rating && course.user_purchase_course_id" @click="openFormRating()">Rate</b-button>
+              </div>
+            </div>
             <p class="text_description_course" v-html=" course.description" />
           </div>
           <div>
@@ -36,7 +43,7 @@
             <div class="mr-5" style="display: flex;">
               <p class="pr-3"><b-icon icon="clock-fill" style="color: white;" /><span class="ml-2">{{ timeConvert(dataView.totalTime) }}</span></p>
               <p class="pr-3"><b-icon icon="play-fill" style="color: white;" /><span class="ml-2">{{ course.purchases }}</span></p>
-              <p class="pr-3"><b-icon icon="star-fill" style="color: white;" /><span class="ml-2">4.9</span></p>
+              <p class="pr-3"><b-icon icon="star-fill" style="color: white;" /><span class="ml-2">{{ ratingNumber }}</span></p>
             </div>
             <div style="display: flex;">
               <p class="mr-3"><span>Created: {{ dateConvert(dataView.createdAt) }}</span></p>
@@ -46,14 +53,15 @@
           <div>
             <div class="nav_content">
               <b-nav tabs fill style="margin-left: 0px; color: white;">
-                <b-nav-item class="text-white" active>About</b-nav-item>
+                <b-nav-item class="text-white" :active="comData.comName==='About'" @click="setNavCourse('About', dataView.about)">About</b-nav-item>
+                <b-nav-item v-if="!course.user_purchase_course_id" class="text-white" :active="comData.comName==='Lessons'" @click="setNavCourse('Lessons', course.id)">Lessons</b-nav-item>
                 <!-- <b-nav-item class="text-white">Lession</b-nav-item> -->
-                <b-nav-item class="text-white">Discussion</b-nav-item>
+                <b-nav-item class="text-white" :active="comData.comName==='CourseRatings'" @click="setNavCourse('CourseRatings', course.id)">Course Ratings</b-nav-item>
                 <!-- <b-nav-item class="text-white">Related</b-nav-item> -->
-                <b-nav-item class="text-white">Material</b-nav-item>
+                <b-nav-item class="text-white" :active=" ['Material', 'Lock'].includes(comData.comName)" @click="setNavCourse('Material', course.id)">Material</b-nav-item>
               </b-nav>
             </div>
-            <div class="mt-5 mb-5" v-html="course.about" />
+            <nav-course :data="comData" />
             <div>
               <h5 class="text_title">BENEFITS FROM THE COURSE</h5>
             </div>
@@ -67,9 +75,9 @@
               <div class="ml-2 mt-2">
                 <h5>{{ teacher.full_name }}</h5>
                 <div style="display: flex;">
-                  <p class="pr-3"><b-icon icon="star-fill" style="color: white;" /><span class="ml-2">4.9</span></p>
+                  <p class="pr-3"><b-icon icon="star-fill" style="color: white;" /><span class="ml-2">{{ teacher.rating }}</span></p>
                   <p class="pr-3"><b-icon icon="play-fill" style="color: white;" /><span class="ml-2">{{ teacher.number_course }}</span></p>
-                  <p class="pr-3"><b-icon icon="person-circle" style="color: white;" /><span class="ml-2">73</span></p>
+                  <p class="pr-3"><b-icon icon="person-circle" style="color: white;" /><span class="ml-2">{{ teacher.userTotal }}</span></p>
                 </div>
               </div>
             </div>
@@ -134,28 +142,57 @@
         </div>
       </div>
     </div>
+    <b-modal
+        id="modal-rating"
+        ref="modal"
+        v-model="isModalFormOpen"
+        title="Rate Course"
+        hide-footer
+        hide-header-close
+      >
+        <rating :courseId="ratingData.courseId" :courseName="ratingData.courseName" :userPurchaseCourseId="ratingData.userPurchaseCourseId" @cancelFormRating="cancelFormRating" @updateRating="updateRating"/>
+      </b-modal>
   </div>
 </template>
 
 <script>
 import { getChapterList } from '../../../api/course'
-import { getCourseInfo, getTeacherInfo } from '../../../api/public'
+import { getCourseInfo, getTeacherInfo, getTotalFollowers, getTeacherRating } from '../../../api/public'
 import { addToCart } from '../../../api/cart'
 import { transaction } from '../../../api/transaction'
+import { getCourseRatingNumber } from '../../../api/rating'
+import NavCourse from '../../../components/user/NavCourse/Index'
+import Rating from '../../../components/user/Rating'
 export default {
+  components: {
+    NavCourse,
+    Rating
+  },
   data() {
     return {
       show: [],
       dataView: {
         name: null,
         url_video: null,
+        about: null,
         totalTime: 0,
         createdAt: null,
         updatedAt: null
       },
       course: {},
       teacher: {},
-      chapters: []
+      chapters: [],
+      comData: {
+        comName: 'About',
+        comData: null
+      },
+      ratingNumber: 0,
+      isModalFormOpen: false,
+      ratingData: {
+        courseId: 0,
+        courseName: null,
+        userPurchaseCourseId: 0
+      }
     }
   },
   created() {
@@ -163,10 +200,33 @@ export default {
     this.getChapter()
   },
   methods: {
+    openFormRating() {
+      this.isModalFormOpen = true
+      this.ratingData.courseId = this.course.id
+      this.ratingData.courseName = this.course.name
+      this.ratingData.userPurchaseCourseId = this.course.user_purchase_course_id
+    },
+    cancelFormRating() {
+      this.isModalFormOpen = false
+    },
+    async updateRating() {
+      this.ratingNumber = (!(await getCourseRatingNumber(this.course.id))) ? 0 : (await getCourseRatingNumber(this.course.id)).rating
+      this.setNavCourse('CourseRatings', this.course.id)
+      this.course.user_purchase_course_is_rating = true
+    },
     redirectToteacher(teacherId) {
       this.$router.push({
         path: `/teacher/${teacherId}`
       })
+    },
+    setNavCourse(comName, comData) {
+      if (this.course.user_purchase_course_id || comName !== 'Material') {
+        this.comData.comName = comName
+        this.comData.comData = comData
+      } else {
+        this.comData.comName = 'Lock'
+        this.comData.comData = null
+      }
     },
     selectedChapter(index) {
       if (this.show.includes(index)) {
@@ -181,10 +241,15 @@ export default {
       }
       this.course = await getCourseInfo(this.$route.params.id, params)
       this.dataView.name = this.course.name
+      this.dataView.about = this.course.about
       this.dataView.url_video = this.course.url_intro_video
       this.dataView.createdAt = this.course.created_at
       this.dataView.updatedAt = this.course.updated_at
       this.teacher = await getTeacherInfo(this.course.teacher_id)
+      this.teacher.userTotal = (!(await getTotalFollowers(this.course.teacher_id))) ? 0 : (await getTotalFollowers(this.course.teacher_id)).total
+      this.teacher.rating = (!(await getTeacherRating(this.course.teacher_id))) ? 0 : (await getTeacherRating(this.course.teacher_id)).rating
+      this.ratingNumber = (!(await getCourseRatingNumber(this.course.id))) ? 0 : (await getCourseRatingNumber(this.course.id)).rating
+      this.setNavCourse('About', this.dataView.about)
     },
     async getChapter() {
       this.chapters = await getChapterList(this.$route.params.id)
@@ -207,7 +272,6 @@ export default {
     getTotalTime(arr) {
       let total = 0
       for (let i = 0; i < arr.length; i++) {
-        console.log(`${i}: ${arr[i].sessions.reduce((n, { time }) => n + time, 0)}`)
         total += arr[i].sessions.reduce((n, { time }) => n + time, 0)
       }
       this.dataView.totalTime = total
@@ -220,6 +284,7 @@ export default {
       this.dataView.name = data.name
       this.dataView.totalTime = data.time
       this.dataView.url_video = data.url_video
+      this.dataView.about = data.about
       this.dataView.createdAt = data.created_at
       this.dataView.updatedAt = data.updated_at
     },
@@ -227,7 +292,6 @@ export default {
       if (discount) {
         price = price * ((100 - discount) / 100)
       }
-      price = price - 1000
       return new Intl.NumberFormat('de-DE').format(price)
     },
     async addCourseToCart(course, isRedirect = false) {

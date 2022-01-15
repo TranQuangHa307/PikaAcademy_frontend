@@ -73,6 +73,10 @@
                     <b-icon icon="person-circle" variant="white" class="mr-3" />
                     <span class="text-white">Profile</span>
                   </b-dropdown-item>
+                  <b-dropdown-item class="p-2 drop_profile " :to="{ name: 'teacherRegister' }">
+                    <b-icon icon="people-fill" variant="white" class="mr-3" />
+                    <span class="text-white">Become an Instructor</span>
+                  </b-dropdown-item>
                   <b-dropdown-item class="p-2 drop_item_logout" @click="logout()">
                     <b-icon icon="box-arrow-right" variant="danger" class="mr-3" />
                     <span class="text-white">Logout</span>

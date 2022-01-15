@@ -32,6 +32,17 @@
           <b-img v-else-if="category.url_image" rounded="circle" :src="category.url_image" class="preview_img" />
         </div>
       </b-form-group>
+      <b-form-group
+        label="Interests"
+        label-for="interests-select"
+      >
+        <b-form-select
+          v-model="category.interests_id"
+          :options="interestsOptions"
+          value-field="id"
+          text-field="name"
+        />
+      </b-form-group>
       <hr>
       <div class="text-center">
         <button type="button" class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
@@ -43,6 +54,7 @@
 
 <script>
 import { uploadFile } from '../../../api/common'
+import { getAllInterests } from '../../../api/interests'
 const base64Encode = data =>
   new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -66,7 +78,8 @@ export default {
       category: this.data,
       imageSrc: null,
       image: null,
-      state: null
+      state: null,
+      interestsOptions: []
     }
   },
   computed: {
@@ -91,11 +104,23 @@ export default {
       }
     }
   },
+  async created() {
+    await this.getInterestsOptions()
+  },
   methods: {
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity()
       this.state = valid
       return valid
+    },
+    getInterestsOptions: async function() {
+      try {
+        const list = await getAllInterests()
+        this.interestsOptions = list
+      } catch (error) {
+        this.interestsOptions = []
+      }
+      this.interestsOptions.push({ 'id': null, 'name': 'Please select an option' })
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -104,7 +129,6 @@ export default {
       this.handleSubmit()
     },
     async handleSubmit() {
-      console.log('modal: ' + this.isAdd)
       // return
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {

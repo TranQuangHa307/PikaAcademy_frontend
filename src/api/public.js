@@ -74,3 +74,32 @@ export function getCategoryInfo(categoryId) {
     method: 'get'
   })
 }
+
+export function getTeacherUserTotal(teacherId) {
+  return request({
+    url: `/api/teacher/${teacherId}/user/total`,
+    method: 'get'
+  })
+}
+
+export function getTeacherRating(teacherId) {
+  return request({
+    url: `/api/teacher/${teacherId}/rating`,
+    method: 'get'
+  })
+}
+
+export function getFollowed(userId, teacherId) {
+  return request({
+    url: `api/followed/user/${userId}/teacher/${teacherId}`,
+    method: 'get'
+  })
+}
+
+export function getTotalFollowers(teacherId) {
+  return request({
+    url: `api/followed/teacher/${teacherId}`,
+    method: 'get'
+  })
+}
+

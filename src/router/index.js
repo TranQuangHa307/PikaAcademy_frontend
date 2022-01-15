@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import auth from '../middleware/user/authenticated'
 import notAuth from '../middleware/user/notAuthenticated'
 import authAdmin from '../middleware/admin/authenticated'
+import notAuthAdmin from '../middleware/admin/notAuthenticated'
+import notAuthTeacher from '../middleware/teacher/notAuthenticated'
+import authTeacher from '../middleware/teacher/authenticated'
 
 Vue.use(VueRouter)
 
@@ -14,6 +17,83 @@ VueRouter.prototype.push = function push(location) {
 
 export const router = new VueRouter({
   routes: [
+    {
+      path: '/teachermanager',
+      redirect: { name: 'loginTeacher' },
+      component: () => import('../views/teacher/Layouts/Public'),
+      children: [
+        {
+          path: '/teachermanager/login',
+          name: 'loginTeacher',
+          component: () => import('../views/teacher/Pages/Login'),
+          meta: {
+            middleware: notAuthTeacher
+          }
+        }
+      ]
+    },
+    {
+      path: '/teachermanager',
+      component: () => import('../views/teacher/Layouts/Default'),
+      children: [
+        {
+          path: '/teachermanager/dashboard',
+          name: 'dashBoardTeacherManeger',
+          component: () => import('../views/teacher/Pages/Dashboard/Index'),
+          meta: {
+            middleware: authTeacher
+          }
+        },
+        {
+          path: '/teachermanager/course',
+          name: 'courseTeacherManeger',
+          component: () => import('../views/teacher/Pages/Course/Index'),
+          meta: {
+            middleware: authTeacher
+          }
+        },
+        {
+          path: '/teachermanager/course/add',
+          name: 'addCourseTeacherManeger',
+          component: () => import('../views/teacher/Pages/Course/Details'),
+          meta: {
+            middleware: authTeacher
+          }
+        },
+        {
+          path: '/teachermanager/course/:id',
+          name: 'courseDetailTeacherManeger',
+          component: () => import('../views/teacher/Pages/Course/Details'),
+          meta: {
+            middleware: authTeacher
+          }
+        },
+        {
+          path: '/teachermanager/user',
+          name: 'userTeacherManeger',
+          component: () => import('../views/teacher/Pages/User/Index'),
+          meta: {
+            middleware: authTeacher
+          }
+        },
+        {
+          path: '/teachermanager/follower',
+          name: 'followerTeacherManeger',
+          component: () => import('../views/teacher/Pages/Follower/Index'),
+          meta: {
+            middleware: authTeacher
+          }
+        },
+        {
+          path: '/teachermanager/profile',
+          name: 'profileTeacherManeger',
+          component: () => import('../views/teacher/Pages/Profile/Index'),
+          meta: {
+            middleware: authTeacher
+          }
+        }
+      ]
+    },
     {
       path: '/',
       redirect: 'home',
@@ -114,6 +194,22 @@ export const router = new VueRouter({
           meta: {
             middleware: auth
           }
+        },
+        {
+          path: '/mytransactions',
+          name: 'myTransactions',
+          component: () => import('../views/user/Pages/MyTransactions'),
+          meta: {
+            middleware: auth
+          }
+        },
+        {
+          path: '/teacher-register',
+          name: 'teacherRegister',
+          component: () => import('../views/user/Pages/TeacherRegis.vue'),
+          meta: {
+            middleware: auth
+          }
         }
       ]
     },
@@ -136,19 +232,21 @@ export const router = new VueRouter({
     },
     {
       path: '/admin',
-      redirect: 'login',
+      redirect: { name: 'loginAdmin' },
       component: () => import('../views/admin/Layouts/Public'),
       children: [
         {
           path: '/admin/login',
           name: 'loginAdmin',
-          component: () => import('../views/admin/Pages/Login')
+          component: () => import('../views/admin/Pages/Login'),
+          meta: {
+            middleware: notAuthAdmin
+          }
         }
       ]
     },
     {
       path: '/admin',
-      redirect: 'dashBoardManeger',
       component: () => import('../views/admin/Layouts/Default'),
       children: [
         {
@@ -158,14 +256,7 @@ export const router = new VueRouter({
           meta: {
             middleware: authAdmin
           }
-        }
-      ]
-    },
-    {
-      path: '/admin',
-      redirect: 'transactionManeger',
-      component: () => import('../views/admin/Layouts/Default'),
-      children: [
+        },
         {
           path: '/admin/transaction',
           name: 'transactionManeger',
@@ -181,14 +272,7 @@ export const router = new VueRouter({
           meta: {
             middleware: authAdmin
           }
-        }
-      ]
-    },
-    {
-      path: '/admin',
-      redirect: 'courseManeger',
-      component: () => import('../views/admin/Layouts/Default'),
-      children: [
+        },
         {
           path: '/admin/course',
           name: 'courseManeger',
@@ -200,7 +284,7 @@ export const router = new VueRouter({
         {
           path: '/admin/course/add',
           name: 'addCourse',
-          component: () => import('../views/admin/Pages/Course/Details'),
+          component: () => import('../views/admin/Pages/Course/Create'),
           meta: {
             middleware: authAdmin
           }
@@ -212,14 +296,7 @@ export const router = new VueRouter({
           meta: {
             middleware: authAdmin
           }
-        }
-      ]
-    },
-    {
-      path: '/admin',
-      redirect: 'intersets',
-      component: () => import('../views/admin/Layouts/Default'),
-      children: [
+        },
         {
           path: '/admin/interests',
           name: 'intersets',
@@ -227,14 +304,7 @@ export const router = new VueRouter({
           meta: {
             middleware: authAdmin
           }
-        }
-      ]
-    },
-    {
-      path: '/admin',
-      redirect: 'category',
-      component: () => import('../views/admin/Layouts/Default'),
-      children: [
+        },
         {
           path: '/admin/category',
           name: 'category',
@@ -242,14 +312,7 @@ export const router = new VueRouter({
           meta: {
             middleware: authAdmin
           }
-        }
-      ]
-    },
-    {
-      path: '/admin',
-      redirect: 'teacher',
-      component: () => import('../views/admin/Layouts/Default'),
-      children: [
+        },
         {
           path: '/admin/teacher',
           name: 'teacher',
@@ -261,7 +324,7 @@ export const router = new VueRouter({
         {
           path: '/admin/teacher/add',
           name: 'addTeacher',
-          component: () => import('../views/admin/Pages/Teacher/Details'),
+          component: () => import('../views/admin/Pages/Teacher/Create'),
           meta: {
             middleware: authAdmin
           }
@@ -273,14 +336,7 @@ export const router = new VueRouter({
           meta: {
             middleware: authAdmin
           }
-        }
-      ]
-    },
-    {
-      path: '/admin',
-      redirect: 'user',
-      component: () => import('../views/admin/Layouts/Default.vue'),
-      children: [
+        },
         {
           path: '/admin/user',
           name: 'user',
@@ -299,31 +355,19 @@ export const router = new VueRouter({
         },
         {
           path: '/admin/user/:id',
-          redirect: 'userInformation',
+          name: 'userInformation',
           component: () => import('../views/admin/Pages/User/Details'),
-          children: [
-            {
-              path: '/admin/user/:id',
-              name: 'userInformation',
-              component: () => import('../views/admin/Pages/User/Information'),
-              meta: {
-                middleware: authAdmin
-              }
-            },
-            {
-              path: '/admin/user/:id/learning',
-              name: 'userLearning',
-              component: () => import('../views/admin/Pages/User/Learning'),
-              meta: {
-                middleware: authAdmin
-              }
-            }
-          ]
+          meta: {
+            middleware: authAdmin
+          }
         }
       ]
     },
-    { path: '*', redirect: '/admin/course' }
+    { path: '/admin', redirect: '/admin/course' }
   ],
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  },
   mode: 'history'
 })
 

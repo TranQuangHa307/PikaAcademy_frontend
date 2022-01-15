@@ -5,6 +5,17 @@
         <div class="col">
           <div class="card_db">
             <div class="w50 content_center" style="font-size: 4rem;">
+              <b-icon icon="person-lines-fill" variant="info" />
+            </div>
+            <div class="w50 text-center">
+              <p class="m-0 fw700 name_card_item">Total Teachers</p>
+              <span class="fw700 value_card_item">{{ totalTeachers }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card_db">
+            <div class="w50 content_center" style="font-size: 4rem;">
               <b-icon icon="people-fill" variant="info" />
             </div>
             <div class="w50 text-center">
@@ -51,8 +62,8 @@
         </div>
       </div>
     </div>
-    <div class="mt-3" style="background-color: white; box-shadow: 0 1px 4px rgb(0 21 41 / 8%);">
-      <line-chart v-if="loaded" :labels="labels" :datasets="datasets" style="height: calc(100vh - 250px)"/>
+    <div class="mt-3" style="background-color: white; box-shadow: 0 1px 4px rgb(0 21 41 / 8%); padding: 1em;">
+      <column-chart :data="chartData"></column-chart>
     </div>
   </div>
 </template>
@@ -60,19 +71,18 @@
 <script>
 import { getUserList } from '../../../../api/user'
 import { getCourseList } from '../../../../api/course'
+import { getTeacherList } from '../../../../api/teacher'
 import { getTransactionListByStatus } from '../../../../api/transaction'
-import LineChart from '../../../../components/admin/chart/LineChart.vue'
 export default {
-  components: {
-    LineChart
-  },
   data() {
     return {
       totalUsers: 0,
       totalCourses: 0,
+      totalTeachers: 0,
       totalSales: 0,
       totalOrders: 0,
       successTransactionList: [],
+      chartData: [],
       labels: [
         'January',
         'February',
@@ -86,15 +96,7 @@ export default {
         'October',
         'November',
         'December'
-      ],
-      datasets: [
-        {
-          label: 'Total Sales',
-          backgroundColor: '#007BFF',
-          data: []
-        }
-      ],
-      loaded: false
+      ]
     }
   },
   async mounted() {
@@ -103,15 +105,15 @@ export default {
     for (let i = 0; i < 12; i++) {
       let total = 0
       list.forEach(item => {
-        if (this.checkDateTimeTransaction(item.time, i, 2021)) { total += item.total }
+        if (this.checkDateTimeTransaction(item.time, i, 2022)) { total += item.total }
       })
-      this.datasets[0].data.push(total)
+      this.chartData.push([this.labels[i], total])
     }
-    console.log(this.datasets[0].data)
   },
   async created() {
     await this.getTotalUsers()
     await this.getTotalCourses()
+    await this.getTotalTeacher()
     await this.getSuccessTransactionList()
   },
   methods: {
@@ -132,6 +134,15 @@ export default {
       // eslint-disable-next-line no-unused-vars
       const { data, total } = await getCourseList(params)
       this.totalCourses = total
+    },
+    async getTotalTeacher() {
+      const params = {
+        'page': 1,
+        'limit': 100
+      }
+      // eslint-disable-next-line no-unused-vars
+      const { data, total } = await getTeacherList(params)
+      this.totalTeachers = total
     },
     async getSuccessTransactionList() {
       this.successTransactionList = await getTransactionListByStatus('success')
