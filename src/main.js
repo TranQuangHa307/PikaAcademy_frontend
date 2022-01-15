@@ -20,7 +20,6 @@ import underscore from 'vue-underscore'
 import mixin from './utils/mixin'
 import { Chart } from 'chart.js'
 import Chartkick from 'vue-chartkick'
-import Tawk from 'vue-tawk'
 import GAuth from 'vue-google-oauth2'
 const gauthOption = {
   clientId: '684358347602-9e5kiu1cg8ctram5jpbj620hlo40skfk.apps.googleusercontent.com',
@@ -29,9 +28,6 @@ const gauthOption = {
   fetch_basic_profile: true
 }
 Vue.use(GAuth, gauthOption)
-Vue.use(Tawk, {
-  tawkSrc: 'https://embed.tawk.to/61d72608b84f7301d329b48d/1foo6p51e'
-})
 Vue.use(Chartkick.use(Chart))
 Vue.config.productionTip = false
 Vue.use(underscore)

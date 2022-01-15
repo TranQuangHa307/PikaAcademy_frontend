@@ -4,24 +4,8 @@
       <h1>Sign up</h1>
       <div class="mt-5">
         <div>
-          <div>
-            <div class="btn_link ">
-              <b-icon icon="facebook" class="mr-2" />
-              <span>Continue with Facebook</span>
-            </div>
-            <div class="btn_link mt-2" style="background-color: white; color: black;">
-              <b-icon icon="google" variant="success" class="mr-2" />
-              <span>Continue with Google</span>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; flex-direction: row;">
-            <hr>
-            <span style="font-weight: 400;">or continue with</span>
-            <hr>
-          </div>
           <form @submit.prevent="onSubmit">
             <div>
-              <h2>Account</h2>
               <div class="p-2">
                 <div class="mb-3">
                   <label for="inputEmail" class="form-label">Email address</label>

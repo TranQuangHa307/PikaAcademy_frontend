@@ -23,9 +23,6 @@
                   <h5 style="font-size: 90%; color: #757575;">The latest courses</h5>
                 </div>
               </div>
-              <div class="col-6 text-right">
-                <b-button class="mb-3" pill variant="outline-info">See More</b-button>
-              </div>
               <div class="col-12">
                 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
 
@@ -50,9 +47,6 @@
                   <h5 style="font-size: 90%; color: #757575;">Best selling courses</h5>
                 </div>
               </div>
-              <div class="col-6 text-right">
-                <b-button class="mb-3" pill variant="outline-info">See More</b-button>
-              </div>
               <div class="col-12">
                 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
 
@@ -76,9 +70,6 @@
                   <h2>Most Favorite Courses</h2>
                   <h5 style="font-size: 90%; color: #757575;">Most Favorite Courses</h5>
                 </div>
-              </div>
-              <div class="col-6 text-right">
-                <b-button class="mb-3" pill variant="outline-info">See More</b-button>
               </div>
               <div class="col-12">
                 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">

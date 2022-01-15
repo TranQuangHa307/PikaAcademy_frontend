@@ -5,10 +5,6 @@
       <div class="mt-5">
         <div>
           <div>
-            <div class="btn_link ">
-              <b-icon icon="facebook" class="mr-2" />
-              <span>Continue with Facebook</span>
-            </div>
             <div class="btn_link mt-2" style="background-color: white; color: black;" @click="onLoginGoogle()">
               <b-icon icon="google" variant="success" class="mr-2" />
               <span>Continue with Google</span>

@@ -97,7 +97,6 @@ const actions = {
     commit('SET_TOKEN', '')
     commit('SET_MY_INFO', null)
     commit('SET_MY_CART', null)
-    this.$Tawk.$endChat()
     removeToken()
   }
 }
