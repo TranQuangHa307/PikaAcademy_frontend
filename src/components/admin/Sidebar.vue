@@ -19,32 +19,27 @@ export default {
           icon: 'layout-wtf'
         },
         {
-          title: 'Transaction',
-          to: '/admin/transaction',
-          icon: 'credit-card2-back-fill'
-        },
-        {
-          title: 'Course',
+          title: 'Khoá học',
           to: '/admin/course',
           icon: 'collection-play-fill'
         },
         {
-          title: 'Interests',
+          title: 'Khối lớp',
           to: '/admin/interests',
           icon: 'x-diamond-fill'
         },
         {
-          title: 'Category',
+          title: 'Môn học',
           to: '/admin/category',
           icon: 'journals'
         },
         {
-          title: 'Teacher',
+          title: 'Giáo viên',
           to: '/admin/teacher',
           icon: 'person-lines-fill'
         },
         {
-          title: 'User',
+          title: 'Thành viên',
           to: '/admin/user',
           icon: 'people-fill'
         }

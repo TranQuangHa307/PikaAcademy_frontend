@@ -8,13 +8,13 @@
             v-model="selected"
             name="radio-sub-component"
           >
-            <b-form-radio value='1'>Chưa từng có hoạt động giảng dạy, chỉ hướng dẫn nhân viên hoặc chỉ có kinh nghiệm trong nghề....</b-form-radio>
-            <br/>
-            <b-form-radio value='2'>Đã từng dạy trực tiếp, nhưng không phải giảng viên chính thức</b-form-radio>
-            <br/>
-            <b-form-radio value='3'>Dạy chuyên nghiệp tại các trường lớp</b-form-radio>
-            <br/>
-            <b-form-radio value='4'>Đã có kinh nghiệm giảng dạy online</b-form-radio>
+            <b-form-radio value="1">Chưa từng có hoạt động giảng dạy, chỉ hướng dẫn nhân viên hoặc chỉ có kinh nghiệm trong nghề....</b-form-radio>
+            <br>
+            <b-form-radio value="2">Đã từng dạy trực tiếp, nhưng không phải giảng viên chính thức</b-form-radio>
+            <br>
+            <b-form-radio value="3">Dạy chuyên nghiệp tại các trường lớp</b-form-radio>
+            <br>
+            <b-form-radio value="4">Đã có kinh nghiệm giảng dạy online</b-form-radio>
           </b-form-radio-group>
         </b-form-group>
       </div>
@@ -37,7 +37,7 @@
     </div>
     <div class="w100 content_center">
       <b-button class="btn_te_reg mr-2" @click="before()">Trước đó</b-button>
-      <b-button class="btn_te_reg" @click="continueForm()" :disabled="!status">Tiếp theo</b-button>
+      <b-button class="btn_te_reg" :disabled="isDisabled" @click="continueForm()">Tiếp theo</b-button>
     </div>
   </div>
 </template>
@@ -48,6 +48,15 @@ export default {
     return {
       selected: '1',
       status: null
+    }
+  },
+  computed: {
+    isDisabled() {
+      if (this.status === 'accepted') {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {

@@ -5,22 +5,21 @@
         <!-- Image and text -->
         <b-navbar variant="faded" type="light">
           <b-navbar-brand class="text_nav" href="/">
-            Home
+            Trang chủ
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             >
           </b-navbar-brand>
           <b-navbar-brand class="text_nav" href="/">
-            Profile & Settings
+            Thông tin cá nhân
           </b-navbar-brand>
         </b-navbar>
       </div>
       <div class="mt-3">
-        <h1>Profile & Settings</h1>
+        <h1>Thông tin cá nhân</h1>
         <div class="nav_content mt-4">
           <b-nav tabs fill style="margin-left: 0px; color: white;">
-            <b-nav-item class="text-white" active>About</b-nav-item>
-            <b-nav-item class="text-white" @click="redirectToMyTransactions()">My Orders</b-nav-item>
+            <b-nav-item class="text-white" active>Giới thiệu</b-nav-item>
           </b-nav>
         </div>
         <div style="display: flex;" class="mt-3">
@@ -28,13 +27,13 @@
             <form>
               <div style="width: 100%; display: flex; align-items: center;">
                 <div class="mb-3 mr-2" style="border-bottom: 2px solid #feda6a; width: 45%;">
-                  <label for="inputFirstName" class="form-label" style="font-size: 13px; opacity: 0.5;">First Name</label>
+                  <label for="inputFirstName" class="form-label" style="font-size: 13px; opacity: 0.5;">Họ</label>
                   <div>
                     <input v-model="profile.first_name" type="text" class="form-control form_input" required>
                   </div>
                 </div>
                 <div class="mb-3 ml-2" style="border-bottom: 2px solid #feda6a; width: 45%;">
-                  <label for="inputLastName" class="form-label" style="font-size: 13px; opacity: 0.5;">Last Name</label>
+                  <label for="inputLastName" class="form-label" style="font-size: 13px; opacity: 0.5;">Tên</label>
                   <div>
                     <input v-model="profile.last_name" type="text" class="form-control form_input" required>
                   </div>
@@ -42,7 +41,7 @@
               </div>
               <div style="width: 100%; display: flex; align-items: center;">
                 <div class="mb-3 mr-2" style="border-bottom: 2px solid #feda6a; width: 45%;">
-                  <label for="inputEmail" class="form-label" style="font-size: 13px; opacity: 0.5;">Gender</label>
+                  <label for="inputEmail" class="form-label" style="font-size: 13px; opacity: 0.5;">Giới tính</label>
                   <div>
                     <select v-model="profile.gender" class="form-control form_input" style="background: none;border:none; color: white;" aria-label="Default select example">
                       <option v-for="(gender, index) in genderOptions" :key="index" :value="gender.value" style="background-color: #1D1E22;">{{ gender.text }}</option>
@@ -50,13 +49,13 @@
                   </div>
                 </div>
                 <div class="mb-3 ml-2" style="border-bottom: 2px solid #feda6a; width: 45%;">
-                  <label for="inputPhone" class="form-label" style="font-size: 13px; opacity: 0.5;">Phone number</label>
+                  <label for="inputPhone" class="form-label" style="font-size: 13px; opacity: 0.5;">Số điện thoại</label>
                   <input id="inputPhone" v-model="profile.phone_number" type="text" class="form-control form_input" required>
                 </div>
               </div>
               <div style="width: 100%; display: flex; align-items: center;">
                 <div class="mb-3 mr-2" style="border-bottom: 2px solid #feda6a; width: 45%;">
-                  <label for="inputEmail" class="form-label" style="font-size: 13px; opacity: 0.5;">Date of birth</label>
+                  <label for="inputEmail" class="form-label" style="font-size: 13px; opacity: 0.5;">Ngày sinh</label>
                   <div>
                     <b-input-group class="mb-3">
                       <b-form-input
@@ -82,12 +81,12 @@
                   </div>
                 </div>
                 <div class="mb-3 ml-2 d_flex" style="width: 45%; align-items: center;">
-                  <b-button pill block variant="outline-primary" @click="openFormChangePassword">Change Password</b-button>
+                  <b-button pill block variant="outline-primary" @click="openFormChangePassword">Đổi mật khẩu</b-button>
                 </div>
               </div>
               <div style="width: 100%; display: flex; align-items: center;">
                 <div class="mb-3 mr-2" style="width: 45%;">
-                  <b-button pill block style="background-color: #FEDA6A; color: black;" @click="onUpdateUser">SAVE</b-button>
+                  <b-button pill block style="background-color: #FEDA6A; color: black;" @click="onUpdateUser">Lưu thay đổi</b-button>
                 </div>
               </div>
             </form>
@@ -97,7 +96,7 @@
               <b-img width="200" height="200" style="border: 3px solid #feda6a; width: 200px; height: 200px;" rounded="circle" :src="profile.url_avatar" />
             </div>
             <div class="mt-2">
-              <label for="formFile" class="form-label"> <p style="color: #feda6a; cursor: pointer; margin-top: 14px; text-decoration: underline;">Upload Image</p></label>
+              <label for="formFile" class="form-label"> <p style="color: #feda6a; cursor: pointer; margin-top: 14px; text-decoration: underline;">Cập nhật ảnh đại diện</p></label>
               <b-form-file id="formFile" v-model="image" accept=".jpg, .png, .gif, .jfif" style="display: none;" />
             </div>
           </div>
@@ -105,15 +104,15 @@
       </div>
     </div>
     <b-modal
-        id="modal-rating"
-        ref="modal"
-        v-model="isModalFormOpen"
-        title="Change Password"
-        hide-footer
-        hide-header-close
-      >
-        <change-password @cancelForm="cancelForm" />
-      </b-modal>
+      id="modal-rating"
+      ref="modal"
+      v-model="isModalFormOpen"
+      title="Đổi mật khẩu"
+      hide-footer
+      hide-header-close
+    >
+      <change-password @cancelForm="cancelForm" />
+    </b-modal>
   </div>
 </template>
 
@@ -172,7 +171,7 @@ export default {
       this.$swal({
         toast: true,
         icon: 'success',
-        title: 'Your Information Updated Successfully!',
+        title: 'Cập nhật thông tin thành công!',
         background: '#28A745',
         animation: false,
         position: 'bottom-start',

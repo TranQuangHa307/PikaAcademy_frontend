@@ -2,14 +2,14 @@
   <div>
     <div>
       <div class="flex" style="align-items: center;">
-        <h1 class="flex1" style="text-transform: uppercase;">Chapter</h1>
+        <h1 class="flex1" style="text-transform: uppercase;">Chương</h1>
         <div>
           <b-button class="float-right" variant="primary" @click.prevent="onOpenModal('chapter', true)">+</b-button>
         </div>
       </div>
-      <div class="chapter_items" v-for="(chapter, index) in chapters" :key="index">
+      <div v-for="(chapter, index) in chapters" :key="index" class="chapter_items">
         <div class="flex chapter c_pointer">
-          <div class="chapter_title flex1" @click="selectedChapter(index)"><span>Chapter {{ index + 1 }}: {{ chapter.name }}</span></div>
+          <div class="chapter_title flex1" @click="selectedChapter(index)"><span>Chương {{ index + 1 }}: {{ chapter.name }}</span></div>
           <div class="flex">
             <b-button class="mr-1 btn_action" variant="primary" @click.prevent="onOpenModal('session', true, chapter)">+</b-button>
             <button class="btn btn-info mr-1 btn_action" @click.prevent="onOpenModal('chapter', false, chapter)"><b-icon icon="pencil-fill" variant="white" /></button>
@@ -44,6 +44,7 @@
         id="modal-create-chapter"
         ref="modal"
         v-model="isModalFormOpen"
+        size="xl"
         :title="titleForm"
         hide-footer
         hide-header-close
@@ -69,24 +70,25 @@
         v-if="isModelDeleteOpen"
         id="modal-delete-category"
         v-model="isModelDeleteOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelDelete()"
         @ok="onConfirmDeleteData()"
-      >Are you sure you want to remove {{ modal }}: {{ selectedDelete.name }}?</b-modal>
+      >Bạn có chắc chắn muốn xoá bỏ {{ modal }}: {{ selectedDelete.name }}?</b-modal>
     </div>
   </div>
 </template>
 <script>
 import { getChapterList } from '../../api/course'
+import { uploadFile } from '../../api/common'
 import { addChapter, updateChapter, deleteChapter } from '../../api/chapter'
-import { addSession, updateSession, deleteSession } from '../../api/session'
+import { addSession, updateSession, deleteSession, getListExercise } from '../../api/session'
 import ModalFormChapter from '../admin/modal/ModalFormChapter.vue'
 import ModalFormSession from '../admin/modal/ModalFormSession.vue'
 export default {
@@ -116,15 +118,15 @@ export default {
     this.chapters = await getChapterList(this.courseId)
   },
   methods: {
-    onOpenModal(modal, isAdd, data) {
+    async onOpenModal(modal, isAdd, data) {
       this.modal = modal
       this.modalOpts.isAdd = isAdd
-      this.handleData(modal, isAdd, data)
+      await this.handleData(modal, isAdd, data)
       this.isModalFormOpen = true
     },
-    handleData(modal, isAdd, data) {
+    async handleData(modal, isAdd, data) {
       if (modal === 'chapter') {
-        this.titleForm = isAdd ? 'Create chapter' : 'Update chaper'
+        this.titleForm = isAdd ? 'Tạo chương' : 'Cập nhật chương'
         this.modalOpts.data = {
           'id': isAdd ? 0 : data.id,
           'name': isAdd ? null : data.name,
@@ -132,7 +134,7 @@ export default {
           'updated_by': this.$store.state.Admin.myInfo.user_name
         }
       } else {
-        this.titleForm = isAdd ? 'Create session' : 'Update session'
+        this.titleForm = isAdd ? 'Tạo bài học' : 'Cập nhật bài học'
         this.modalOpts.data = {
           'id': isAdd ? 0 : data.id,
           'name': isAdd ? null : data.name,
@@ -141,7 +143,8 @@ export default {
           'time': isAdd ? null : data.time,
           'chapter_id': isAdd ? data.id : data.chapter_id,
           'created_by': this.$store.state.Admin.myInfo.user_name,
-          'updated_by': this.$store.state.Admin.myInfo.user_name
+          'updated_by': this.$store.state.Admin.myInfo.user_name,
+          'exercise': isAdd ? [] : await getListExercise(data.id)
         }
       }
     },
@@ -155,7 +158,7 @@ export default {
           'updated_by': this.$store.state.Admin.myInfo.user_name
         }
         await addChapter(body)
-        this.res('success', 'Chapter successfully created.')
+        this.res('success', 'Tạo chương thành công.')
         this.chapters = await getChapterList(this.courseId)
       } catch (error) {
         this.res('danger', error.response?.data?.message || error.message)
@@ -167,7 +170,7 @@ export default {
       this.$store.commit('SET_LOADING')
       try {
         await updateChapter(data)
-        this.res('success', 'Chapter successfully updated.')
+        this.res('success', 'Cập nhật chương thành công.')
         this.chapters = await getChapterList(this.courseId)
       } catch (error) {
         this.res('danger', error.response?.data?.message || error.message)
@@ -177,6 +180,13 @@ export default {
     },
     onAddSession: async function(data) {
       try {
+        if (data.exerciseArr.length > 0) {
+          for (let i = 0; i < data.exerciseArr.length; i++) {
+            if (data.exerciseArr[i].type) {
+              data.exerciseArr[i].link = await uploadFile(data.exerciseArr[i].link)
+            }
+          }
+        }
         const body = {
           'name': data.name.trim(),
           'url_video': data.url_video,
@@ -184,10 +194,11 @@ export default {
           'time': data.time,
           'about': data.about,
           'created_by': this.$store.state.Admin.myInfo.user_name,
-          'updated_by': this.$store.state.Admin.myInfo.user_name
+          'updated_by': this.$store.state.Admin.myInfo.user_name,
+          'exercise': data.exerciseArr
         }
         await addSession(body)
-        this.res('success', 'Session successfully created.')
+        this.res('success', 'Tạo bài học thành công.')
         this.chapters = await getChapterList(this.courseId)
       } catch (error) {
         this.res('danger', error.response?.data?.message || error.message)
@@ -198,8 +209,16 @@ export default {
     onEditSession: async function(data) {
       this.$store.commit('SET_LOADING')
       try {
+        if (data.exerciseArr.length > 0) {
+          for (let i = 0; i < data.exerciseArr.length; i++) {
+            if (data.exerciseArr[i].type) {
+              data.exerciseArr[i].link = await uploadFile(data.exerciseArr[i].link)
+            }
+          }
+        }
+        data.exercise = data.exerciseArr
         await updateSession(data)
-        this.res('success', 'Session successfully updated.')
+        this.res('success', 'Cập nhật bài học thành công.')
         this.chapters = await getChapterList(this.courseId)
       } catch (error) {
         this.res('danger', error.response?.data?.message || error.message)
@@ -224,10 +243,10 @@ export default {
       try {
         if (this.modal === 'chapter') {
           await deleteChapter(this.selectedDelete.id)
-          this.res('success', 'Chapter successfully deleted.')
+          this.res('success', 'Xoá chương thành công.')
         } else {
           await deleteSession(this.selectedDelete.id)
-          this.res('success', 'Session successfully deleted.')
+          this.res('success', 'Xoá bài học thành công.')
         }
       } catch (error) {
         this.res('danger', error.response?.data?.message || error.message)

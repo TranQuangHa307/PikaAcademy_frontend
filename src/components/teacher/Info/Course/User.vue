@@ -4,11 +4,11 @@
       <ul class="te_info_list_item">
         <li v-for="(item, index) in table.data" :key="index">
           <div class="mr-2">
-            <b-img :src="item.url_avatar"></b-img>
+            <b-img :src="item.url_avatar" />
           </div>
           <div>
             <h5>{{ item.first_name }} {{ item.last_name }}</h5>
-            <span><b>Buyed at:</b> {{ convertTSToDateTime(item.buyed_at) }}</span>
+            <span><b>Ngày đăng ký:</b> {{ convertTSToDateTime(item.buyed_at) }}</span>
           </div>
         </li>
       </ul>
@@ -44,6 +44,7 @@ import { getUserListBuyCourse } from '../../../../api/course.js'
 export default {
   props: {
     elmntId: {
+      type: Number,
       default: null
     }
   },

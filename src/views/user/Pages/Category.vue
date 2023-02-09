@@ -5,13 +5,13 @@
         <!-- Image and text -->
         <b-navbar variant="faded" type="light">
           <b-navbar-brand class="text_nav" href="/">
-            Home
+            Trang chủ
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             <b-icon icon="chevron-right" style="color: #d4d4dc;" scale="0.75" />
           </b-navbar-brand>
           <b-navbar-brand class="text_nav" href="/">
-            Interests
+            Khoá học
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             <b-icon icon="chevron-right" style="color: #d4d4dc;" scale="0.75" />
@@ -31,7 +31,7 @@
               <div class="card card_interests" :style="{ backgroundImage: 'url(' + item.url_image + '), url('+ urlImgDefault + ')'}">
                 <div class="card-body">
                   <h2>{{ item.name }}</h2>
-                  <p>{{ item.number_course }} courses</p>
+                  <p>{{ item.course }} Khoá học</p>
                 </div>
               </div>
             </router-link>

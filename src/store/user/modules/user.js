@@ -1,10 +1,9 @@
 import { getRole, getToken, setToken, removeToken } from '../../../utils/auth'
-import { login, getUserMe, getCartUser, loginGoogle } from '../../../api/user'
+import { login, getUserMe, loginGoogle } from '../../../api/user'
 const state = () => ({
   token: getToken(),
   role: getRole(),
   myInfo: null,
-  myCart: null,
   isLoading: false,
   searchKey: null
 })
@@ -19,20 +18,11 @@ const mutations = {
   SET_MY_INFO: (state, myInfo) => {
     state.myInfo = myInfo
   },
-  SET_MY_CART: (state, myCart) => {
-    state.myCart = myCart
-  },
   SET_LOADING: (state) => {
     state.isLoading = true
   },
   SET_DONE_LOADING: (state) => {
     state.isLoading = false
-  },
-  ADD_CART: (state) => {
-    state.myCart.cart_count += 1
-  },
-  REMOVE_CART: (state) => {
-    state.myCart.cart_count -= 1
   }
 }
 
@@ -56,14 +46,9 @@ const actions = {
       await storeAuthentication(commit, data)
       try {
         const userInfo = await getUserMe()
-        if (userInfo) {
-          const userCart = await getCartUser(userInfo.id)
-          commit('SET_MY_CART', userCart)
-        }
         commit('SET_MY_INFO', userInfo)
       } catch (e) {
         commit('SET_MY_INFO', {})
-        commit('SET_MY_CART', {})
       }
       return true
     } catch (e) {
@@ -78,14 +63,9 @@ const actions = {
       await storeAuthentication(commit, data)
       try {
         const userInfo = await getUserMe()
-        if (userInfo) {
-          const userCart = await getCartUser(userInfo.id)
-          commit('SET_MY_CART', userCart)
-        }
         commit('SET_MY_INFO', userInfo)
       } catch (e) {
         commit('SET_MY_INFO', {})
-        commit('SET_MY_CART', {})
       }
       return true
     } catch (e) {
@@ -96,7 +76,6 @@ const actions = {
   logout({ commit }) {
     commit('SET_TOKEN', '')
     commit('SET_MY_INFO', null)
-    commit('SET_MY_CART', null)
     removeToken()
   }
 }

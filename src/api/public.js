@@ -103,3 +103,26 @@ export function getTotalFollowers(teacherId) {
   })
 }
 
+export function getRatingByCourse(params, courseId) {
+  return request({
+    url: `api/course/${courseId}/ratings`,
+    method: 'get',
+    params
+  })
+}
+
+export function getCommentByCourse(params, courseId) {
+  return request({
+    url: `api/course/${courseId}/comments`,
+    method: 'get',
+    params
+  })
+}
+
+export function getReplyComment(params, commentId) {
+  return request({
+    url: `api/course/comment/${commentId}/reply`,
+    method: 'get',
+    params
+  })
+}

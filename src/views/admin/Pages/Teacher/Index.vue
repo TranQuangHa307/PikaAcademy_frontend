@@ -2,32 +2,32 @@
   <div>
     <div class="table-users">
       <div class="header">
-        <span>Teacher</span>
+        <span>Giáo viên</span>
         <router-link tag="button" :to="{ name: 'addTeacher'}" class="float-right btn btn-primary">+</router-link>
         <!-- <b-button v-b-modal.modal-create-interest class="float-right" variant="primary" @click="onOpenModal(true)">+</b-button> -->
       </div>
 
       <table cellspacing="0" style="border-bottom: 1px solid #FEC415;">
         <colgroup>
-          <col width="5%"/>
-          <col width="15%"/>
-          <col width="15%"/>
-          <col width="15%"/>
-          <col width="10%"/>
-          <col width="10%"/>
-          <col width="10%"/>
-          <col width="20%"/>
+          <col width="5%">
+          <col width="15%">
+          <col width="15%">
+          <col width="15%">
+          <col width="10%">
+          <col width="10%">
+          <col width="10%">
+          <col width="20%">
         </colgroup>
         <thead>
           <tr>
             <th>Id</th>
-            <th>Full Name</th>
-            <th>Image</th>
+            <th>Họ tên</th>
+            <th>Ảnh</th>
             <th>Email</th>
-            <th>Date of birth</th>
-            <th>Gender</th>
-            <th>Phone number</th>
-            <th>Action</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>Số điện thoại</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -41,7 +41,7 @@
             <td>{{ teacher.phone_number }}</td>
             <td style="width: 120px;">
               <div>
-                <b-button v-if="!teacher.is_active" variant="outline-success" class="mr-2" @click="onActive(teacher.id)">Active</b-button>
+                <b-button v-if="!teacher.is_active" variant="outline-success" class="mr-2" @click="onActive(teacher.id)">Kích hoạt</b-button>
                 <router-link tag="button" :to="{ name: 'teacherDetail', params: { id: teacher.id }}" class="btn btn-info mr-1 size_75"><b-icon icon="pencil-fill" variant="white" /></router-link>
                 <button class="btn btn-danger size_75" @click.prevent="onDeleteData(teacher)"><b-icon icon="trash-fill" variant="white" /></button>
               </div>
@@ -78,34 +78,34 @@
         v-if="isModelDeleteOpen"
         id="modal-delete-interests"
         v-model="isModelDeleteOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận lại"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ bỏ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelDelete()"
         @ok="onConfirmDeleteData()"
-      >Are you sure you want to remove teacher {{ selectedDelete.id }}?</b-modal>
+      >Bạn có chắc chắn muốn xoá giáo viên {{ selectedDelete.id }}?</b-modal>
     </div>
     <div>
       <b-modal
         v-if="isModelActiveOpen"
         id="modal-active"
         v-model="isModelActiveOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ bỏ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelActive()"
         @ok="onConfirmActive()"
-      >Are you sure you want to active teacher {{ selectedActive }}?</b-modal>
+      >Bạn có chắc chắn muốn kích hoạt tài khoản giáo viên {{ selectedActive }}?</b-modal>
     </div>
   </div>
 </template>
@@ -144,7 +144,7 @@ export default {
       this.$store.commit('SET_LOADING')
       try {
         await activeTeacher(this.selectedActive)
-        this.showResAction('success', 'Teacher successfully active.')
+        this.showResAction('success', 'Kích hoạt tài khoản giáo viên thành công.')
         this.updateNoti()
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
@@ -177,7 +177,7 @@ export default {
       this.$store.commit('Admin/SET_LOADING')
       try {
         await deleteTeacher(this.selectedDelete.id)
-        this.showRes('success', 'Teacher successfully deleted.')
+        this.showRes('success', 'Xoá giáo viên thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       } finally {

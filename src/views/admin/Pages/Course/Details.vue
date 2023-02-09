@@ -3,15 +3,16 @@
   <div>
     <div class="ad_nav_tabs">
       <ul>
-        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Profile</li>
-        <li :class="{ is_active: comName === 'Overview' }" @click="setCom('Overview')">Overview</li>
-        <li :class="{ is_active: comName === 'Student' }" @click="setCom('Student')">Students</li>
-        <li :class="{ is_active: comName === 'Like' }" @click="setCom('Like')">Likes</li>
-        <li :class="{ is_active: comName === 'Rating' }" @click="setCom('Rating')">Rating</li>
+        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Thông tin</li>
+        <li :class="{ is_active: comName === 'Overview' }" @click="setCom('Overview')">Tổng quan</li>
+        <li :class="{ is_active: comName === 'Student' }" @click="setCom('Student')">Học sinh</li>
+        <li :class="{ is_active: comName === 'Like' }" @click="setCom('Like')">Lượt thích</li>
+        <li :class="{ is_active: comName === 'Rating' }" @click="setCom('Rating')">Đánh giá</li>
+        <li :class="{ is_active: comName === 'Comment' }" @click="setCom('Comment')">Bình luận</li>
       </ul>
     </div>
     <div>
-      <component :is="comNameComputed" :elmntId="comDataComputed" />
+      <component :is="comNameComputed" :elmnt-id="comDataComputed" />
     </div>
   </div>
 </template>
@@ -22,13 +23,15 @@ import Overview from '../../../../components/admin/Course/Overview'
 import Student from '../../../../components/admin/Course/Student'
 import Like from '../../../../components/admin/Course/Like'
 import Rating from '../../../../components/admin/Course/Rating'
+import Comment from '../../../../components/admin/Course/Comment'
 export default {
   components: {
     Details,
     Overview,
     Student,
     Like,
-    Rating
+    Rating,
+    Comment
   },
   data() {
     return {
@@ -43,6 +46,21 @@ export default {
     comDataComputed() {
       if (this.elmntId) return parseInt(this.elmntId)
       else return 0
+    }
+  },
+  watch: {
+    $route(to, from) {
+      const name = to.query.name
+      this.elmntId = to.params.id
+      if (name) {
+        this.setCom(name)
+      }
+    }
+  },
+  created() {
+    var name = this.$route.query.name
+    if (name) {
+      this.setCom(name)
     }
   },
   methods: {

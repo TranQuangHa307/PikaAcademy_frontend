@@ -124,3 +124,10 @@ export function activeTeacher(teacherId) {
   })
 }
 
+export function getCourseListByTeacherId(params) {
+  return request({
+    url: `/teacher/${params.teacher_id}/courses`,
+    method: 'get',
+    params
+  })
+}

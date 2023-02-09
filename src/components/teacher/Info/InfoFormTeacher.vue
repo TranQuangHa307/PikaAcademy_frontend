@@ -12,11 +12,11 @@
       >
         <b-form-input
           id="input-full-name"
-          type="text"
           v-model="teacher.full_name"
+          type="text"
           :disabled="!isEdit"
           required
-        ></b-form-input>
+        />
       </b-form-group>
       <b-form-group
         id="input-group-email"
@@ -25,11 +25,11 @@
       >
         <b-form-input
           id="input-email"
-          type="email"
           v-model="teacher.email"
+          type="email"
           :disabled="!isEdit"
           required
-        ></b-form-input>
+        />
       </b-form-group>
       <b-form-group
         id="input-group-phone-number"
@@ -38,11 +38,11 @@
       >
         <b-form-input
           id="input-phone-number"
-          type="text"
           v-model="teacher.phone_number"
+          type="text"
           :disabled="!isEdit"
           required
-        ></b-form-input>
+        />
       </b-form-group>
       <b-form-group
         id="input-group-genre"
@@ -60,11 +60,11 @@
       >
         <b-form-input
           id="input-date-of-birth"
-          type="date"
           v-model="teacher.date_of_birth"
+          type="date"
           :disabled="!isEdit"
           required
-        ></b-form-input>
+        />
       </b-form-group>
       <b-form-group
         id="input-group-avatar"

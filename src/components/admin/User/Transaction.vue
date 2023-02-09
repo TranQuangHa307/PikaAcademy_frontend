@@ -8,8 +8,6 @@
               <span>{{ transaction.code }}</span>
             </div>
             <div class="w30 txt_center">
-              <span><b>Total: </b>{{ getPrice(transaction.total) }}</span>
-              <br/>
               <span><b>Time: </b>{{ convertTSToDateTime(transaction.time) }}</span>
             </div>
             <div class="w30 txt_center">

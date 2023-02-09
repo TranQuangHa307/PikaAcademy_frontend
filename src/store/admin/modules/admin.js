@@ -1,4 +1,4 @@
-import { getRole, getToken, setToken } from '../../../utils/auth'
+import { getRole, getToken, setToken, removeToken } from '../../../utils/auth'
 import { login, getAdminInfo } from '../../../api/admin'
 const state = () => ({
   token: getToken(),
@@ -59,6 +59,11 @@ const actions = {
   getInfo({ commit }, state) {
     if (state.myInfo) return state.myInfo
     else return null
+  },
+  logout({ commit }) {
+    commit('SET_TOKEN', '')
+    commit('SET_MY_INFO', null)
+    removeToken()
   }
 }
 

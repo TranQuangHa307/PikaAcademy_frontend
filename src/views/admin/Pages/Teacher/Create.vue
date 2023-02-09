@@ -4,7 +4,7 @@
       <div class="container">
         <form ref="form" @submit.stop.prevent="handleSubmit">
           <b-form-group
-            label="Full Name"
+            label="Họ tên"
             label-for="fullname-input"
           >
             <b-form-input
@@ -14,7 +14,7 @@
             <p v-if="errors.full_name" class="error_valid">{{ errors.full_name }}</p>
           </b-form-group>
           <div class="form-group">
-            <label for="date-of-birth-input">Date of birth</label>
+            <label for="date-of-birth-input">Ngày sinh</label>
             <date-picker :data="teacher.date_of_birth" @setDate="setDate($event)" />
             <p v-if="errors.date_of_birth" class="error_valid">{{ errors.date_of_birth }}</p>
           </div>
@@ -30,14 +30,14 @@
             <p v-if="errors.email" class="error_valid">{{ errors.email }}</p>
           </b-form-group>
           <b-form-group
-            label="Avatar"
+            label="Ảnh đại diện"
             label-for="avatar-input"
           >
             <upload-image :url-image="teacher.url_avatar" @setImage="setImage($event)" />
             <p v-if="errors.url_avatar" class="error_valid">{{ errors.url_avatar }}</p>
           </b-form-group>
           <b-form-group
-            label="Gender"
+            label="Giới tính"
             label-for="gender-select"
           >
             <b-form-select
@@ -47,7 +47,7 @@
             <p v-if="errors.gender" class="error_valid">{{ errors.gender }}</p>
           </b-form-group>
           <b-form-group
-            label="Phone number"
+            label="Số điện thoại"
             label-for="phone-number-input"
           >
             <b-form-input
@@ -57,13 +57,13 @@
             <p v-if="errors.phone_number" class="error_valid">{{ errors.phone_number }}</p>
           </b-form-group>
           <div class="form-group">
-            <label for="about-input">About</label>
+            <label for="about-input">Giới thiệu</label>
             <ckeditor v-model="teacher.about" :editor="editor" tag-name="textarea" />
           </div>
           <p v-if="errors.about" class="error_valid">{{ errors.about }}</p>
           <hr>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
       </div>
@@ -97,10 +97,10 @@ export default {
         about: null
       },
       genderOptions: [
-        { 'value': null, text: 'Select gender' },
-        { 'value': 'not_specific', 'text': 'Not Specific' },
-        { 'value': 'male', 'text': 'Male' },
-        { 'value': 'female', 'text': 'Female' }
+        { 'value': null, text: 'Chọn giới tính' },
+        { 'value': 'not_specific', 'text': 'Không xác định' },
+        { 'value': 'male', 'text': 'Nam' },
+        { 'value': 'female', 'text': 'Nữ' }
       ],
       image: null,
       editor: ClassicEditor

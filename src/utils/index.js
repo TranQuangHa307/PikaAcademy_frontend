@@ -1,11 +1,3 @@
-export function convertPrice(price, discount = 0, isFormat = true) {
-  if (discount) {
-    price = price * ((100 - discount) / 100)
-  }
-  if (isFormat) price = new Intl.NumberFormat('de-DE').format(price)
-  return price
-}
-
 export function convertDateTime(time) {
   const date = new Date(time * 1000).toLocaleString('VN', { hour12: false })
   return date

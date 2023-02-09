@@ -1,14 +1,14 @@
 <template>
   <div class="container-fluid">
     <div class="pt-5 pb-5" style="width: 33%; margin: auto; color: white;">
-      <h1>Sign up</h1>
+      <h1>Đăng ký</h1>
       <div class="mt-5">
         <div>
           <form @submit.prevent="onSubmit">
             <div>
               <div class="p-2">
                 <div class="mb-3">
-                  <label for="inputEmail" class="form-label">Email address</label>
+                  <label for="inputEmail" class="form-label">Địa chỉ Email</label>
                   <div>
                     <input v-model="user.email" name="email" type="email" placeholder="mail@example.com" class="form-control form_input" aria-describedby="emailHelp">
                     <p v-if="errors.email" class="error_valid">
@@ -17,7 +17,7 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="inputPassword" class="form-label">Password</label>
+                  <label for="inputPassword" class="form-label">Mật khẩu</label>
                   <input id="inputPassword" v-model="user.hash_pwd" name="password" type="password" class="form-control form_input">
                   <p v-if="errors.hash_pwd" class="error_valid">
                     {{ errors.hash_pwd }}
@@ -26,19 +26,19 @@
               </div>
             </div>
             <div>
-              <h2>Profile</h2>
+              <h2>Thông tin cá nhân</h2>
               <div class="p-2">
                 <div class="form-group">
-                  <label for="inputFullName" class="form-label">Full Name</label>
+                  <label for="inputFullName" class="form-label">Họ Tên</label>
                   <div class="flex">
                     <div class="flex1">
-                      <input v-model="user.first_name" name="firstName" type="text" class="form-control mr-2" placeholder="First Name">
+                      <input v-model="user.first_name" name="firstName" type="text" class="form-control mr-2" placeholder="Họ">
                       <p v-if="errors.first_name" class="error_valid">
                         {{ errors.first_name }}
                       </p>
                     </div>
                     <div class="flex1">
-                      <input v-model="user.last_name" name="lastName" type="text" class="form-control ml-2" placeholder="Last Name">
+                      <input v-model="user.last_name" name="lastName" type="text" class="form-control ml-2" placeholder="Tên">
                       <p v-if="errors.last_name" class="error_valid">
                         {{ errors.last_name }}
                       </p>
@@ -46,12 +46,12 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="inputBirthday" class="form-label">Birthday</label>
+                  <label for="inputBirthday" class="form-label">Ngày sinh</label>
                   <date-picker :data="user.date_of_birth" @setDate="setDate($event)" />
                   <p v-if="errors.date_of_birth" class="error_valid">{{ errors.date_of_birth }}</p>
                 </div>
                 <div class="form-group">
-                  <label for="inputGender" class="form-label">Gender</label>
+                  <label for="inputGender" class="form-label">Giới tính</label>
                   <b-form-radio-group
                     v-model="user.gender"
                     :options="options"
@@ -62,12 +62,12 @@
                   <p v-if="errors.gender" class="error_valid">{{ errors.gender }}</p>
                 </div>
                 <div class="form-group">
-                  <label for="inputPhone" class="form-label">Phone Number</label>
+                  <label for="inputPhone" class="form-label">Số điện thoại</label>
                   <input v-model="user.phone_number" name="phoneNumber" type="text" class="form-control" placeholder="Phone Number">
                   <p v-if="errors.phone_number" class="error_valid">{{ errors.phone_number }}</p>
                 </div>
                 <div class="form-group">
-                  <label for="inputAvatar" class="form-label">Avatar</label>
+                  <label for="inputAvatar" class="form-label">Ảnh đại diện</label>
                   <upload-img :url-image="user.url_avatar" @setImage="setImage($event)" />
                   <p v-if="errors.url_avatar" class="error_valid">{{ errors.url_avatar }}</p>
                 </div>
@@ -78,15 +78,15 @@
                 v-model="selectedAgreed"
                 size="lg"
               >
-                Agreed with term&conditions
+                Đồng ý với điều khoản & điều kiện
               </b-form-checkbox>
             </div>
             <button type="submit" class="form_button" :class="{is_active: selectedAgreed}">
-              <span class="text_btn">Sign up</span>
+              <span class="text_btn">Đăng ký</span>
             </button>
           </form>
           <div class="text-center">
-            <p class="text_p">Already have an account? <router-link tag="span" class="text_span" :to="{ name: 'loginUser' }">Sign in</router-link></p>
+            <p class="text_p">Nếu bạn đã có sẵn tài khoản? <router-link tag="span" class="text_span" :to="{ name: 'loginUser' }">Đăng nhập</router-link></p>
           </div>
         </div>
       </div>
@@ -121,9 +121,9 @@ export default {
       image: null,
       selectedAgreed: false,
       options: [
-        { 'value': 'not_specific', 'text': 'Not Specific' },
-        { 'value': 'male', 'text': 'Male' },
-        { 'value': 'female', 'text': 'Female' }
+        { 'value': 'not_specific', 'text': 'Không xác định' },
+        { 'value': 'male', 'text': 'Nam' },
+        { 'value': 'female', 'text': 'Nữ' }
       ]
     }
   },
@@ -178,10 +178,10 @@ export default {
         await signUp(this.user)
         this.$swal({
           'icon': 'success',
-          'title': 'Sign up Successfully',
+          'title': 'Đăng ký thành công',
           background: '#1D1E22',
           html:
-            '<p style="color: #feda6a;">We have sent an email to <br/>' +
+            '<p style="color: #feda6a;">Chúng tôi đã gửi một email tới <br/>' +
             `${this.user.email}</p>`
         }).then((result) => {
           this.$router.push({

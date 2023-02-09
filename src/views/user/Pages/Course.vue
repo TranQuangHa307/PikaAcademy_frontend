@@ -31,7 +31,7 @@
                 <h1>{{ dataView.name }}</h1>
               </div>
               <div class="w50 txt_right">
-                <b-button variant="danger" v-if="!course.user_purchase_course_is_rating && course.user_purchase_course_id" @click="openFormRating()">Rate</b-button>
+                <b-button v-if="!course.user_purchase_course_is_rating && course.user_purchase_course_id" variant="danger" @click="openFormRating()">Đánh giá</b-button>
               </div>
             </div>
             <p class="text_description_course" v-html=" course.description" />
@@ -41,34 +41,34 @@
           </div>
           <div class="mt-5" style="display: flex; font-size: 0.875rem;">
             <div class="mr-5" style="display: flex;">
-              <p class="pr-3"><b-icon icon="clock-fill" style="color: white;" /><span class="ml-2">{{ timeConvert(dataView.totalTime) }}</span></p>
               <p class="pr-3"><b-icon icon="play-fill" style="color: white;" /><span class="ml-2">{{ course.purchases }}</span></p>
               <p class="pr-3"><b-icon icon="star-fill" style="color: white;" /><span class="ml-2">{{ ratingNumber }}</span></p>
             </div>
             <div style="display: flex;">
-              <p class="mr-3"><span>Created: {{ dateConvert(dataView.createdAt) }}</span></p>
-              <p><span>Updated: {{ dateConvert(dataView.updatedAt) }}</span></p>
+              <p class="mr-3"><span>Ngày tạo: {{ dateConvert(dataView.createdAt) }}</span></p>
+              <p><span>Ngày cập nhật: {{ dateConvert(dataView.updatedAt) }}</span></p>
             </div>
           </div>
           <div>
             <div class="nav_content">
               <b-nav tabs fill style="margin-left: 0px; color: white;">
-                <b-nav-item class="text-white" :active="comData.comName==='About'" @click="setNavCourse('About', dataView.about)">About</b-nav-item>
-                <b-nav-item v-if="!course.user_purchase_course_id" class="text-white" :active="comData.comName==='Lessons'" @click="setNavCourse('Lessons', course.id)">Lessons</b-nav-item>
-                <!-- <b-nav-item class="text-white">Lession</b-nav-item> -->
-                <b-nav-item class="text-white" :active="comData.comName==='CourseRatings'" @click="setNavCourse('CourseRatings', course.id)">Course Ratings</b-nav-item>
+                <b-nav-item class="text-white" :active="comData.comName==='About'" @click="setNavCourse('About', dataView.about)">Giới thiệu</b-nav-item>
+                <b-nav-item v-if="!course.user_purchase_course_id" class="text-white" :active="comData.comName==='Lessons'" @click="setNavCourse('Lessons', course.id)">Bài học</b-nav-item>
+                <b-nav-item class="text-white" :active="comData.comName==='Comment'" @click="setNavCourse('Comment', course.id)">Bình luận</b-nav-item>
+                <b-nav-item class="text-white" :active="comData.comName==='CourseRatings'" @click="setNavCourse('CourseRatings', course.id)">Đánh giá</b-nav-item>
                 <!-- <b-nav-item class="text-white">Related</b-nav-item> -->
-                <b-nav-item class="text-white" :active=" ['Material', 'Lock'].includes(comData.comName)" @click="setNavCourse('Material', course.id)">Material</b-nav-item>
+                <b-nav-item class="text-white" :active=" ['Material'].includes(comData.comName)" @click="setNavCourse('Material', course.id)">Tài liệu tham khảo</b-nav-item>
+                <b-nav-item class="text-white" :active=" ['Exercise'].includes(comData.comName)" @click="setNavCourse('Exercise', dataView.id)">Bài tập</b-nav-item>
               </b-nav>
             </div>
-            <nav-course :data="comData" />
-            <div>
-              <h5 class="text_title">BENEFITS FROM THE COURSE</h5>
+            <nav-course :data="comData" class="mb-5" />
+            <div class="mt-5">
+              <h5 class="text_title">Lợi ích từ khoá học</h5>
             </div>
             <div v-html="course.result" />
             <hr class="mt-5 mb-5" style="background-color: #feda6a;">
             <div>
-              <h5 class="text_title">ABOUT TEACHER</h5>
+              <h5 class="text_title">Giáo viên</h5>
             </div>
             <div style="display: flex; cursor: pointer;" @click="redirectToteacher(teacher.id)">
               <b-img :src="teacher.url_avatar" rounded="circle" width="80" height="80" alt="Circle image" />
@@ -91,8 +91,8 @@
           <div v-for="(chapter, index) in chapters" :key="index">
             <div class="chapter">
               <div class="div_chapter">
-                <div style="flex: 1 1 auto;" @click="selectedChapter(index)"><span class="title_chapter" :class="{ text_title: show.includes(index) }">Chapter {{ index + 1 }}: {{ chapter.name }}</span></div>
-                <span class="mr-1 text_post">{{ chapter.sessions.length }} Post</span>
+                <div style="flex: 1 1 auto;" @click="selectedChapter(index)"><span class="title_chapter" :class="{ text_title: show.includes(index) }">Chương {{ index + 1 }}: {{ chapter.name }}</span></div>
+                <span class="mr-1 text_post">{{ chapter.sessions.length }} Bài học</span>
                 <b-icon icon="chevron-right" style="color: #feda6a; opacity: 0.5;" />
               </div>
             </div>
@@ -107,7 +107,7 @@
                   <div class="ml-3">
                     <span>{{ session.name }}</span>
                   </div>
-                  <span class="mr-1 text_post" style="margin: auto; min-width: 45px;">{{ timeConvert(session.time) }} min</span>
+                  <!-- <span class="mr-1 text_post" style="margin: auto; min-width: 45px;">{{ timeConvert(session.time) }} min</span> -->
                 </div>
               </div>
             </div>
@@ -118,22 +118,10 @@
             <div class="card-body" :style="{ backgroundImage: 'url(' + course.url_image + ')' }" style="height: 500px; border-radius: 8px 8px 0px 0px; background-size: cover !important;" />
             <div class="card-footer" style="background-color: #2B2F38;">
               <div class="p-2">
-                <div v-if="course.price>0" style="flex: 1 1 auto; justify-content: center;" class="text-center mb-2 items_center">
-                  <span class="mb-0 mr-1" style="color: white; font-size: 28px;font-weight: bold;">{{ convertPrice(course.price, course.discount) }} VND</span>
-                  <span v-if="course.discount" style="margin-bottom: 0;text-decoration-line: line-through;">{{ convertPrice(course.price) }} VND</span>
-                </div>
-                <div v-else class="pt-1 text-center mb-2" style="width: 100%; flex: 1 1 auto; display: flex;align-items: center;"><p class="mb-0" style="color: white; font-size: 28px;font-weight: bold;width: 100%;">FREE</p></div>
+                <div class="pt-1 text-center mb-2" style="width: 100%; flex: 1 1 auto; display: flex;align-items: center;"><p class="mb-0" style="color: white; font-size: 28px;font-weight: bold;width: 100%;">Miễn phí</p></div>
                 <div style="align-items: center; display: flex;">
-                  <b-button v-if="course.price===0" block style="height: 52px; background-color: #feda6a; width: 100%; border-radius: 50rem !important" @click="startCourse(course)">
-                    START
-                  </b-button>
-                  <b-button v-else block style="height: 52px; background-color: #feda6a; width: 100%; border-radius: 50rem !important" @click="addCourseToCart(course, true)">
-                    GET
-                  </b-button>
-                </div>
-                <div v-if="course.price>0" class="mt-2" style="align-items: center; display: flex;">
-                  <b-button block style="height: 52px; background-color: #F05D40; border-radius: 50rem !important" @click.prevent="addCourseToCart(course)">
-                    <b-icon icon="cart-plus" aria-hidden="true" /> <span>Add to cart</span>
+                  <b-button block style="height: 52px; background-color: #feda6a; width: 100%; border-radius: 50rem !important" @click="startCourse(course)">
+                    Bắt đầu
                   </b-button>
                 </div>
               </div>
@@ -143,23 +131,22 @@
       </div>
     </div>
     <b-modal
-        id="modal-rating"
-        ref="modal"
-        v-model="isModalFormOpen"
-        title="Rate Course"
-        hide-footer
-        hide-header-close
-      >
-        <rating :courseId="ratingData.courseId" :courseName="ratingData.courseName" :userPurchaseCourseId="ratingData.userPurchaseCourseId" @cancelFormRating="cancelFormRating" @updateRating="updateRating"/>
-      </b-modal>
+      id="modal-rating"
+      ref="modal"
+      v-model="isModalFormOpen"
+      title="Đánh giá khoá học"
+      hide-footer
+      hide-header-close
+    >
+      <rating :course-id="ratingData.courseId" :course-name="ratingData.courseName" :user-purchase-course-id="ratingData.userPurchaseCourseId" @cancelFormRating="cancelFormRating" @updateRating="updateRating" />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import { getChapterList } from '../../../api/course'
 import { getCourseInfo, getTeacherInfo, getTotalFollowers, getTeacherRating } from '../../../api/public'
-import { addToCart } from '../../../api/cart'
-import { transaction } from '../../../api/transaction'
+import { userPurchaseCourse } from '../../../api/user'
 import { getCourseRatingNumber } from '../../../api/rating'
 import NavCourse from '../../../components/user/NavCourse/Index'
 import Rating from '../../../components/user/Rating'
@@ -172,6 +159,7 @@ export default {
     return {
       show: [],
       dataView: {
+        id: null,
         name: null,
         url_video: null,
         about: null,
@@ -195,6 +183,12 @@ export default {
       }
     }
   },
+  watch: {
+    $route(to, from) {
+      this.getCourse()
+      this.getChapter()
+    }
+  },
   created() {
     this.getCourse()
     this.getChapter()
@@ -210,6 +204,7 @@ export default {
       this.isModalFormOpen = false
     },
     async updateRating() {
+      debugger
       this.ratingNumber = (!(await getCourseRatingNumber(this.course.id))) ? 0 : (await getCourseRatingNumber(this.course.id)).rating
       this.setNavCourse('CourseRatings', this.course.id)
       this.course.user_purchase_course_is_rating = true
@@ -220,7 +215,7 @@ export default {
       })
     },
     setNavCourse(comName, comData) {
-      if (this.course.user_purchase_course_id || comName !== 'Material') {
+      if (this.course.user_purchase_course_id || (comName !== 'Material' && comName !== 'Exercise')) {
         this.comData.comName = comName
         this.comData.comData = comData
       } else {
@@ -245,11 +240,19 @@ export default {
       this.dataView.url_video = this.course.url_intro_video
       this.dataView.createdAt = this.course.created_at
       this.dataView.updatedAt = this.course.updated_at
+      this.dataView.exercise = []
       this.teacher = await getTeacherInfo(this.course.teacher_id)
       this.teacher.userTotal = (!(await getTotalFollowers(this.course.teacher_id))) ? 0 : (await getTotalFollowers(this.course.teacher_id)).total
       this.teacher.rating = (!(await getTeacherRating(this.course.teacher_id))) ? 0 : (await getTeacherRating(this.course.teacher_id)).rating
       this.ratingNumber = (!(await getCourseRatingNumber(this.course.id))) ? 0 : (await getCourseRatingNumber(this.course.id)).rating
-      this.setNavCourse('About', this.dataView.about)
+      debugger
+      var name = this.$route.query.name
+      if (name) {
+        debugger
+        this.setNavCourse('Comment', this.$route.params.id)
+      } else {
+        this.setNavCourse('About', this.dataView.about)
+      }
     },
     async getChapter() {
       this.chapters = await getChapterList(this.$route.params.id)
@@ -280,48 +283,15 @@ export default {
       const date = new Date(time * 1000)
       return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
     },
-    setDataView(data) {
+    async setDataView(data) {
       this.dataView.name = data.name
       this.dataView.totalTime = data.time
       this.dataView.url_video = data.url_video
       this.dataView.about = data.about
       this.dataView.createdAt = data.created_at
       this.dataView.updatedAt = data.updated_at
-    },
-    convertPrice(price, discount) {
-      if (discount) {
-        price = price * ((100 - discount) / 100)
-      }
-      return new Intl.NumberFormat('de-DE').format(price)
-    },
-    async addCourseToCart(course, isRedirect = false) {
-      if (!this.$store.state.User.myCart) {
-        this.$router.push({
-          path: '/login'
-        })
-      } else {
-        const params = {
-          'cart_id': this.$store.state.User.myCart.id,
-          'course_id': course.id
-        }
-        await addToCart(params)
-        this.$swal({
-          toast: true,
-          icon: 'success',
-          title: 'The course has been added to your cart!',
-          animation: false,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true
-        })
-        this.$store.commit('User/ADD_CART')
-        if (isRedirect) {
-          this.$router.push({
-            path: '/cart'
-          })
-        }
-      }
+      this.dataView.id = data.id
+      this.setNavCourse('About', this.dataView.about)
     },
     async startCourse(course) {
       if (!this.$store.state.User.myInfo) {
@@ -332,31 +302,13 @@ export default {
         debugger
         const body = {
           'user_id': this.$store.state.User.myInfo.id,
-          'first_name': this.$store.state.User.myInfo.first_name,
-          'last_name': this.$store.state.User.myInfo.last_name,
-          'email': this.$store.state.User.myInfo.email,
-          'phone_number': this.$store.state.User.myInfo.phone_number,
-          'voucher_id': null,
-          'discount': 0,
-          'total': 0,
-          'payment_mode': null,
-          'status': 'success',
-          'transaction_course': [
-            {
-              'course_id': course.id,
-              'course_name': course.name,
-              'price_id': course.price_id,
-              'price': course.price,
-              'discount_promotion_id': course.discount_promotion_id,
-              'discount': course.discount ? course.discount : 0
-            }
-          ]
+          'course_id': course.id
         }
-        await transaction(body)
+        await userPurchaseCourse(body)
         this.$swal({
           toast: true,
           icon: 'success',
-          title: 'The course has been added to your learning!',
+          title: 'Đăng ký khoá học thành công',
           animation: false,
           position: 'top-end',
           showConfirmButton: false,

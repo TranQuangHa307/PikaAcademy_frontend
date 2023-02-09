@@ -21,6 +21,7 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
+    "vue/this-in-template": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline":"off",
     "vue/name-property-casing": ["error", "PascalCase"],

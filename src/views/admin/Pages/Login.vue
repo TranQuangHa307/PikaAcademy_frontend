@@ -7,7 +7,7 @@
             <div class="card-body">
               <b-form @submit.prevent="onSubmit">
                 <div class="text-center mb-lg-5 mb4">
-                  <h3 class="login__title mb-2">Login</h3>
+                  <h3 class="login__title mb-2">Đăng nhập</h3>
                 </div>
                 <b-alert
                   v-if="response"
@@ -19,7 +19,7 @@
                   <label
                     for="exampleInputEmail1"
                     class="input__label"
-                  >Username</label>
+                  >Tài khoản</label>
                   <b-form-input
                     v-model="account.username"
                     type="text"
@@ -31,7 +31,7 @@
                   <label
                     for="exampleInputPassword1"
                     class="input__label"
-                  >Password</label>
+                  >Mật khẩu</label>
                   <b-form-input
                     v-model="account.password"
                     type="password"
@@ -52,7 +52,7 @@
                     type="submit"
                     variant="primary"
                     class="btn-style mt-4"
-                  >Login</b-button>
+                  >Đăng nhập</b-button>
                 </div>
               </b-form>
             </div>
@@ -87,7 +87,7 @@ export default {
       try {
         const loginRes = await this.login(this.account)
         if (!loginRes) {
-          this.response = 'The specified user name or password is incorrect!'
+          this.response = 'Tài khoản hoặc mật khẩu không chính xác!'
           this.$store.commit('SET_DONE_LOADING')
           return
         }

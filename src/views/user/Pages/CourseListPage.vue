@@ -5,24 +5,24 @@
         <!-- Image and text -->
         <b-navbar variant="faded" type="light">
           <b-navbar-brand class="text_nav" href="/">
-            Home
+            Trang chủ
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             <b-icon icon="chevron-right" style="color: #d4d4dc;" scale="0.75" />
           </b-navbar-brand>
           <div v-if="namePage === 'wishlistUser'">
             <b-navbar-brand class="text_nav" href="/wishlist">
-              Wishlist
+              Khoá học yêu thích
             </b-navbar-brand>
           </div>
           <div v-else-if="namePage === 'myLearningUser'">
             <b-navbar-brand class="text_nav" href="/my-courses">
-              My Learning
+              Khoá học đã đăng ký
             </b-navbar-brand>
           </div>
           <div v-else>
             <b-navbar-brand class="text_nav" href="/interests">
-              Interests
+              Khoá học
             </b-navbar-brand>
             <b-navbar-brand class="text_nav">
               <b-icon icon="chevron-right" style="color: #d4d4dc;" scale="0.75" />
@@ -36,10 +36,10 @@
       </div>
       <div class="ml-3 mt-3">
         <div v-if="namePage === 'wishlistUser'">
-          <h1>Wishlist</h1>
+          <h1>Khoá học yêu thích</h1>
         </div>
         <div v-else-if="namePage === 'myLearningUser'">
-          <h1>My Learning</h1>
+          <h1>Khoá học đã đăng ký</h1>
         </div>
         <div v-else>
           <h1>{{ category.name }}</h1>
@@ -55,7 +55,7 @@
 <script>
 import { getInterestsInfo, getCategoryInfo, getCourseList } from '../../../api/public'
 import { getListFavoriteCourse, getListPurchasedCourse } from '../../../api/user'
-import CourseList from '../../../components/user/CourseList.vue'
+import CourseList from '../../../components/user/CourseListV2.vue'
 export default {
   components: {
     appCourseList: CourseList

@@ -2,7 +2,7 @@
   <div>
     <div class="table-users">
       <div class="header">
-        <span>Category</span>
+        <span>Môn học</span>
         <b-button class="float-right" variant="primary" @click="onOpenModal(true)">+</b-button>
       </div>
 
@@ -10,25 +10,25 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Interests</th>
-            <th>Action</th>
+            <th>Tên</th>
+            <th>Ảnh</th>
+            <th>Khối lớp</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(category, index) in table.data" :key="index">
-            <td>{{ category.id }}</td>
-            <td>{{ category.name }}</td>
-            <td> <b-img v-if="category.url_image" :src="category.url_image" /></td>
-            <td>{{ category.interests_name }}</td>
+          <tr v-for="(item, index) in table.data" :key="index">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td> <b-img v-if="item.url_image" :src="item.url_image" /></td>
+            <td>{{ item.interests_name }}</td>
             <td style="width: 120px;">
               <div>
                 <button
                   class="btn btn-info mr-1 size_75"
-                  @click="onOpenModal(false, category)"
+                  @click="onOpenModal(false, item)"
                 ><b-icon icon="pencil-fill" variant="white" /></button>
-                <button class="btn btn-danger size_75" @click.prevent="onDeleteData(category)"><b-icon icon="trash-fill" variant="white" /></button>
+                <button class="btn btn-danger size_75" @click.prevent="onDeleteData(item)"><b-icon icon="trash-fill" variant="white" /></button>
               </div>
             </td>
           </tr>
@@ -81,17 +81,17 @@
         v-if="isModelDeleteOpen"
         id="modal-delete-category"
         v-model="isModelDeleteOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ bỏ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelDelete()"
         @ok="onConfirmDeleteData()"
-      >Are you sure you want to remove category 1?</b-modal>
+      >Bạn có chắc chắn muốn xoá bỏ môn học không?</b-modal>
     </div>
   </div>
 </template>
@@ -149,7 +149,7 @@ export default {
     },
     onOpenModal(isAdd, data) {
       this.modalOpts.isAdd = isAdd
-      this.titleForm = isAdd ? 'Create category' : 'Update category'
+      this.titleForm = isAdd ? 'Tạo môn học' : 'Cập nhật môn học'
       this.modalOpts.data = {
         'id': isAdd ? 0 : data.id,
         'name': isAdd ? null : data.name,
@@ -171,7 +171,7 @@ export default {
           'updated_by': this.$store.state.Admin.myInfo.user_name
         }
         await addCategory(body)
-        this.showRes('success', 'Category successfully created.')
+        this.showRes('success', 'Tạo môn học thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       }
@@ -182,7 +182,7 @@ export default {
     onEditData: async function(data) {
       try {
         await updateCategory(data)
-        this.showRes('success', 'Category successfully updated.')
+        this.showRes('success', 'Cập nhật môn học thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       }
@@ -202,7 +202,7 @@ export default {
       this.$store.commit('SET_LOADING')
       try {
         await deleteCategory(this.selectedDelete.id)
-        this.showRes('success', 'Category successfully deleted.')
+        this.showRes('success', 'Xoá môn học thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       } finally {

@@ -21,6 +21,7 @@ import mixin from './utils/mixin'
 import { Chart } from 'chart.js'
 import Chartkick from 'vue-chartkick'
 import GAuth from 'vue-google-oauth2'
+import SplitCarousel from 'vue-split-carousel'
 const gauthOption = {
   clientId: '684358347602-9e5kiu1cg8ctram5jpbj620hlo40skfk.apps.googleusercontent.com',
   scope: 'profile email',
@@ -39,6 +40,7 @@ Vue.use(loader)
 Vue.use(VueSweetalert2)
 Vue.use(Vuex)
 Vue.use(CKEditor)
+Vue.use(SplitCarousel)
 Vue.mixin(mixin)
 new Vue({
   render: h => h(App),

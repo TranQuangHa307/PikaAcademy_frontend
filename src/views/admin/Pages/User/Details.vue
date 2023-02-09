@@ -2,14 +2,13 @@
   <div class="container-fluid">
     <div class="ad_nav_tabs">
       <ul>
-        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Profile</li>
-        <li :class="{ is_active: comName === 'Purchased' }" @click="setCom('Purchased')">Purchased</li>
-        <li :class="{ is_active: comName === 'Liked' }" @click="setCom('Liked')">Liked</li>
-        <li :class="{ is_active: comName === 'Transaction' }" @click="setCom('Transaction')">Transaction</li>
+        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Thông tin</li>
+        <li :class="{ is_active: comName === 'Purchased' }" @click="setCom('Purchased')">Khoá học đã đăng ký</li>
+        <li :class="{ is_active: comName === 'Liked' }" @click="setCom('Liked')">Khoá học yêu thích</li>
       </ul>
     </div>
     <div>
-      <component :is="comNameComputed" :elmntId="comDataComputed" />
+      <component :is="comNameComputed" :elmnt-id="comDataComputed" />
     </div>
   </div>
 </template>
@@ -18,13 +17,11 @@
 import Details from '../../../../components/admin/User/Details'
 import Purchased from '../../../../components/admin/User/Purchased'
 import Liked from '../../../../components/admin/User/Liked'
-import Transaction from '../../../../components/admin/User/Transaction'
 export default {
   components: {
     Details,
     Purchased,
-    Liked,
-    Transaction
+    Liked
   },
   data() {
     return {
@@ -39,6 +36,21 @@ export default {
     comDataComputed() {
       if (this.elmntId) return parseInt(this.elmntId)
       else return 0
+    }
+  },
+  watch: {
+    $route(to, from) {
+      const name = to.query.name
+      this.elmntId = to.params.id
+      if (name) {
+        this.setCom(name)
+      }
+    }
+  },
+  created() {
+    var name = this.$route.query.name
+    if (name) {
+      this.setCom(name)
     }
   },
   methods: {

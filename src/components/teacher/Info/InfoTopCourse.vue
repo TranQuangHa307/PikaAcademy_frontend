@@ -19,7 +19,7 @@
         </li>
       </ul>
     </div>
-    <hr/>
+    <hr>
     <div>
       <ul class="te_info_list_item">
         <h3>Top 5 purchased courses</h3>

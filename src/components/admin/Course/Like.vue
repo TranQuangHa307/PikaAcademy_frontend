@@ -4,11 +4,11 @@
       <ul class="te_info_list_item">
         <li v-for="(item, index) in table.data" :key="index" class="d_flex">
           <div class="mr-2">
-            <b-img :src="item.user_url_avatar"></b-img>
+            <b-img :src="item.user_url_avatar" />
           </div>
           <div>
             <h5>{{ item.user_first_name }} {{ item.user_last_name }}</h5>
-            <span><b>Liked at:</b> {{ convertTSToDateTime(item.time) }}</span>
+            <span><b>Ngày thích:</b> {{ convertTSToDateTime(item.time) }}</span>
           </div>
         </li>
       </ul>
@@ -44,6 +44,7 @@ import { getUsersLikeCourse } from '../../../api/course'
 export default {
   props: {
     elmntId: {
+      type: Number,
       default: null
     }
   },

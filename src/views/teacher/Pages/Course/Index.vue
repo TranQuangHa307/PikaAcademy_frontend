@@ -11,17 +11,15 @@
               <h4>{{ course.name }}</h4>
             </div>
             <div>
-              <span class="mr-2"><b>Price:</b> {{ getPrice(course.price) }}</span>
-              <span class="mr-2"><b>Views:</b> {{ course.views }}</span>
-              <span class="mr-2"><b>Likes:</b> {{ course.likes }}</span>
-              <span class="mr-2"><b>Purchases:</b> {{ course.purchases }}</span>
-              <br/>
-              <span class="mr-2"><b>Created at:</b> {{ convertTSToDateTime(course.created_at) }}</span>
-              <span class="mr-2"><b>Updated at:</b> {{ convertTSToDateTime(course.updated_at) }}</span>
+              <span class="mr-2"><b>Lượt thích:</b> {{ course.likes }}</span>
+              <span class="mr-2"><b>Lượt đăng ký:</b> {{ course.purchases }}</span>
+              <br>
+              <span class="mr-2"><b>Ngày tạo:</b> {{ convertTSToDateTime(course.created_at) }}</span>
+              <span class="mr-2"><b>Ngày cập nhật:</b> {{ convertTSToDateTime(course.updated_at) }}</span>
             </div>
           </div>
           <div class="w30 txt_right">
-            <button v-if="!course.is_active" class="btn btn-success mr-2" @click="onActive(course.id)">Active</button>
+            <button v-if="!course.is_active" class="btn btn-success mr-2" @click="onActive(course.id)">Kích hoạt</button>
             <button class="btn btn-primary mr-2" @click="toCourseDetail(course.id)"><b-icon icon="pencil-fill" variant="white" /></button>
             <button v-if="!course.is_active" class="btn btn-danger" @click="onConfirmDelete(course)"><b-icon icon="trash-fill" variant="white" /></button>
           </div>
@@ -56,19 +54,19 @@
         v-if="isModelActiveOpen"
         id="modal-active"
         v-model="isModelActiveOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ bỏ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelActive()"
         @ok="onConfirmActive()"
-      >Are you sure you want to active course {{ selectedActive }}?
-        <br/>
-       After active you will not be able to delete the course
+      >Bạn có chắc chắn muốn kích hoạt khóa học không {{ selectedActive }}?
+        <br>
+        Sau khi kích hoạt, bạn sẽ không thể xóa khóa học
       </b-modal>
     </div>
   </div>
@@ -76,7 +74,7 @@
 
 <script>
 import { deleteCourse, activeCourse } from '../../../../api/course'
-import { getCourseListOfTeacher } from '../../../../api/public'
+import { getCourseListByTeacherId } from '../../../../api/teacher'
 export default {
   data() {
     return {
@@ -127,11 +125,9 @@ export default {
       const params = {
         page: page,
         teacher_id: this.$store.state.Teacher.myInfo.id,
-        limit: this.table.perPage,
-        keyword: ''
+        limit: this.table.perPage
       }
-
-      const { list, total } = await getCourseListOfTeacher(params)
+      const { list, total } = await getCourseListByTeacherId(params)
       this.table.data = list
       this.table.total = total
     },

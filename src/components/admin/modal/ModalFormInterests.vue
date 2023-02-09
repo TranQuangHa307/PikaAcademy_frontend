@@ -2,7 +2,7 @@
   <div>
     <form ref="form" @submit.stop.prevent="handleSubmit">
       <b-form-group
-        label="Name"
+        label="Tên"
         label-for="name-input"
         invalid-feedback="Name is required"
         :state="state"
@@ -15,7 +15,7 @@
         />
       </b-form-group>
       <b-form-group
-        label="Description"
+        label="Mô tả"
         label-for="description-input"
         invalid-feedback="Description is required"
         :state="state"
@@ -28,7 +28,7 @@
         />
       </b-form-group>
       <b-form-group
-        label="Image"
+        label="Ảnh"
         label-for="image-input"
       >
         <div>
@@ -47,8 +47,8 @@
       </b-form-group>
       <hr>
       <div class="text-center">
-        <button type="button" class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger mr-2" @click="cancelForm">Huỷ bỏ</button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
       </div>
     </form>
   </div>

@@ -1,43 +1,45 @@
 <template>
   <div class="row">
-    <div v-for="(course, index) in data" :key="index" class="mb-3" :class="[{ 'p-0': isPading }, `col-md-${col}`]">
-      <div class="card card_img" style="color: white; border: 0" :style="{ backgroundImage: 'url(' + course.url_image + ')' }">
-        <div class="card-header" style="border: 0">
-          <div style="cursor: pointer;" @click="likeCourse(course)">
-            <b-icon v-if="course.user_like_course_id" icon="heart-fill" /> <b-icon v-else icon="heart" /> <span>{{ course.likes }}</span>
+    <split-carousel :height="500" :item-width="320">
+      <split-carousel-item v-for="(course, index) in data" :key="index">
+        <div class="card card_img" style="color: white; border: 0" :style="{ backgroundImage: 'url(' + course.url_image + ')' }">
+          <div class="card-header" style="border: 0; text-align: left;">
+            <div style="cursor: pointer;" @click="likeCourse(course)">
+              <b-icon v-if="course.user_like_course_id" icon="heart-fill" /> <b-icon v-else icon="heart" /> <span>{{ course.likes }}</span>
+            </div>
           </div>
-        </div>
-        <div class="card-body">
-          <div>
-            <h3 class="card-title text_description" style="margin-top: 6rem !important;">{{ course.name }}</h3>
-          </div>
-        </div>
-        <div class="card-footer mt-2 footer_card">
-          <div v-if="course.user_purchase_course_id" style="justify-content: end; align-items: center; width: 100%; display: flex; min-height: 50px;">
+          <div class="card-body">
             <div>
-              <router-link tag="button" :to="{ name: 'course', params: { id: course.id }}" class="btn btn-outline-info mb-1" style="width: 80px; border-radius: 50rem !important; color: white;">LEARN</router-link>
+              <h3 class="card-title text_description" style="margin-top: 6rem !important;">{{ course.name }}</h3>
             </div>
           </div>
-          <div v-else style="width: 100%; display: flex; height: 50px;">
-            <div v-if="course.price>0" style="flex: 1 1 auto;" :class="{items_center: !course.discount}">
-              <p class="text_price mb-0">{{ convertPrice(course.price, course.discount) }} VND</p>
-              <p v-if="course.discount" style="font-size: 13px; margin-bottom: 0;text-decoration-line: line-through;">{{ convertPrice(course.price) }} VND</p>
+          <div class="card-footer mt-2 footer_card">
+            <div v-if="course.user_purchase_course_id" style="justify-content: end; align-items: center; width: 100%; display: flex; min-height: 50px;">
+              <div>
+                <router-link tag="button" :to="{ name: 'course', params: { id: course.id }}" class="btn btn-outline-info mb-1" style="width: 80px; border-radius: 50rem !important; color: white;">Học</router-link>
+              </div>
             </div>
-            <div v-else class="pt-1" style="flex: 1 1 auto; display: flex;align-items: center;"><p class="text_price mb-0">FREE</p></div>
-            <div style="align-items: center; display: flex;">
-              <router-link v-if="course.price===0" tag="button" :to="{ name: 'course', params: { id: course.id }}" class="btn btn-outline-info" style="width: 80px; border-radius: 50rem !important">START</router-link>
-              <router-link v-else tag="button" :to="{ name: 'course', params: { id: course.id }}" class="btn btn-outline-info" style="width: 80px; border-radius: 50rem !important">GET</router-link>
+            <div v-else style="width: 100%; display: flex; height: 50px;">
+              <div class="pt-1" style="flex: 1 1 auto; display: flex;align-items: center;"><p class="text_price mb-0">Miễn phí</p></div>
+              <div style="align-items: center; display: flex;">
+                <router-link tag="button" :to="{ name: 'course', params: { id: course.id }}" class="btn btn-outline-info" style="width: 80px; border-radius: 50rem !important">Bắt đầu</router-link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </split-carousel-item>
+    </split-carousel>
   </div>
 </template>
 
 <script>
 import { userLikeCourse } from '../../api/user'
+import { SplitCarousel, SplitCarouselItem } from 'vue-split-carousel'
 export default {
+  components: {
+    SplitCarousel,
+    SplitCarouselItem
+  },
   props: {
     data: {
       type: Array,
@@ -78,12 +80,6 @@ export default {
           timerProgressBar: true
         })
       }
-    },
-    convertPrice(price, discount) {
-      if (discount) {
-        price = price * ((100 - discount) / 100)
-      }
-      return new Intl.NumberFormat('de-DE').format(price)
     }
   }
 
@@ -102,7 +98,9 @@ export default {
   text-overflow: ellipsis;
   -webkit-line-clamp: 4;
   display: -webkit-box;
+  text-align: left;
   -webkit-box-orient: vertical;
+  font-size: 25px;
 }
 .card_img {
   height: 480px;

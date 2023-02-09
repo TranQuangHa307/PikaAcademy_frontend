@@ -1,22 +1,22 @@
 <template>
   <div class="container mt-5 pt-5">
     <div class="nav">
-        <!-- Image and text -->
-        <b-navbar variant="faded" type="light">
-          <b-navbar-brand class="text_nav" href="/">
-            Home
-          </b-navbar-brand>
-          <b-navbar-brand class="text_nav">
-            >
-          </b-navbar-brand>
-          <b-navbar-brand class="text_nav" href="/">
-            Teacher registration form
-          </b-navbar-brand>
-        </b-navbar>
-      </div>
+      <!-- Image and text -->
+      <b-navbar variant="faded" type="light">
+        <b-navbar-brand class="text_nav" href="/">
+          Trang chủ
+        </b-navbar-brand>
+        <b-navbar-brand class="text_nav">
+          >
+        </b-navbar-brand>
+        <b-navbar-brand class="text_nav" href="/">
+          Đăng ký trở thành giáo viên
+        </b-navbar-brand>
+      </b-navbar>
+    </div>
     <div>
       <b-progress class="w-100" max="100" height="1.5rem">
-        <b-progress-bar :value="valBarComputed"></b-progress-bar>
+        <b-progress-bar :value="valBarComputed" />
       </b-progress>
     </div>
     <component :is="comNameComputed" @continueForm="continueForm($event)" @before="before($event)" @onSubmit="onSubmit($event)" />
@@ -59,10 +59,10 @@ export default {
         await signUp(data)
         this.$swal({
           'icon': 'success',
-          'title': 'Sign up Successfully',
+          'title': 'Đăng ký thành công',
           background: '#1D1E22',
           html:
-            '<p style="color: #feda6a;">We have sent an email to <br/>' +
+            '<p style="color: #feda6a;">Chúng tôi đã gửi một email tới <br/>' +
             `${data.email}</p>`
         }).then((result) => {
           this.$router.push({

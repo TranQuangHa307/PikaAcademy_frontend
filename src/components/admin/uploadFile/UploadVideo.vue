@@ -2,9 +2,9 @@
   <div>
     <div class="d_flex w100">
       <div class="w20">
-        <b-form-select v-model="videoType" :options="videoTypeOptions"></b-form-select>
+        <b-form-select v-model="videoType" :options="videoTypeOptions" />
       </div>
-      <div class="w80" v-if="videoTypeComputed==='file'">
+      <div v-if="videoTypeComputed==='file'" class="w80">
         <b-form-file
           v-model="video"
           placeholder="Choose a file or drop it here..."
@@ -12,13 +12,13 @@
           accept="video/*"
         />
       </div>
-      <div class="w80" v-else>
+      <div v-else class="w80">
         <b-form-input v-model="url" />
       </div>
     </div>
     <div class="text-center">
       <video v-if="videoType=='file' && hasVideo" :src="videoSrc" height="300" class="mt-3" style="max-width: 100%;" controls />
-      <iframe id="introVideo" v-if="urlVideoComputed && !video" :src="urlVideoComputed" class="mt-3" height="300"></iframe>
+      <iframe v-if="urlVideoComputed && !video" id="introVideo" :src="urlVideoComputed" class="mt-3" height="300" />
     </div>
   </div>
 </template>

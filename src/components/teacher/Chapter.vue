@@ -2,10 +2,10 @@
   <div class="te_chapter">
     <div class="te_chapter_heading">
       <div class="w50">
-        <h1>Chapter</h1>
+        <h1>Chương</h1>
       </div>
       <div class="w50 txt_right">
-        <b-button variant="primary">+ Chapter</b-button>
+        <b-button variant="primary">+ Chương</b-button>
       </div>
     </div>
     <div class="te_chapter_body">
@@ -14,7 +14,7 @@
           <li v-for="(chapter, index) in chapters" :key="index" @click="showSessions(chapter.id)">
             <div class="te_chapter_item w100">
               <div class="w60">
-                <h5>Chapter {{ (++index) }} : {{ chapter.name }}</h5>
+                <h5>Chương {{ (++index) }} : {{ chapter.name }}</h5>
               </div>
               <div class="w40 txt_right">
                 <b-button class="mr-1" variant="primary">+</b-button>

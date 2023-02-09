@@ -11,11 +11,8 @@
               <h5>{{ course.name }}</h5>
             </div>
             <div>
-              <span class="mr-2"><b>Price:</b> {{ getPrice(course.price) }}</span>
-              <br/>
-              <span class="mr-2"><b>Views:</b> {{ course.views }}</span>
-              <span class="mr-2"><b>Likes:</b> {{ course.likes }}</span>
-              <span class="mr-2"><b>Purchases:</b> {{ course.purchases }}</span>
+              <span class="mr-2"><b>Lượt thích:</b> {{ course.likes }}</span>
+              <span class="mr-2"><b>Lượt đăng ký:</b> {{ course.purchases }}</span>
             </div>
           </div>
         </li>
@@ -29,6 +26,7 @@ import { getCourseListByTeacherUserId } from '../../../../api/teacher'
 export default {
   props: {
     elmntId: {
+      type: Object,
       default: null
     }
   },

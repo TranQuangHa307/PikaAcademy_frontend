@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import auth from '../middleware/user/authenticated'
 import notAuth from '../middleware/user/notAuthenticated'
 import authAdmin from '../middleware/admin/authenticated'
-import notAuthAdmin from '../middleware/admin/notAuthenticated'
+// import notAuthAdmin from '../middleware/admin/notAuthenticated'
 import notAuthTeacher from '../middleware/teacher/notAuthenticated'
 import authTeacher from '../middleware/teacher/authenticated'
 
@@ -164,22 +164,6 @@ export const router = new VueRouter({
           }
         },
         {
-          path: '/cart',
-          name: 'cartUser',
-          component: () => import('../views/user/Pages/Cart'),
-          meta: {
-            middleware: auth
-          }
-        },
-        {
-          path: '/checkout/:id',
-          name: 'checkoutUser',
-          component: () => import('../views/user/Pages/Checkout'),
-          meta: {
-            middleware: auth
-          }
-        },
-        {
           path: '/my-courses',
           name: 'myLearningUser',
           component: () => import('../views/user/Pages/CourseListPage'),
@@ -191,14 +175,6 @@ export const router = new VueRouter({
           path: '/profile',
           name: 'profileUser',
           component: () => import('../views/user/Pages/Profile'),
-          meta: {
-            middleware: auth
-          }
-        },
-        {
-          path: '/mytransactions',
-          name: 'myTransactions',
-          component: () => import('../views/user/Pages/MyTransactions'),
           meta: {
             middleware: auth
           }
@@ -238,10 +214,7 @@ export const router = new VueRouter({
         {
           path: '/admin/login',
           name: 'loginAdmin',
-          component: () => import('../views/admin/Pages/Login'),
-          meta: {
-            middleware: notAuthAdmin
-          }
+          component: () => import('../views/admin/Pages/Login')
         }
       ]
     },
@@ -253,22 +226,6 @@ export const router = new VueRouter({
           path: '/admin/dashboard',
           name: 'dashBoardManeger',
           component: () => import('../views/admin/Pages/Dashboard/Index'),
-          meta: {
-            middleware: authAdmin
-          }
-        },
-        {
-          path: '/admin/transaction',
-          name: 'transactionManeger',
-          component: () => import('../views/admin/Pages/Transaction/Index'),
-          meta: {
-            middleware: authAdmin
-          }
-        },
-        {
-          path: '/admin/transaction/:id',
-          name: 'transactionDetailsManeger',
-          component: () => import('../views/admin/Pages/Transaction/Details'),
           meta: {
             middleware: authAdmin
           }

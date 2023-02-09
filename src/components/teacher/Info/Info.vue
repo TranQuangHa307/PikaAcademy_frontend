@@ -1,6 +1,6 @@
 <template>
   <div class="te_main_info">
-    <component :is="comNameComputed" :elmntId="comDataComputed" />
+    <component :is="comNameComputed" :elmnt-id="comDataComputed" />
   </div>
 </template>
 <script>
@@ -21,6 +21,10 @@ export default {
   },
   props: {
     data: {
+      type: {
+        comName: String,
+        comData: Object
+      },
       default: {
         comName: 'InfoDefault',
         comData: null
@@ -37,8 +41,16 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.data.comName = 'InfoDefault'
-      this.data.comData = null
+      debugger
+      const name = to.query.name
+      const id = to.query.id
+      if (name && id) {
+        this.data.comName = name
+        this.data.comData = parseInt(id)
+      } else {
+        this.data.comName = 'InfoDefault'
+        this.data.comData = null
+      }
     }
   }
 }

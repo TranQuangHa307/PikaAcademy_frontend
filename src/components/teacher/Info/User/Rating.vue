@@ -8,12 +8,12 @@
           </div>
           <div>
             <span>{{ item.course_name }}</span>
-            <br/>
-            <span class="fa fa-star" :class="{ checked: (item.rating > 0)}"></span>
-            <span class="fa fa-star" :class="{ checked: (item.rating > 1)}"></span>
-            <span class="fa fa-star" :class="{ checked: (item.rating > 2)}"></span>
-            <span class="fa fa-star" :class="{ checked: (item.rating > 3)}"></span>
-            <span class="fa fa-star" :class="{ checked: (item.rating > 4)}"></span>
+            <br>
+            <span class="fa fa-star" :class="{ checked: (item.rating > 0)}" />
+            <span class="fa fa-star" :class="{ checked: (item.rating > 1)}" />
+            <span class="fa fa-star" :class="{ checked: (item.rating > 2)}" />
+            <span class="fa fa-star" :class="{ checked: (item.rating > 3)}" />
+            <span class="fa fa-star" :class="{ checked: (item.rating > 4)}" />
           </div>
         </div>
         <div>
@@ -22,28 +22,28 @@
       </li>
     </ul>
     <div v-if="table.total > 5">
-        <b-pagination
-          v-model="table.page"
-          :total-rows="table.total"
-          :per-page="table.perPage"
-          class="mt-4 float-right mr-4"
-          @change="onPageChange"
-        >
-          <template #first-text><span class="text-success">First</span></template>
-          <template #prev-text><span class="text-danger">Prev</span></template>
-          <template #next-text><span class="text-warning">Next</span></template>
-          <template #last-text><span class="text-info">Last</span></template>
-          <template #ellipsis-text>
-            <b-spinner small type="grow" />
-            <b-spinner small type="grow" />
-            <b-spinner small type="grow" />
-          </template>
-          <template #page="{ page, active }">
-            <b v-if="active">{{ page }}</b>
-            <i v-else>{{ page }}</i>
-          </template>
-        </b-pagination>
-      </div>
+      <b-pagination
+        v-model="table.page"
+        :total-rows="table.total"
+        :per-page="table.perPage"
+        class="mt-4 float-right mr-4"
+        @change="onPageChange"
+      >
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+        <template #ellipsis-text>
+          <b-spinner small type="grow" />
+          <b-spinner small type="grow" />
+          <b-spinner small type="grow" />
+        </template>
+        <template #page="{ page, active }">
+          <b v-if="active">{{ page }}</b>
+          <i v-else>{{ page }}</i>
+        </template>
+      </b-pagination>
+    </div>
   </div>
 </template>
 

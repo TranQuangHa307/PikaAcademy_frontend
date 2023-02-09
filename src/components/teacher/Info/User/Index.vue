@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-tabs content-class="mt-3" fill>
-      <b-tab title="Course" @click="changeCom('Course')" active></b-tab>
-      <b-tab title="Rating" @click="changeCom('Rating')"></b-tab>
+      <b-tab title="Khoá học" active @click="changeCom('Course')" />
+      <b-tab title="Đánh giá" @click="changeCom('Rating')" />
     </b-tabs>
     <div>
-      <component :is="comNameComputed" :elmntId="comDataComputed" />
+      <component :is="comNameComputed" :elmnt-id="comDataComputed" />
     </div>
   </div>
 </template>

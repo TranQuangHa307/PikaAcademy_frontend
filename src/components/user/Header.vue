@@ -22,47 +22,39 @@
                   <template #append>
                     <b-input-group-text class="bg-t border__n"> <b-icon icon="search" variant="white" /></b-input-group-text>
                   </template>
-                  <b-form-input v-model="searchKey" class="bg-t border__n text-white" placeholder="Search" @keydown.enter.prevent="onSearch" />
+                  <b-form-input v-model="searchKey" class="bg-t border__n text-white" placeholder="Tìm kiếm" @keydown.enter.prevent="onSearch" />
                 </b-input-group>
               </b-nav-form>
 
               <b-navbar-nav>
                 <b-nav-item class="btn_mb">
                   <router-link :to="{name: 'interestsUser'}" tag="div">
-                    <b-icon icon="x-diamond-fill" variant="white" class="mr-1" /><span class="text-white">Interests</span>
+                    <b-icon icon="x-diamond-fill" variant="white" class="mr-1" /><span class="text-white">Khoá học</span>
                   </router-link>
                 </b-nav-item>
               </b-navbar-nav>
               <b-navbar-nav v-if="user">
-                <b-nav-item href="/cart" class="flex">
-                  <div class="flex">
-                    <b-icon icon="cart" variant="white" class="mr-1" />
-                    <span v-if="cart.cart_count > 0" class="text_nofification">{{ cart.cart_count }}</span>
-                    <span class="text-white" :class="{ text_cart: (cart.cart_count > 0) }">Cart</span>
+                <b-nav-item class="flex">
+                  <div class="flex" @click="onSeenNotification()">
+                    <b-icon icon="bell-fill" variant="white" class="mr-1" />
+                    <span v-if="number > 0" class="text_nofification">{{ number }}</span>
+                    <span class="text-white" :class="{ text_cart: (number > 0) }">Thông báo</span>
                   </div>
-                </b-nav-item>
-              </b-navbar-nav>
-              <b-navbar-nav v-if="user">
-                <b-nav-item href="/wishlist"><b-icon icon="heart" variant="white" class="mr-1" /><span class="text-white">Wishlist</span></b-nav-item>
-              </b-navbar-nav>
-              <b-navbar-nav v-if="user">
-                <b-nav-item href="/my-courses">
-                  <b-icon icon="play" variant="white" scale="1.5" class="mr-1" /><span class="text-white">My Learning</span>
                 </b-nav-item>
               </b-navbar-nav>
 
-              <b-nav-item-dropdown right no-caret class="btn_mb">
-                <template #button-content>
-                  <div>
-                    <b-icon icon="globe" variant="white" /> <span class="text-white">language</span>
-                  </div>
-                </template>
-                <b-dropdown-item href="#">English</b-dropdown-item>
-                <b-dropdown-item href="#">Tiếng Việt</b-dropdown-item>
-              </b-nav-item-dropdown>
+              <b-navbar-nav v-if="user">
+                <b-nav-item href="/wishlist"><b-icon icon="heart" variant="white" class="mr-1" /><span class="text-white">Khoá học yêu thích</span></b-nav-item>
+              </b-navbar-nav>
+              <b-navbar-nav v-if="user">
+                <b-nav-item href="/my-courses">
+                  <b-icon icon="play" variant="white" scale="1.5" class="mr-1" /><span class="text-white">Khoá học đã đăng ký</span>
+                </b-nav-item>
+              </b-navbar-nav>
+
               <b-navbar-nav v-if="!user">
-                <b-button :to="{ name: 'loginUser' }" class="mr-2 text-white btn_login btn_mb" variant="outline-dark">Login</b-button>
-                <b-button :to="{ name: 'signUpUser' }" class="btn_singup btn_mb" variant="outline-success">Sing up</b-button>
+                <b-button :to="{ name: 'loginUser' }" class="mr-2 text-white btn_login btn_mb" variant="outline-dark">Đăng nhập</b-button>
+                <b-button :to="{ name: 'signUpUser' }" class="btn_singup btn_mb" variant="outline-success">Đăng ký</b-button>
               </b-navbar-nav>
               <b-navbar-nav v-else class="ml-2 drop_info">
                 <b-nav-item-dropdown toggle-class="text-decoration-none" style="background-color: #1D1E22;" right no-caret>
@@ -71,15 +63,15 @@
                   </template>
                   <b-dropdown-item class="p-2 drop_profile " :to="{ name: 'profileUser' }">
                     <b-icon icon="person-circle" variant="white" class="mr-3" />
-                    <span class="text-white">Profile</span>
+                    <span class="text-white">Thông tin cá nhân</span>
                   </b-dropdown-item>
                   <b-dropdown-item class="p-2 drop_profile " :to="{ name: 'teacherRegister' }">
                     <b-icon icon="people-fill" variant="white" class="mr-3" />
-                    <span class="text-white">Become an Instructor</span>
+                    <span class="text-white">Đăng ký trờ thành giáo viên</span>
                   </b-dropdown-item>
                   <b-dropdown-item class="p-2 drop_item_logout" @click="logout()">
                     <b-icon icon="box-arrow-right" variant="danger" class="mr-3" />
-                    <span class="text-white">Logout</span>
+                    <span class="text-white">Đăng xuất</span>
                   </b-dropdown-item>
                 </b-nav-item-dropdown>
 
@@ -89,24 +81,46 @@
         </b-navbar-nav>
       </b-navbar>
     </div>
+    <div v-if="isShowNoti" class="ad_noti">
+      <ul>
+        <li v-for="(notification, index) in notifications" :key="index+100" @click="redirectToCourse(notification.action_id, notification.type)">
+          <div class="mr-2">
+            <b-icon :icon="getIconNotification(notification.type)" font-scale="3" />
+          </div>
+          <div>
+            <div>
+              {{ notification.content }}
+              <p>{{ dateConvert(notification.created_at) }}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import eventBus from '../../utils/eventBus'
+import { getByUser, seenNotification } from '../../api/notification'
 export default {
   data() {
     return {
-      searchKey: null
+      searchKey: null,
+      numberPT: 0,
+      isShowNoti: false,
+      notifications: []
     }
   },
   computed: {
     user: function() {
       return this.$store.state.User.myInfo
     },
-    cart: function() {
-      return this.$store.state.User.myCart
+    number() {
+      return this.numberPT
     }
+  },
+  async created() {
+    await this.getDataNoti()
   },
   methods: {
     logout() {
@@ -123,6 +137,65 @@ export default {
         })
       }
       this.searchKey = null
+    },
+    async onSeenNotification() {
+      this.isShowNoti = !this.isShowNoti
+      if (this.numberPT > 0) {
+        var notificationsNew = this.notifications.filter(x => x.is_seen == null).map(x => x.id)
+        if (notificationsNew.length > 0) {
+          const body = {
+            'ids': notificationsNew
+          }
+          await seenNotification(body)
+          this.getDataNoti()
+        }
+      }
+    },
+    dateConvert(time) {
+      const date = new Date(time * 1000)
+      return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    },
+    async getDataNoti() {
+      this.notifications = await getByUser(this.$store.state.User.myInfo.id)
+      var notificationsNew = this.notifications.filter(x => x.is_seen == null).map(x => x.id)
+      this.numberPT = notificationsNew.length
+    },
+    redirectToCourse(courseId, type) {
+      let path = `/course/${courseId}`
+      if (type !== 4) {
+        path = `${path}?name=Comment`
+      }
+      this.$router.push({
+        path: path
+      })
+      this.isShowNoti = !this.isShowNoti
+    },
+    getIconNotification(role) {
+      var res = null
+      switch (role) {
+        case 1:
+          res = 'bell'
+          break
+        case 2:
+          res = 'bell'
+          break
+        case 3:
+          res = 'bell'
+          break
+        case 4:
+          res = 'bell'
+          break
+        case 5:
+          res = 'chat-dots'
+          break
+        case 6:
+          res = 'chat-left-dots'
+          break
+        default:
+          res = 'bell'
+          break
+      }
+      return res
     }
   }
 }
@@ -173,13 +246,13 @@ export default {
 
 .btn_login {
   background-color: #28a745;
-  width: 85px;
+  width: 120px;
   height: 40px;
   font-weight: bold;
 }
 
 .btn_singup {
-  width: 85px;
+  width: 120px;
   height: 40px;
   font-weight: bold;
 }
@@ -233,5 +306,36 @@ export default {
 }
 .bg-t {
   background-color: transparent !important;
+}
+
+.ad_noti {
+  background: wheat;
+  width: 400px;
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+  right: 0;
+  position: absolute;
+  border-radius: 0.5em;
+  max-height: 90vh;
+  overflow-y: auto;
+  top: 3em;
+  right:11em;
+  ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+  }
+  li {
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+  }
+  li:hover {
+    background: #F0F2F5;
+    border-radius: 0.5em;
+    cursor: pointer;
+  }
+  div {
+    text-align: left;
+    color: black;
+  }
 }
 </style>

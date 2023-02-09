@@ -2,7 +2,7 @@
   <div>
     <div class="table-users">
       <div class="header">
-        <span>Interests</span>
+        <span>Khối lớp</span>
         <b-button v-b-modal.modal-create-interest class="float-right" variant="primary" @click="onOpenModal(true)">+</b-button>
       </div>
 
@@ -10,10 +10,10 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Action</th>
+            <th>Tên</th>
+            <th>Mô tả</th>
+            <th>Ảnh</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -81,17 +81,17 @@
         v-if="isModelDeleteOpen"
         id="modal-delete-interests"
         v-model="isModelDeleteOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ bỏ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelDelete()"
         @ok="onConfirmDeleteData()"
-      >Are you sure you want to remove interests 1?</b-modal>
+      >Bạn có chắc chắn muốn xoá bỏ khối lớp?</b-modal>
     </div>
   </div>
 </template>
@@ -150,7 +150,7 @@ export default {
     },
     onOpenModal(isAdd, data) {
       this.modalOpts.isAdd = isAdd
-      this.titleForm = isAdd ? 'Create interests' : 'Update interests'
+      this.titleForm = isAdd ? 'Tạo khối lớp' : 'Cập nhật khối lớp'
       this.modalOpts.data = {
         'id': isAdd ? 0 : data.id,
         'name': isAdd ? null : data.name,
@@ -171,7 +171,7 @@ export default {
           'updated_by': this.$store.state.Admin.myInfo.user_name
         }
         await createInterests(body)
-        this.showRes('success', 'Interests successfully created.')
+        this.showRes('success', 'Tạo khối lớp thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       }
@@ -182,7 +182,7 @@ export default {
     onEditData: async function(data) {
       try {
         await updatedInterests(data)
-        this.showRes('success', 'Interests successfully updated.')
+        this.showRes('success', 'Cập nhật khối lớp thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       }
@@ -202,7 +202,7 @@ export default {
       this.$store.commit('SET_LOADING')
       try {
         await deleteInterests(this.selectedDelete.id)
-        this.showRes('success', 'Interests successfully deleted.')
+        this.showRes('success', 'Xoá khối lớp thành công.')
       } catch (error) {
         this.showRes('danger', error.response?.data?.message || error.message)
       } finally {

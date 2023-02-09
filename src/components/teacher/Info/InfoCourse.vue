@@ -14,8 +14,6 @@
               <h5>{{ course.name }}</h5>
             </div>
             <div>
-              <span class="mr-2"><b>Price:</b> {{ getPrice(course.price) }}</span>
-              <br/>
               <span class="mr-2"><b>Views:</b> {{ course.views }}</span>
               <span class="mr-2"><b>Likes:</b> {{ course.likes }}</span>
               <span class="mr-2"><b>Purchases:</b> {{ course.purchases }}</span>

@@ -1,20 +1,20 @@
 <template>
   <div class="table-users">
     <div class="header">
-      <span>User</span>
+      <span>Người dùng</span>
     </div>
 
     <table cellspacing="0" style="border-bottom: 1px solid #FEC415;">
       <thead>
         <tr>
           <th>Id</th>
-          <th>Full Name</th>
-          <th>Avatar</th>
+          <th>Họ tển</th>
+          <th>Ảnh đại diện</th>
           <th>Email</th>
-          <th>Date of birth</th>
-          <th>Gender</th>
-          <th>Phone number</th>
-          <th>Action</th>
+          <th>Ngày sinh</th>
+          <th>Giới tính</th>
+          <th>Số điện thoại</th>
+          <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
@@ -53,6 +53,7 @@
         :total-rows="table.total"
         :per-page="table.perPage"
         class="mt-4 float-right mr-4"
+        @change="onPageChange"
       >
         <template #first-text><span class="text-success">First</span></template>
         <template #prev-text><span class="text-danger">Prev</span></template>
@@ -74,23 +75,23 @@
         v-if="isModelDeleteOpen"
         id="modal-delete-interests"
         v-model="isModelDeleteOpen"
-        title="Please Confirm"
+        title="Vui lòng xác nhận"
         size="sm"
         button-size="sm"
         ok-variant="danger"
-        ok-title="YES"
-        cancel-title="NO"
+        ok-title="Đồng ý"
+        cancel-title="Huỷ bỏ"
         footer-class="p2"
         hide-header-close
         @cancel="onCancelDelete()"
         @ok="onConfirmDeleteData()"
-      >Are you sure you want to remove teacher {{ selectedDelete.id }}?</b-modal>
+      >Bạn có chắc chắn muốn xoá thành viên {{ selectedDelete.id }}?</b-modal>
     </div>
   </div>
 </template>
 
 <script>
-import { getUserList } from '../../../../api/user'
+import { getUserList, deleteUser } from '../../../../api/user'
 import { getDateToLocaleString } from '../../../../utils/index'
 export default {
   data() {
@@ -129,7 +130,35 @@ export default {
         query: { ...page !== 1 && { page }}
       })
     },
-    getDateToLocaleString
+    getDateToLocaleString,
+    showRes(variant = null, message = '') {
+      this.$bvToast.toast(message, {
+        title: `Variant ${variant || 'default'}`,
+        variant: variant,
+        solid: true
+      })
+    },
+    onDeleteData(data) {
+      this.selectedDelete = data
+      this.isModelDeleteOpen = true
+    },
+    onCancelDelete() {
+      this.isModelDeleteOpen = false
+      this.selectedDelete = null
+    },
+    onConfirmDeleteData: async function() {
+      this.$store.commit('Admin/SET_LOADING')
+      try {
+        await deleteUser(this.selectedDelete.id)
+        this.showRes('success', 'Xoá thành viên thành công.')
+      } catch (error) {
+        this.showRes('danger', error.response?.data?.message || error.message)
+      } finally {
+        this.isModelDeleteOpen = false
+        this.getDataList(this.table.page)
+      }
+      this.$store.commit('Admin/SET_DONE_LOADING')
+    }
   }
 }
 </script>

@@ -4,18 +4,18 @@
       <div class="col-10">
         <div class="row">
           <div class="col-md-3">
-            <p>ABOUT US</p>
+            <p style="color: white;">ABOUT US</p>
             <p class="text_size_small">Terms & Condition</p>
             <p class="text_size_small">Privacy Policy</p>
           </div>
           <div class="col-md-3">
-            <p>COMMUNITY</p>
+            <p style="color: white;">COMMUNITY</p>
             <p class="text_size_small">Customer Support</p>
             <p class="text_size_small">Blogs</p>
           </div>
           <div class="col-md-4">
-            <p>ADDRESS</p>
-            <p class="text_size_small">Topica Vietnam education technology company limited</p>
+            <p style="color: white;">ADDRESS</p>
+            <p class="text_size_small">Pikaacademy Vietnam education technology company limited</p>
             <p class="text_size_small">TIN: 0109475876</p>
             <p class="text_size_small">Address: 6th floors, Kim Khi Thang Long building, No.1 Luong Yen Street, Bach Đang Ward, Hai Ba Trung District, Ha Noi City, Vietnam</p>
             <p class="text_size_small">Email: trogiup@edumall.vn</p>
@@ -35,249 +35,10 @@
             </b-iconstack>
           </div>
         </div>
-        <!-- <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="row">
-
-                <div class="col-md-2 mb-3">
-                  <div class="text-center">
-                    <div>
-                      <b-img v-bind="mainProps" class="MuiAvatar-img" src="https://cdn7.edumall.vn/uploads/images/instructors/le-tham-duong.png" rounded="circle" alt="Circle image" />
-                      <p class="text-white text_img">Le Tham Duong</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                  <div class="text-center">
-                    <div>
-                      <b-img v-bind="mainProps" class="MuiAvatar-img" src="https://cdn7.edumall.vn/uploads/images/instructors/le-tham-duong.png" rounded="circle" alt="Circle image" />
-                      <p class="text-white text_img">Le Tham Duong</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                  <div class="text-center">
-                    <div>
-                      <b-img v-bind="mainProps" class="MuiAvatar-img" src="https://cdn7.edumall.vn/uploads/images/instructors/le-tham-duong.png" rounded="circle" alt="Circle image" />
-                      <p class="text-white text_img">Le Tham Duong</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                  <div class="text-center">
-                    <div>
-                      <b-img v-bind="mainProps" class="MuiAvatar-img" src="https://cdn7.edumall.vn/uploads/images/instructors/le-tham-duong.png" rounded="circle" alt="Circle image" />
-                      <p class="text-white text_img">Le Tham Duong</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                  <div class="text-center">
-                    <div>
-                      <b-img v-bind="mainProps" class="MuiAvatar-img" src="https://cdn7.edumall.vn/uploads/images/instructors/le-tham-duong.png" rounded="circle" alt="Circle image" />
-                      <p class="text-white text_img">Le Tham Duong</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 mb-3">
-                  <div class="text-center">
-                    <div>
-                      <b-img v-bind="mainProps" class="MuiAvatar-img" src="https://cdn7.edumall.vn/uploads/images/instructors/le-tham-duong.png" rounded="circle" alt="Circle image" />
-                      <p class="text-white text_img">Le Tham Duong</p>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <div class="card" style="border-radius: 14px;">
-                    <div class="card-body" style="background: url('https://cdn2.topica.vn/191ab4fd-9c62-4494-b209-51f86a3924d3/product/603495e79a780e0025780c5a') no-repeat; height: 380px; background-size: cover !important; border-radius: 14px !important;">
-                      <div>
-                        <div>
-                          <b-icon icon="heart-fill" variant="warning" /> <span>72</span>
-                        </div>
-                      </div>
-                      <div class="mt-5" style="margin-top: 6rem !important;">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                      <div class="mt-4 footer_card">
-                        <div><p class="text_price">699.00 VND</p></div>
-                        <div>
-                          <button class="btn btn-primary">GET</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
     <hr style="background-color: #393f4d;">
-    <p class="text_size_small">© 2021 Topica English Education Joint Stock Company</p>
+    <p class="text_size_small">© 2022 Pikaacademy Education Joint Stock Company</p>
   </div>
 </template>
 

@@ -4,7 +4,7 @@
       <div class="container">
         <form ref="form" @submit.stop.prevent="handleSubmit">
           <b-form-group
-            label="First Name"
+            label="Họ"
             label-for="first-name-input"
           >
             <b-form-input
@@ -16,7 +16,7 @@
             </p>
           </b-form-group>
           <b-form-group
-            label="Last Name"
+            label="Tên"
             label-for="last-name-input"
           >
             <b-form-input
@@ -28,7 +28,7 @@
             </p>
           </b-form-group>
           <div class="form-group">
-            <label for="date-of-birth-input">Date of birth</label>
+            <label for="date-of-birth-input">Ngày sinh</label>
             <date-picker :data="user.date_of_birth" @setDate="setDate($event)" />
             <p v-if="errors.date_of_birth" class="error_valid">{{ errors.date_of_birth }}</p>
           </div>
@@ -45,7 +45,7 @@
             </p>
           </b-form-group>
           <b-form-group
-            label="Avatar"
+            label="Ảnh đại diện"
             label-for="avatar-input"
           >
             <upload-image
@@ -55,7 +55,7 @@
             <p v-if="errors.url_avatar" class="error_valid">{{ errors.url_avatar }}</p>
           </b-form-group>
           <b-form-group
-            label="Gender"
+            label="Giới tính"
             label-for="gender-select"
           >
             <b-form-select
@@ -65,7 +65,7 @@
             <p v-if="errors.gender" class="error_valid">{{ errors.gender }}</p>
           </b-form-group>
           <b-form-group
-            label="Phone number"
+            label="Số điện thoại"
             label-for="phone-number-input"
           >
             <b-form-input
@@ -76,7 +76,7 @@
           </b-form-group>
           <hr>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
           </div>
         </form>
       </div>
@@ -92,15 +92,15 @@ import { uploadFile } from '../../../api/common'
 import { addUser, updateUser, getUserInfo } from '../../../api/user'
 import { convertDateTimeInsert, convertTimeStamptoDate } from '../../../utils/index'
 export default {
+  components: {
+    UploadImage,
+    DatePicker
+  },
   props: {
     elmntId: {
       type: Number,
       default: 0
     }
-  },
-  components: {
-    UploadImage,
-    DatePicker
   },
   data() {
     return {
@@ -115,10 +115,10 @@ export default {
         phone_number: null
       },
       genderOptions: [
-        { 'value': null, text: 'Select gender' },
-        { 'value': 'not_specific', 'text': 'Not Specific' },
-        { 'value': 'male', 'text': 'Male' },
-        { 'value': 'female', 'text': 'Female' }
+        { 'value': null, text: 'Chọn giới tính' },
+        { 'value': 'not_specific', 'text': 'Không xác định' },
+        { 'value': 'male', 'text': 'Nam' },
+        { 'value': 'female', 'text': 'Nữ' }
       ],
       image: null
     }

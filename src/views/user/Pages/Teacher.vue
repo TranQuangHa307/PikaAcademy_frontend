@@ -5,13 +5,13 @@
         <!-- Image and text -->
         <b-navbar variant="faded" type="light">
           <b-navbar-brand class="text_nav" href="/">
-            Home
+            Trang chủ
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             >
           </b-navbar-brand>
           <b-navbar-brand class="text_nav" href="/">
-            Teacher
+            Giáo viên
           </b-navbar-brand>
         </b-navbar>
       </div>
@@ -20,23 +20,23 @@
           <b-img width="200" height="200" style="border: 3px solid #feda6a; height: 200px; width: 200px;" rounded="circle" :src="teacher.url_avatar" />
           <hr style="background-color: #feda6a; width: 100%;">
           <div>
-            <p class="pr-3"><b-icon icon="play-fill" style="color: white;" font-scale="1.2" /><span class="ml-2">Courses: {{ courses.total }}</span></p>
-            <p class="pr-3"><b-icon icon="star-fill" style="color: white;" font-scale="1.2" /><span class="ml-2">Rating: {{ teacher.rating }}</span></p>
-            <p class="pr-3"><b-icon icon="person-circle" style="color: white;" font-scale="1.2" /><span class="ml-2">Followers: {{ teacher.userTotal }}</span></p>
+            <p class="pr-3"><b-icon icon="play-fill" style="color: white;" font-scale="1.2" /><span class="ml-2">Khoá học: {{ courses.total }}</span></p>
+            <p class="pr-3"><b-icon icon="star-fill" style="color: white;" font-scale="1.2" /><span class="ml-2">Đánh giá: {{ teacher.rating }}</span></p>
+            <p class="pr-3"><b-icon icon="person-circle" style="color: white;" font-scale="1.2" /><span class="ml-2">Theo dõi: {{ teacher.userTotal }}</span></p>
           </div>
         </div>
         <div class="pt-4" style="width: 100%;">
           <div class="header_right_main">
             <h1 style="flex: 1 1 auto;">{{ teacher.full_name }}</h1>
-            <b-button pill variant="outline-info" @click="isFollowed()">{{ (!followComputed) ? 'FOLLOW' : 'FOLLOWED' }}</b-button>
+            <b-button pill variant="outline-info" @click="isFollowed()">{{ (!followComputed) ? 'Theo dõi' : 'Đang theo dõi' }}</b-button>
           </div>
           <div class="pl-3 mt-3">
             <div>
-              <h5 class="text_title">about</h5>
+              <h5 class="text_title">Giới thiệu</h5>
               <div v-html="teacher.about" />
             </div>
             <div class="mt-5">
-              <h5 class="text_title">TOP COURSES</h5>
+              <h5 class="text_title">Khoá học</h5>
               <course-list :data="courses.data" :col="4" :is-pading="true" />
             </div>
           </div>
@@ -49,7 +49,7 @@
 <script>
 import { followedTeacher } from '../../../api/followed'
 import { getTeacherInfo, getCourseListOfTeacher, getTeacherRating, getFollowed, getTotalFollowers } from '../../../api/public'
-import CourseList from '../../../components/user/CourseList.vue'
+import CourseList from '../../../components/user/CourseListV2.vue'
 export default {
   components: {
     courseList: CourseList
@@ -76,14 +76,14 @@ export default {
     this.teacher = await getTeacherInfo(this.$route.params.id)
     this.teacher.rating = (!(await getTeacherRating(this.$route.params.id))) ? 0 : (await getTeacherRating(this.$route.params.id)).rating
     this.teacher.userTotal = (!(await getTotalFollowers(this.$route.params.id))) ? 0 : (await getTotalFollowers(this.$route.params.id)).total
-    this.followed = await getFollowed(this.$store.state.User.myInfo.id, this.$route.params.id)
     this.getCourses(this.teacher.id)
+    this.followed = await getFollowed((this.$store.state.User.myInfo == null) ? null : this.$store.state.User.myInfo.id, this.$route.params.id)
   },
   methods: {
     async getCourses(teacherId) {
       const params = {
         teacher_id: teacherId,
-        user_id: this.$store.state.User.myInfo.id,
+        user_id: (this.$store.state.User.myInfo == null) ? null : this.$store.state.User.myInfo.id,
         page: 1,
         limit: 12
       }
@@ -104,7 +104,7 @@ export default {
         this.followed.is_active = follow
         if (!follow) (this.teacher.userTotal--)
         else (this.teacher.userTotal++)
-        this.showResAction('success', (!follow) ? 'Unfollow' : 'Followed')
+        this.showResAction('success', (!follow) ? 'Đã huỷ theo dõi giáo viên' : 'Đã theo dõi giáo viên')
       } catch (error) {
         this.showResAction('danger', error.response?.data?.message || error.message)
       }

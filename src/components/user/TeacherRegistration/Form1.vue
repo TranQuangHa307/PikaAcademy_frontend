@@ -8,9 +8,9 @@
             v-model="selected"
             name="radio-sub-component"
           >
-            <b-form-radio value='individual'>Cá nhân</b-form-radio>
-            <br/>
-            <b-form-radio value='organization'>Tổ chức</b-form-radio>
+            <b-form-radio value="individual">Cá nhân</b-form-radio>
+            <br>
+            <b-form-radio value="organization">Tổ chức</b-form-radio>
           </b-form-radio-group>
         </b-form-group>
       </div>
@@ -48,7 +48,7 @@
     </div>
     <div class="w100 content_center">
       <b-button class="btn_te_reg mr-2" @click="before()">Trước đó</b-button>
-      <b-button class="btn_te_reg" @click="continueForm()" :disabled="!status">Tiếp theo</b-button>
+      <b-button class="btn_te_reg" :disabled="isDisabled" @click="continueForm()">Tiếp theo</b-button>
     </div>
   </div>
 </template>
@@ -58,7 +58,16 @@ export default {
   data() {
     return {
       selected: 'individual',
-      status: null
+      status: false
+    }
+  },
+  computed: {
+    isDisabled() {
+      if (this.status === 'accepted') {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {

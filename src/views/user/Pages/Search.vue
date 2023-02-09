@@ -5,19 +5,19 @@
         <!-- Image and text -->
         <b-navbar variant="faded" type="light">
           <b-navbar-brand class="text_nav" href="/">
-            Home
+            Trang chủ
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             <b-icon icon="chevron-right" style="color: #d4d4dc;" scale="0.75" />
           </b-navbar-brand>
           <b-navbar-brand class="text_nav" href="/interests">
-            Search
+            Tìm kiếm
           </b-navbar-brand>
         </b-navbar>
       </div>
       <div class="ml-3 flex">
         <div class="flex1">
-          <h3>Results ({{ dataList.total }}) <span v-if="searchKey">for the keyword "{{ searchKey }}"</span></h3>
+          <h3>Kết quả ({{ dataList.total }}) <span v-if="searchKey">với từ khoá "{{ searchKey }}"</span></h3>
         </div>
         <div class="text-right mr-3">
           <div class="c_pointer open_filter" style="font-size: 1.5rem;">
@@ -28,10 +28,10 @@
       <div class="ml-3 mt-3 mr-3 flex main_filter">
         <div class="div_filter">
           <div class="mb-4">
-            <h3>Filters</h3>
+            <h3>Bộ lọc</h3>
           </div>
           <div class="mb-4">
-            <h5 class="title_filter">INTERESTS</h5>
+            <h5 class="title_filter">Khối lớp</h5>
             <div class="list_group">
               <div v-for="(item, index) in interestsOptions" :key="index">
                 <div class="p-2" style="background-color: transparent; border: none; border-bottom: 1px solid #393f4d;">
@@ -42,22 +42,11 @@
             </div>
           </div>
           <div class="mb-4">
-            <h5 class="title_filter">LEVEL</h5>
+            <h5 class="title_filter">Trình độ</h5>
             <div class="list_group">
               <div v-for="(item, index) in levelOptions" :key="index">
                 <div class="p-2" style="background-color: transparent; border: none; border-bottom: 1px solid #393f4d;">
                   <input :id="item.name" type="checkbox" :name="item.name" @click="setParam('level', item.id)">
-                  <label :for="item.name" style="display: flex;align-items: center; margin-top: -1rem;">{{ item.name }}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mb-4">
-            <h5 class="title_filter">PRICE</h5>
-            <div class="list_group">
-              <div v-for="(item, index) in priceOptions" :key="index">
-                <div class="p-2" style="background-color: transparent; border: none; border-bottom: 1px solid #393f4d;">
-                  <input :id="item.name" type="checkbox" :name="item.name" @click="setParam('price', item.id)">
                   <label :for="item.name" style="display: flex;align-items: center; margin-top: -1rem;">{{ item.name }}</label>
                 </div>
               </div>
@@ -69,6 +58,30 @@
         </div>
       </div>
     </div>
+    <div>
+      <b-pagination
+        v-if="dataList.total>12"
+        v-model="dataList.page"
+        :total-rows="dataList.total"
+        :per-page="dataList.perPage"
+        class="float-right mr-4 mb-4"
+        @change="onPageChange"
+      >
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+        <template #ellipsis-text>
+          <b-spinner small type="grow" />
+          <b-spinner small type="grow" />
+          <b-spinner small type="grow" />
+        </template>
+        <template #page="{ page, active }">
+          <b v-if="active">{{ page }}</b>
+          <i v-else>{{ page }}</i>
+        </template>
+      </b-pagination>
+    </div>
   </div>
 </template>
 
@@ -76,7 +89,7 @@
 import eventBus from '../../../utils/eventBus'
 import { getAllInterests } from '../../../api/public'
 import { getCourseList } from '../../../api/public'
-import CourseList from '../../../components/user/CourseList.vue'
+import CourseList from '../../../components/user/CourseListV2.vue'
 export default {
   components: {
     appCourseList: CourseList
@@ -90,21 +103,16 @@ export default {
         data: [],
         total: 0,
         page: 1,
-        perPage: 20
+        perPage: 12
       },
       interestsOptions: [],
       levelOptions: [
-        { id: 'beginner', name: 'Beginner' },
-        { id: 'intermediate', name: 'Intermediate' },
-        { id: 'advance', name: 'Advance' }
-      ],
-      priceOptions: [
-        { id: 'free', name: 'Freee' },
-        { id: 'discount', name: 'Discount' }
+        { id: 'beginner', name: 'Cơ bản' },
+        { id: 'intermediate', name: 'Trung bình' },
+        { id: 'advance', name: 'Nâng cao' }
       ],
       interestsParams: [],
       levelParams: [],
-      priceParams: [],
       searchKey: '',
       status: 'not_accepted'
     }
@@ -145,9 +153,6 @@ export default {
         case 'level':
           this.handelArrParams(this.levelParams, value)
           break
-        case 'price':
-          this.handelArrParams(this.priceParams, value)
-          break
       }
       this.getDataList(this.getDataList.page)
     },
@@ -158,12 +163,14 @@ export default {
         keyword: this.searchKey,
         user_id: this.$store.state.User.myInfo ? this.$store.state.User.myInfo.id : 0,
         interests: this.interestsParams.length <= 0 ? null : this.interestsParams.toString(),
-        levels: this.levelParams.length <= 0 ? null : this.levelParams.toString(),
-        prices: this.priceParams.length <= 0 ? null : this.priceParams.toString()
+        levels: this.levelParams.length <= 0 ? null : this.levelParams.toString()
       }
       const { list, total } = await getCourseList(params)
       this.dataList.data = list
       this.dataList.total = total
+    },
+    onPageChange(page) {
+      this.getDataList(page)
     }
   }
 }

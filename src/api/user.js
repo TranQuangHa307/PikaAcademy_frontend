@@ -115,18 +115,17 @@ export function userLikeCourse(params) {
   })
 }
 
-export function getCartUser(userId) {
+export function userPurchaseCourse(params) {
   return request({
-    url: `/user/${userId}/user-cart`,
-    method: 'get'
+    url: '/user/user-purchase-course',
+    method: 'post',
+    data: params
   })
 }
 
-export function getUserTransactions(params, userId) {
+export function deleteUser(userId) {
   return request({
-    url: `/user/${userId}/transactions`,
-    method: 'get',
-    params
+    url: `/user/${userId}`,
+    method: 'delete'
   })
 }
-

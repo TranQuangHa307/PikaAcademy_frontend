@@ -12,9 +12,6 @@ export default {
         })
       })
     },
-    getPrice(price) {
-      return (!price) ? 'FREE' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
-    },
     convertTSToDateTime(unixTimestamp) {
       const date = new Date(unixTimestamp * 1000)
       return `${this.getNumber(date.getDate())}/${this.getNumber(date.getMonth() + 1)}/${this.getNumber(date.getFullYear())} ${this.getNumber(date.getHours())}:${this.getNumber(date.getMinutes())}:${this.getNumber(date.getSeconds())}`

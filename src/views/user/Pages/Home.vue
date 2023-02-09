@@ -19,8 +19,8 @@
             <div class="row">
               <div class="col-6 text-white mb-3">
                 <div>
-                  <h2>The latest courses</h2>
-                  <h5 style="font-size: 90%; color: #757575;">The latest courses</h5>
+                  <h2>Khoá học mới nhất</h2>
+                  <h5 style="font-size: 90%; color: #757575;">Khoá học mới nhất</h5>
                 </div>
               </div>
               <div class="col-12">
@@ -28,7 +28,12 @@
 
                   <div class="carousel-inner">
                     <div class="carousel-item active">
-                      <course-list :data="listDataNew.data" />
+                      <div v-if="listDataNew.total > 4">
+                        <course-list :data="listDataNew.data" />
+                      </div>
+                      <div v-else>
+                        <course-list-v2 :data="listDataNew.data" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -43,8 +48,8 @@
             <div class="row">
               <div class="col-6 text-white mb-3">
                 <div>
-                  <h2>Best selling courses</h2>
-                  <h5 style="font-size: 90%; color: #757575;">Best selling courses</h5>
+                  <h2>Khoá học được đăng ký nhiều nhất</h2>
+                  <h5 style="font-size: 90%; color: #757575;">Khoá học được đăng ký nhiều nhất</h5>
                 </div>
               </div>
               <div class="col-12">
@@ -52,7 +57,12 @@
 
                   <div class="carousel-inner">
                     <div class="carousel-item active">
-                      <course-list :data="listDataPurchases.data" />
+                      <div v-if="listDataPurchases.total > 4">
+                        <course-list :data="listDataPurchases.data" />
+                      </div>
+                      <div v-else>
+                        <course-list-v2 :data="listDataPurchases.data" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -67,8 +77,8 @@
             <div class="row">
               <div class="col-6 text-white mb-3">
                 <div>
-                  <h2>Most Favorite Courses</h2>
-                  <h5 style="font-size: 90%; color: #757575;">Most Favorite Courses</h5>
+                  <h2>Khoá học được yêu thích nhất</h2>
+                  <h5 style="font-size: 90%; color: #757575;">Khoá học được yêu thích nhất</h5>
                 </div>
               </div>
               <div class="col-12">
@@ -76,7 +86,12 @@
 
                   <div class="carousel-inner">
                     <div class="carousel-item active">
-                      <course-list :data="listDataLike.data" />
+                      <div v-if="listDataLike.total > 4">
+                        <course-list :data="listDataLike.data" />
+                      </div>
+                      <div v-else>
+                        <course-list-v2 :data="listDataLike.data" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -91,24 +106,28 @@
             <div class="row">
               <div class="col-6 text-white mb-3">
                 <div>
-                  <h2>Our Teachers</h2>
-                  <h5 style="font-size: 90%;">Teachers for you</h5>
+                  <h2>Giáo viên</h2>
+                  <h5 style="font-size: 90%;">Giáo viên</h5>
                 </div>
               </div>
               <div class="col-12">
                 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <div class="row">
-                        <router-link v-for="(teacher, index) in teachers.data" :key="index" tag="div" :to="{name: 'teacherInfo', params: { id: teacher.id }}" class="col-md-2 mb-3 c_pointer">
-                          <div class="text-center">
-                            <div>
-                              <b-img class="MuiAvatar-img" rounded="circle" :src="teacher.url_avatar" />
-                              <p class="text-white text_img">{{ teacher.full_name }}</p>
+                  <div v-if="teachers.total > 7">
+                    <teacher-list :data="teachers.data" />
+                  </div>
+                  <div v-else>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <div class="row">
+                          <router-link v-for="(teacher, index) in teachers.data" :key="index" tag="div" :to="{name: 'teacherInfo', params: { id: teacher.id }}" class="col-md-2 mb-3 c_pointer">
+                            <div class="text-center">
+                              <div>
+                                <b-img class="MuiAvatar-img" rounded="circle" :src="teacher.url_avatar" />
+                                <p class="text-white text_img">{{ teacher.full_name }}</p>
+                              </div>
                             </div>
-                          </div>
-                        </router-link>
+                          </router-link>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -124,9 +143,13 @@
 <script>
 import { getTeacherList, getCourseListByType } from '../../../api/public'
 import CourseList from '../../../components/user/CourseList.vue'
+import CourseListV2 from '../../../components/user/CourseListV2.vue'
+import TeacherList from '../../../components/user/TeacherList.vue'
 export default {
   components: {
-    courseList: CourseList
+    courseList: CourseList,
+    courseListV2: CourseListV2,
+    teacherList: TeacherList
   },
   data() {
     return {
@@ -153,13 +176,12 @@ export default {
     await this.getCourseList('like', this.listDataLike)
     await this.getCourseList('purchases', this.listDataPurchases)
     await this.getTeachers()
-    console.log(this.$Tawk)
   },
   methods: {
     async getTeachers() {
       const params = {
         page: 1,
-        limit: 10
+        limit: 12
       }
       const { list, total } = await getTeacherList(params)
       this.teachers.data = list
@@ -169,7 +191,7 @@ export default {
       const userId = this.$store.state.User.myInfo ? this.$store.state.User.myInfo.id : 0
       const params = {
         page: 1,
-        limit: 4,
+        limit: 12,
         type: typeStr,
         user_id: userId
       }

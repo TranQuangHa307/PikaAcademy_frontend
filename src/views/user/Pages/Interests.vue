@@ -5,19 +5,19 @@
         <!-- Image and text -->
         <b-navbar variant="faded" type="light">
           <b-navbar-brand class="text_nav" href="/">
-            Home
+            Trang chủ
           </b-navbar-brand>
           <b-navbar-brand class="text_nav">
             <b-icon icon="chevron-right" style="color: #d4d4dc;" scale="0.75" />
           </b-navbar-brand>
           <b-navbar-brand class="text_nav" href="/">
-            Interests
+            Khoá học
           </b-navbar-brand>
         </b-navbar>
       </div>
       <div class="ml-3 mt-3">
         <div>
-          <h1>Interests</h1>
+          <h1>Khoá học</h1>
         </div>
         <div class="row mt-4">
           <div v-for="(item, index) in interests" :key="index" class="col-md-3 mb-3">

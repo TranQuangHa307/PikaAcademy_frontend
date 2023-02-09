@@ -12,28 +12,28 @@
             </div>
             <div>
               <span>
-                <b>Followed: </b>
+                <b>Ngày theo dõi: </b>
                 {{ convertTSToDateTime(user.followed_time) }}
               </span>
             </div>
             <div>
               <span>
-                <b>Eamil: </b>
+                <b>Email: </b>
                 {{ user.email }}
               </span>
               <span>
-                <b>Phone Number: </b>
+                <b>Số điện thoại: </b>
                 {{ user.phone_number }}
               </span>
               <span>
-                <b>Birth Day: </b>
+                <b>Ngày sinh: </b>
                 {{ convertDateOfBirth(user.date_of_birth) }}
               </span>
             </div>
           </div>
         </li>
       </ul>
-       <div v-if="table.total > 5">
+      <div v-if="table.total > 5">
         <b-pagination
           v-model="table.page"
           :total-rows="table.total"

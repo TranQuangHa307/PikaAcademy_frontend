@@ -95,20 +95,6 @@ export function getMaterialByCourse(courseId) {
   })
 }
 
-export function getListPriceByCourse(courseId) {
-  return request({
-    url: `/course/${courseId}/price`,
-    method: 'get'
-  })
-}
-
-export function getListDiscountPromotion(courseId) {
-  return request({
-    url: `/course/${courseId}/discount-promotion`,
-    method: 'get'
-  })
-}
-
 export function getAllActive() {
   return request({
     url: '/course/inactive',

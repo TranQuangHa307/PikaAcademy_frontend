@@ -3,8 +3,8 @@
     <form class="mt-3" @submit.prevent="onSubmit">
       <div>
         <div class="p-2">
-        <div class="mb-3">
-            <label for="inputFullName" class="form-label">Your fullName:*</label>
+          <div class="mb-3">
+            <label for="inputFullName" class="form-label">Họ Tên:*</label>
             <div>
               <input v-model="teacher.full_name" name="fullName" type="text" class="form-control form_input">
               <p v-if="errors.full_name" class="error_valid">
@@ -13,14 +13,14 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="inputPhoneNumber" class="form-label">Your phone number:*</label>
+            <label for="inputPhoneNumber" class="form-label">Số điện thoại:*</label>
             <input id="inputPhoneNumber" v-model="teacher.phone_number" name="phoneNumber" type="text" class="form-control form_input">
             <p v-if="errors.phone_number" class="error_valid">
               {{ errors.phone_number }}
             </p>
           </div>
           <div class="mb-3">
-            <label for="inputEmail" class="form-label">Your email:*</label>
+            <label for="inputEmail" class="form-label">Email:*</label>
             <div>
               <input v-model="teacher.email" name="email" type="email" class="form-control form_input" aria-describedby="emailHelp">
               <p v-if="errors.email" class="error_valid">
@@ -44,7 +44,7 @@
     </div>
     <div class="w100 content_center">
       <b-button class="btn_te_reg mr-2" @click="before()">Trước đó</b-button>
-      <b-button class="btn_te_reg" @click="continueForm()" :disabled="!status">Tiếp theo</b-button>
+      <b-button class="btn_te_reg" :disabled="isDisabled" @click="continueForm()">Tiếp theo</b-button>
     </div>
   </div>
 </template>
@@ -64,8 +64,17 @@ export default {
         date_of_birth: '1990-01-01',
         gender: 'not_specific',
         about: '',
-        url_avatar: 'default.jpg',
+        url_avatar: 'https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png',
         hash_pwd: 'Aa123456@'
+      }
+    }
+  },
+  computed: {
+    isDisabled() {
+      if (this.status === 'accepted') {
+        return false
+      } else {
+        return true
       }
     }
   },

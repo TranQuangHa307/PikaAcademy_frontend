@@ -1,5 +1,12 @@
 import request from '../utils/request'
 
+export function getListExercise(sessionId) {
+  return request({
+    url: `/session/${sessionId}/exericse`,
+    method: 'get'
+  })
+}
+
 export function addSession(session) {
   return request({
     url: '/session',

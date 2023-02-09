@@ -2,15 +2,15 @@
   <div class="container-fluid">
     <div class="ad_nav_tabs">
       <ul>
-        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Profile</li>
-        <li :class="{ is_active: comName === 'Overview' }" @click="setCom('Overview')">Overview</li>
-        <li :class="{ is_active: comName === 'Course' }" @click="setCom('Course')">Course</li>
-        <li :class="{ is_active: comName === 'Student' }" @click="setCom('Student')">Student</li>
-        <li :class="{ is_active: comName === 'Follower' }" @click="setCom('Follower')">Follower</li>
+        <li :class="{ is_active: comName === 'Details' }" @click="setCom('Details')">Thông tin</li>
+        <li :class="{ is_active: comName === 'Overview' }" @click="setCom('Overview')">Tổng quan</li>
+        <li :class="{ is_active: comName === 'Course' }" @click="setCom('Course')">Khoá học</li>
+        <li :class="{ is_active: comName === 'Student' }" @click="setCom('Student')">Học sinh</li>
+        <li :class="{ is_active: comName === 'Follower' }" @click="setCom('Follower')">Người theo dõi</li>
       </ul>
     </div>
     <div>
-      <component :is="comNameComputed" :elmntId="comDataComputed" />
+      <component :is="comNameComputed" :elmnt-id="comDataComputed" />
     </div>
   </div>
 </template>
@@ -42,6 +42,21 @@ export default {
     comDataComputed() {
       if (this.elmntId) return parseInt(this.elmntId)
       else return 0
+    }
+  },
+  watch: {
+    $route(to, from) {
+      const name = to.query.name
+      this.elmntId = to.params.id
+      if (name) {
+        this.setCom(name)
+      }
+    }
+  },
+  created() {
+    var name = this.$route.query.name
+    if (name) {
+      this.setCom(name)
     }
   },
   methods: {

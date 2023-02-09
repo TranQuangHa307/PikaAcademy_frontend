@@ -3,7 +3,7 @@
     <form @submit.prevent="onSubmit">
       <div>
         <b-form-group
-          label="Current password*"
+          label="Mật khẩu hiện tại*"
           label-for="currentPassword"
         >
           <b-form-input
@@ -11,11 +11,11 @@
             v-model="form.currentPassword"
             type="password"
             required
-          ></b-form-input>
+          />
         </b-form-group>
 
         <b-form-group
-          label="New password*"
+          label="Mật khẩu mới*"
           label-for="newPassword"
         >
           <b-form-input
@@ -23,11 +23,11 @@
             v-model="form.newPassword"
             type="password"
             required
-          ></b-form-input>
+          />
         </b-form-group>
 
         <b-form-group
-          label="Confirm password*"
+          label="Xác nhận mật khẩu*"
           label-for="confirmPassword"
         >
           <b-form-input
@@ -35,13 +35,13 @@
             v-model="form.confirmPassword"
             type="password"
             required
-          ></b-form-input>
-          <p v-if="form.confirmPassword && (form.newPassword !== form.confirmPassword)">Your password and confirmation password do not match.</p>
+          />
+          <p v-if="form.confirmPassword && (form.newPassword !== form.confirmPassword)">Mật khẩu của bạn và mật khẩu xác nhận không khớp.</p>
         </b-form-group>
       </div>
       <div class="w100 txt_center">
-        <b-button class="mr-2" type="button" variant="danger" @click="cancelForm()" >Cancel</b-button>
-        <b-button type="submit" variant="primary" :disabled="!isSubmit">Submit</b-button>
+        <b-button class="mr-2" type="button" variant="danger" @click="cancelForm()">Huỷ bỏ</b-button>
+        <b-button type="submit" variant="primary" :disabled="!isSubmit">Lưu</b-button>
       </div>
     </form>
   </div>

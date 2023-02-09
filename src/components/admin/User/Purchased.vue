@@ -11,13 +11,12 @@
               <h4>{{ course.name }}</h4>
             </div>
             <div>
-              <span class="mr-2"><b>Price:</b> {{ getPrice(course.price) }}</span>
-              <span class="mr-2"><b>Views:</b> {{ course.views }}</span>
-              <span class="mr-2"><b>Likes:</b> {{ course.likes }}</span>
-              <span class="mr-2"><b>Purchases:</b> {{ course.purchases }}</span>
-              <br/>
-              <span class="mr-2"><b>Created at:</b> {{ convertTSToDateTime(course.created_at) }}</span>
-              <span class="mr-2"><b>Updated at:</b> {{ convertTSToDateTime(course.updated_at) }}</span>
+              <span class="mr-2"><b>Lượt xem:</b> {{ course.views }}</span>
+              <span class="mr-2"><b>Lượt thích:</b> {{ course.likes }}</span>
+              <span class="mr-2"><b>Lượt đăng ký:</b> {{ course.purchases }}</span>
+              <br>
+              <span class="mr-2"><b>Ngày tạo:</b> {{ convertTSToDateTime(course.created_at) }}</span>
+              <span class="mr-2"><b>Ngày cập nhật:</b> {{ convertTSToDateTime(course.updated_at) }}</span>
             </div>
           </div>
         </li>

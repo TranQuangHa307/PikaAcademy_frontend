@@ -1,24 +1,24 @@
 <template>
   <div class="te_form_te">
     <div class="w100 txt_right">
-      <b-button type="button" v-if="!isEdit" variant="primary" class="mr-3" @click="setEdit(true)">Edit</b-button>
-      <b-button type="button" variant="danger" @click="openFormChangePassword()">Change Password</b-button>
+      <b-button v-if="!isEdit" type="button" variant="primary" class="mr-3" @click="setEdit(true)">Chỉnh sửa</b-button>
+      <b-button type="button" variant="danger" @click="openFormChangePassword()">Đổi mật khẩu</b-button>
     </div>
     <b-form @submit.prevent="onSubmit()">
       <div class="w100 d_flex">
         <div class="w45">
           <b-form-group
             id="input-group-full-name"
-            label="Full Name:"
+            label="Họ tên:"
             label-for="input-full-name"
           >
             <b-form-input
               id="input-full-name"
-              type="text"
               v-model="teacher.full_name"
+              type="text"
               :disabled="!isEdit"
               required
-            ></b-form-input>
+            />
           </b-form-group>
         </div>
         <div class="w10" />
@@ -30,11 +30,11 @@
           >
             <b-form-input
               id="input-email"
-              type="email"
               v-model="teacher.email"
+              type="email"
               :disabled="!isEdit"
               required
-            ></b-form-input>
+            />
           </b-form-group>
         </div>
       </div>
@@ -42,39 +42,39 @@
         <div class="w30">
           <b-form-group
             id="input-group-phone-number"
-            label="Phone Number:"
+            label="Số điện thoại:"
             label-for="input-phone-number"
           >
             <b-form-input
               id="input-phone-number"
-              type="text"
               v-model="teacher.phone_number"
+              type="text"
               :disabled="!isEdit"
               required
-            ></b-form-input>
+            />
           </b-form-group>
         </div>
-        <div class="w5"/>
+        <div class="w5" />
         <div class="w30">
           <b-form-group
             id="input-group-date-of-birth"
-            label="Date of Birth:"
+            label="Ngày sinh:"
             label-for="input-date-of-birth"
           >
             <b-form-input
               id="input-date-of-birth"
-              type="date"
               v-model="teacher.date_of_birth"
+              type="date"
               :disabled="!isEdit"
               required
-            ></b-form-input>
+            />
           </b-form-group>
         </div>
-        <div class="w5"/>
+        <div class="w5" />
         <div class="w30">
           <b-form-group
             id="input-group-genre"
-            label="Genre:"
+            label="Giới tính:"
             label-for="input-genre"
           >
             <select v-model="teacher.gender" class="form-control form_input" :disabled="!isEdit">
@@ -85,32 +85,32 @@
       </div>
       <b-form-group
         id="input-group-avatar"
-        label="Avatar:"
+        label="Ảnh đại diện:"
         label-for="input-avatar"
       >
         <upload-image :url-image="teacher.url_avatar" @setImage="setImage($event)" />
       </b-form-group>
       <b-form-group
         id="input-group-about"
-        label="About:"
+        label="Giới thiệu:"
         label-for="input-about"
       >
         <ckeditor v-model="teacher.about" :editor="editor" tag-name="textarea" :disabled="!isEdit" />
       </b-form-group>
       <div v-if="isEdit" class="w100 txt_center">
-        <b-button type="button" variant="danger" class="mr-2" @click="setEdit(false)">Cancel</b-button>
-        <b-button type="submit" variant="primary">Submit</b-button>
+        <b-button type="button" variant="danger" class="mr-2" @click="setEdit(false)">Huỷ bỏ</b-button>
+        <b-button type="submit" variant="primary">Đồng ý</b-button>
       </div>
     </b-form>
     <b-modal
-        id="modal-rating"
-        ref="modal"
-        v-model="isModalFormOpen"
-        title="Change Password"
-        hide-footer
-        hide-header-close
-      >
-      <change-password :elmntId="teacher.id" @cancelForm="cancelForm" @onSubmit="onChangePassword($event)" />
+      id="modal-rating"
+      ref="modal"
+      v-model="isModalFormOpen"
+      title="Đổi mật khẩu"
+      hide-footer
+      hide-header-close
+    >
+      <change-password :elmnt-id="teacher.id" @cancelForm="cancelForm" @onSubmit="onChangePassword($event)" />
     </b-modal>
   </div>
 </template>

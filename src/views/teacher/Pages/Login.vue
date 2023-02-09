@@ -2,17 +2,17 @@
   <div>
     <div class="container">
       <div class="te_login_form">
-        <h1 class="te_login_title">Login</h1>
+        <h1 class="te_login_title">Đăng nhập</h1>
         <div>
           <form @submit.prevent="onSubmit">
             <div>
-              <input v-model="account.email" placeholder="Email" />
+              <input v-model="account.email" placeholder="Địa chỉ Email">
             </div>
             <div>
-              <input type="password" v-model="account.password" placeholder="Password" />
+              <input v-model="account.password" type="password" placeholder="Mật khẩu">
             </div>
             <div>
-              <b-button block variant="primary" type="submit">Login</b-button>
+              <b-button block variant="primary" type="submit">Đăng nhập</b-button>
             </div>
           </form>
         </div>
@@ -45,7 +45,7 @@ export default {
       try {
         const loginRes = await this.login(this.account)
         if (!loginRes) {
-          this.response = 'The specified user name or password is incorrect!'
+          this.response = 'Tài khoản hoặc mật khẩu không chính xác!'
           this.$swal({
             'icon': 'warning',
             'title': this.response,

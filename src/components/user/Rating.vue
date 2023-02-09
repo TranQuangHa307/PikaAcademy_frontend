@@ -4,16 +4,16 @@
     <div>
       <div class="feedback" style="margin: 0 auto">
         <div class="rating">
-          <input type="radio" name="rating" id="rating-5" />
-          <label for="rating-5" @click="setRating(5)"></label>
-          <input type="radio" name="rating" id="rating-4" />
-          <label for="rating-4" @click="setRating(4)"></label>
-          <input type="radio" name="rating" id="rating-3" />
-          <label for="rating-3" @click="setRating(3)"></label>
-          <input type="radio" name="rating" id="rating-2" />
-          <label for="rating-2" @click="setRating(2)"></label>
-          <input type="radio" name="rating" id="rating-1" />
-          <label for="rating-1" @click="setRating(1)"></label>
+          <input id="rating-5" name="rating" type="radio">
+          <label for="rating-5" @click="setRating(5)" />
+          <input id="rating-4" name="rating" type="radio">
+          <label for="rating-4" @click="setRating(4)" />
+          <input id="rating-3" name="rating" type="radio">
+          <label for="rating-3" @click="setRating(3)" />
+          <input id="rating-2" name="rating" type="radio">
+          <label for="rating-2" @click="setRating(2)" />
+          <input id="rating-1" name="rating" type="radio">
+          <label for="rating-1" @click="setRating(1)" />
           <div class="emoji-wrapper">
             <div class="emoji">
               <svg
@@ -319,13 +319,13 @@
       <textarea
         v-model="comment"
         class="w100"
-        placeholder="Please share your opinion about the course"
+        placeholder="Hãy chia sẻ ý kiến của bạn về khoá học"
         required
       />
     </div>
     <div class="w100 txt_center">
-      <b-button class="mr-1" variant="danger" @click="cancelRating()">Cancel</b-button>
-      <b-button type="button" variant="primary" @click="submitRating()">Submit</b-button>
+      <b-button class="mr-1" variant="danger" @click="cancelRating()">Huỷ bỏ</b-button>
+      <b-button type="button" variant="primary" @click="submitRating()">Đồng ý</b-button>
     </div>
   </div>
 </template>
@@ -373,7 +373,7 @@ export default {
         }
         await addRating(data)
         this.updateRating()
-        this.showResAction('success', 'Rating Course Successful')
+        this.showResAction('success', 'Đánh giá khoá học thành công')
       } catch (error) {
         this.showResAction('danger', error.response?.data?.message || error.message)
       }

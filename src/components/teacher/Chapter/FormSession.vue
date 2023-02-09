@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <form ref="form" @submit.stop.prevent="handleSubmit">
       <b-form-group
-        label="Name"
+        label="Tên"
         label-for="name-input"
         invalid-feedback="Name is required"
         :state="state"
@@ -16,7 +16,7 @@
         />
       </b-form-group>
       <b-form-group
-        label="About*"
+        label="Giới thiệu*"
         label-for="result-textarea"
       >
         <ckeditor v-model="data.about" :editor="editor" tag-name="textarea" />
@@ -27,10 +27,29 @@
       >
         <upload-vieo :url-video="data.url_video" @resVideo="setVideo($event)" />
       </b-form-group>
+      <div>
+        <div class="content_center">
+          <div class="w50 txt_left">
+            <label>Bài tập</label>
+          </div>
+          <div class="w50 txt_right">
+            <b-button variant="primary" @click="appendExercise()">+</b-button>
+          </div>
+        </div>
+        <div>
+          <div v-for="(elmnt, index) in exerciseArr" :key="index" class="content_center">
+            <input v-model="elmnt.name" class="form-control m-1" placeholder="Name">
+            <b-form-select v-model="elmnt.type" :options="exerciseOptions" />
+            <input v-if="!elmnt.type" v-model="elmnt.link" class="form-control m-1" placeholder="Link">
+            <b-form-file v-else v-model="elmnt.link" placeholder="Choose a file or drop it here..." drop-placeholder="Drop file here..." />
+            <button type="button" class="btn btn-danger" @click="removeExercise(elmnt.id)"><b-icon icon="trash-fill" variant="white" /></button>
+          </div>
+        </div>
+      </div>
       <hr>
       <div class="text-center">
-        <button type="button" class="btn btn-danger mr-2" @click="closeForm">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger mr-2" @click="closeForm">Huỷ bỏ</button>
+        <button type="submit" class="btn btn-primary">Đồng ý</button>
       </div>
     </form>
   </div>
@@ -56,17 +75,39 @@ export default {
   },
   data() {
     return {
+      session: this.data,
       video: null,
       state: null,
-      editor: ClassicEditor
+      editor: ClassicEditor,
+      exerciseArr: [],
+      exerciseIndex: 0,
+      exerciseOptions: [
+        { 'value': 'file', 'text': 'File' },
+        { 'value': null, 'text': 'Url' }
+      ]
     }
   },
   computed: {
     title() {
-      return (!this.isAdd) ? 'Update session' : 'Create session'
+      return (!this.isAdd) ? 'Chỉnh sửa bài học' : 'Tạo bài học'
+    }
+  },
+  watch: {
+    data(newD, oldD) {
+      this.exerciseArr = newD.exercise
+      this.exerciseIndex = this.exerciseArr.length
     }
   },
   methods: {
+    appendExercise() {
+      this.exerciseIndex++
+      this.exerciseArr.push({ id: this.exerciseIndex, name: null, type: null, link: null })
+      console.log(this.data)
+    },
+    removeExercise(id) {
+      const exercise = this.exerciseArr.find(item => item.id === id)
+      this.exerciseArr.splice(this.exerciseArr.indexOf(exercise), 1)
+    },
     setVideo(value) {
       if (value.videoType === 'file') {
         this.video = value.video
@@ -92,6 +133,7 @@ export default {
       if (!this.checkFormValidity()) {
         return
       }
+      this.data.exerciseArr = this.exerciseArr
       this.$store.commit('SET_LOADING')
       if (this.video) {
         this.data.url_video = await uploadFile(this.video)
@@ -111,3 +153,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.custom-select {
+  width: 100px;
+}
+</style>

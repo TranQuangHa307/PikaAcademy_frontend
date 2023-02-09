@@ -8,19 +8,17 @@
               <span
                 class="title_chapter"
                 :class="{ text_title: show.includes(index) }"
-                >Chapter {{ index + 1 }}: {{ chapter.name }}</span
-              >
+              >Chương {{ index + 1 }}: {{ chapter.name }}</span>
             </div>
             <span
               class="mr-1 text_post"
-              >{{ chapter.sessions.length }} Post</span
-            >
+            >{{ chapter.sessions.length }} Bài</span>
             <b-icon icon="chevron-right" style="color: #feda6a; opacity: 0.5" />
           </div>
         </div>
         <hr
           style="margin-top: 0; margin-bottom: 0; background-color: #393f4d"
-        />
+        >
         <div v-if="show.includes(index)">
           <div class="chapter">
             <div
@@ -44,14 +42,12 @@
               <div class="ml-3">
                 <span>{{ session.name }}</span>
               </div>
-              <span
-                class="mr-1 text_post"
-                style="margin: auto; min-width: 45px"
-                >{{ timeConvert(session.time) }} min</span
-              >
             </div>
           </div>
         </div>
+      </div>
+      <div v-if="chapters.length < 1">
+        <h1>Khoá học chưa có bài học nào</h1>
       </div>
     </div>
   </div>

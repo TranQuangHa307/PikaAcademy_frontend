@@ -12,18 +12,18 @@
             </div>
             <div>
               <span>
-                <b>Birth Day: </b>
+                <b>Ngày sinh: </b>
                 {{ convertDateOfBirth(user.date_of_birth) }}
               </span>
               <span>
-                <b>Courses: </b>
+                <b>Khoá học đã đăng ký: </b>
                 {{ user.count }}
               </span>
             </div>
           </div>
         </li>
       </ul>
-       <div v-if="table.total > 5">
+      <div v-if="table.total > 5">
         <b-pagination
           v-model="table.page"
           :total-rows="table.total"

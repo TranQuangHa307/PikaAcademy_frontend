@@ -3,7 +3,7 @@
     <h1>{{ title }}</h1>
     <form ref="form" @submit.stop.prevent="handleSubmit">
       <b-form-group
-        label="Name"
+        label="Tên"
         label-for="name-input"
         invalid-feedback="Name is required"
         :state="state"
@@ -17,8 +17,8 @@
       </b-form-group>
       <hr>
       <div class="text-center">
-        <button type="button" class="btn btn-danger mr-2" @click="closeForm">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-danger mr-2" @click="closeForm">Huỷ bỏ</button>
+        <button type="submit" class="btn btn-primary">Lưu</button>
       </div>
     </form>
   </div>
@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     title() {
-      return (!this.isAdd) ? 'Update chapter' : 'Create chapter'
+      return (!this.isAdd) ? 'Chỉnh sửa chương' : 'Tạo chương'
     }
   },
   methods: {
